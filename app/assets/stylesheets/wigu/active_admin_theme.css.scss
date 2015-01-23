@@ -1,13 +1,9 @@
 
-
-//FONTS---------------------------------------------------------------
-
-@import url(http://fonts.googleapis.com/css?family=Open+Sans:400,300,600&subset=latin,cyrillic-ext);
-
 //VAR-----------------------------------------------------------------
 
 
 $scinMainColor: #3c3c3c!default;
+$scinMainColorbutton: #3387c6 !default;
 $scinColorBackground: #ffffff!default;
 $scinMainMenuText:#ffffff!default;
 $scinBorderRadius: 4px!default;
@@ -17,7 +13,7 @@ $scinPaddinButton: 10px!default;
 $scinContentPadding: 30px!default;
 
 $scinTablePaddingBottom: 8px!default;
-$scinTablePaddingTop: 10px!default;
+$scinTablePaddingTop: 8px!default;
 
 //MIXIN---------------------------------------------------------------
 
@@ -57,7 +53,7 @@ button, input:not(.datepicker), div, tr, th, h3, td {
   @include reset_item;
 }
 a, a:link, a:visited {
-  color: $scinMainColor;
+
 }
 .index_as_table {
   table {
@@ -81,8 +77,9 @@ input[type=text], input.datepicker, select, textarea {
 #header {
   background-color: $scinMainColor;
   padding-bottom: 7px;
+  border-bottom: 1px solid lighten( $scinMainColor, 15% )!important;
   h1 {
-    color: lighten( $scinMainColor, 30% );
+    color: $scinMainColorbutton;
     font-size: 16px;
     font-weight: 600;
     img {
@@ -95,27 +92,28 @@ input[type=text], input.datepicker, select, textarea {
         @include border-radius($scinBorderRadius);
       }
       a {
-        padding: 6px 10px 4px 10px ;
+        padding: 6px 10px 4px 10px;
+        color:#ffffff;
       }
     }
   }
   ul {
     li {
       &:hover > a {
-        background-color: lighten( $scinMainColor, 30% )!important;
+        background-color: $scinMainColorbutton!important;
       }
       &.current > a {
-        background-color: lighten( $scinMainColor, 30% )!important;
+        background-color: $scinMainColorbutton!important;
       }
       &.has_nested:hover > a {
-        border-bottom: 10px solid lighten( $scinMainColor, 30% )!important;
+        border-bottom: 10px solid $scinMainColorbutton!important;
       }
       a {
         color: $scinMainMenuText;
         @include border-radius($scinBorderRadius);
       }
       ul {
-        background-color: lighten( $scinMainColor, 30% )!important;
+        background-color: $scinMainColorbutton!important;
       }
     }
   }
@@ -123,6 +121,7 @@ input[type=text], input.datepicker, select, textarea {
 #title_bar {
   background-color: lighten( $scinMainColor, 10% )!important;
   padding: $scinSecondLinePaddingTopBottom 30px;
+  border-bottom: 5px solid lighten( $scinMainColorbutton, 10% )!important;
   div {
     h2 {
       color: $scinMainMenuText;
@@ -139,17 +138,17 @@ input[type=text], input.datepicker, select, textarea {
 span.action_item {
   a {
     @include border-radius(4px);
-    background-color:lighten( $scinMainColor, 30% )!important;
+    background-color:$scinMainColorbutton!important;
     padding: $scinPaddinButton!important;
     font-size: 14px!important;
     font-weight: 400!important;
     color:$scinMainMenuText!important;
     @include reset_item;
     &:hover {
-      background-color:lighten( $scinMainColor, 35% )!important;
+      background-color:lighten( $scinMainColorbutton, 5% )!important;
     }
     &:active {
-      background-color:lighten( $scinMainColor, 45% )!important;
+      background-color:lighten( $scinMainColorbutton, 10% )!important;
     }
   }
   div.dropdown_menu {
@@ -194,31 +193,31 @@ body.logged_in {
  }
 }
 form input[type=submit], form input[type=button], form button {
-  background-color:lighten( $scinMainColor, 10% )!important;
+  background-color:$scinMainColorbutton!important;
   @include border-radius(4px);
   padding: $scinPaddinButton;
   color: $scinMainMenuText;
   font-size: 14px;
   font-weight: 400!important;
   &:hover {
-    background-color:lighten( $scinMainColor, 15% )!important;
+    background-color:lighten( $scinMainColorbutton, 5% )!important;
   }
   &:active {
-    background-color:lighten( $scinMainColor, 25% )!important;
+    background-color:lighten( $scinMainColorbutton, 10% )!important;
   }
 }
 form fieldset.buttons li.cancel a, form fieldset.actions li.cancel a, .clear_filters_btn, .ui-dialog .ui-dialog-buttonpane button {
-  background-color:lighten( $scinMainColor, 30% )!important;
+  background-color:$scinMainColorbutton!important;
   @include border-radius(4px);
   padding: $scinPaddinButton!important;
   color: $scinMainMenuText!important;
   font-size: 14px!important;
   font-weight: 400!important;
   &:hover {
-    background-color:lighten( $scinMainColor, 35% )!important;
+    background-color:lighten( $scinMainColorbutton, 5% )!important;
   }
   &:active {
-    background-color:lighten( $scinMainColor, 45% )!important;
+    background-color:lighten( $scinMainColorbutton, 10% )!important;
   }
 }
 #main_content_wrapper {
@@ -238,13 +237,13 @@ form fieldset.buttons li.cancel a, form fieldset.actions li.cancel a, .clear_fil
 }
 table.index_table th {
   background-color: lighten( $scinMainColor, 15% )!important;
-  border-right: 1px solid lighten( $scinMainColor, 25% )!important;
+//  border-right: 1px solid lighten( $scinMainColor, 25% )!important;
   padding: $scinTablePaddingTop 12px $scinTablePaddingBottom 12px;
   a {
     color: #ffffff!important;
   }
   &.sorted-asc, &.sorted-desc {
-    background-color: lighten( $scinMainColor, 25% )!important;
+    background-color: $scinMainColorbutton!important;
   }
 }
 #active_admin_content {
@@ -292,7 +291,7 @@ table.index_table th {
         color:lighten( $scinMainColor,20% )!important; ;
         &:hover {
           @include reset_item;
-          background-color: lighten( $scinMainColor,15% )!important;
+          background-color:$scinMainColorbutton!important;
           color: #ffffff!important;
         }
       }
@@ -330,15 +329,15 @@ div.table_tools {
     li {
       &.scope a {
         @include reset_item;
-        background-color: lighten( $scinMainColor, 10% )!important;
+        background-color: $scinMainColorbutton!important;
         &:hover {
-          background-color: lighten( $scinMainColor, 20% )!important;
+          background-color: lighten( $scinMainColorbutton, 5% )!important;
         }
       }
       &.selected a {
-        background-color:lighten( $scinMainColor, 30% )!important;
+        background-color:lighten( $scinMainColorbutton, 10% )!important;
         &:hover {
-          background-color:lighten( $scinMainColor, 30% )!important;
+          background-color:lighten( $scinMainColorbutton, 15% )!important;
         }
       }
       a.table_tools_button {
@@ -359,7 +358,7 @@ div.table_tools {
     }
   }
   .dropdown_menu_button {
-    background-color: lighten( $scinMainColor, 20% )!important;
+    background-color: $scinMainColorbutton!important;
     color: #ffffff;
     padding: 10px;
     @include border-radius($scinBorderRadius);
