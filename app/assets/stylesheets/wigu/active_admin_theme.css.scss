@@ -67,7 +67,7 @@ html {
     color: #ffffff;
   }
   ul.tabs {
-    li {
+   > li {
       &:hover > a {
         background-color: $scinMainColorbutton;
       }
