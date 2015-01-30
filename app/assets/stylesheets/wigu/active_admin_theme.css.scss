@@ -1,6 +1,4 @@
-
 //VAR-----------------------------------------------------------------
-
 
 $scinMainColor: #3c3c3c!default;
 $scinMainColorbutton: #3387c6 !default;
@@ -17,11 +15,12 @@ $scinTablePaddingTop: 8px!default;
 
 //MIXIN---------------------------------------------------------------
 
-@mixin border-radius($radius) {
-  -webkit-border-radius: $radius!important;
-  -moz-border-radius: $radius!important;
-  -ms-border-radius: $radius!important;
-  border-radius: $radius!important;
+@mixin reset_item {
+  text-shadow: none!important;
+  border: none!important;
+  box-shadow: none!important;
+  background-image: none!important;
+  outline:none!important;
 }
 @mixin border-radius-left($radius-left) {
   -webkit-border-top-left-radius: $radius-left!important;
@@ -39,46 +38,24 @@ $scinTablePaddingTop: 8px!default;
   border-top-right-radius: $radius-right!important;
   border-bottom-right-radius: $radius-right!important;
 }
-@mixin reset_item {
-  text-shadow: none!important;
-  border: none!important;
-  box-shadow: none!important;
-  background-image: none!important;
-  outline:none!important;
-}
 
 //STYLES--------------------------------------------------------------
 
 button, input:not(.datepicker), div, tr, th, h3, td {
   @include reset_item;
 }
-a, a:link, a:visited {
-
-}
-.index_as_table {
-  table {
-    thead {
-      tr {
-        th {
-            color: #ffffff!important;
-        }
-      }
-    }
-  }
-}
 html {
   font-family: 'Open Sans', sans-serif;
   background: $scinColorBackground;
   font-weight: 300;
 }
-input[type=text], input.datepicker, select, textarea {
-  border: 1px solid  lighten( $scinMainColor, 40% )!important
-}
 #header {
   background-color: $scinMainColor;
   padding-bottom: 7px;
-  border-bottom: 1px solid lighten( $scinMainColor, 15% )!important;
-  h1 {
+  border: none;
+  text-shadow: none;
+  border-bottom: 1px solid lighten( $scinMainColor, 15% );
+  h1.site_title {
     color: $scinMainColorbutton;
     font-size: 16px;
     font-weight: 600;
@@ -86,43 +63,42 @@ input[type=text], input.datepicker, select, textarea {
       top: auto;
     }
   }
+  a, a:link {
+    color: #ffffff;
+  }
   ul.tabs {
-    li {
+   > li {
+      &:hover > a {
+        background-color: $scinMainColorbutton;
+      }
+      &.current > a {
+        background-color: $scinMainColorbutton;
+      }
+      &.current.has_nested > a {
+        background-color: $scinMainColorbutton;
+      }
+      &.has_nested:hover > a {
+        background-color: $scinMainColorbutton;
+        border-bottom: 10px solid $scinMainColorbutton;
+        @include rounded($scinBorderRadius);
+      }
       ul {
-        @include border-radius($scinBorderRadius);
+        @include rounded($scinBorderRadius);
+        background-color: $scinMainColorbutton;
       }
       a {
         padding: 6px 10px 4px 10px;
-        color:#ffffff;
-      }
-    }
-  }
-  ul {
-    li {
-      &:hover > a {
-        background-color: $scinMainColorbutton!important;
-      }
-      &.current > a {
-        background-color: $scinMainColorbutton!important;
-      }
-      &.has_nested:hover > a {
-        border-bottom: 10px solid $scinMainColorbutton!important;
-      }
-      a {
         color: $scinMainMenuText;
-        @include border-radius($scinBorderRadius);
-      }
-      ul {
-        background-color: $scinMainColorbutton!important;
+        @include rounded($scinBorderRadius);
       }
     }
   }
 }
 #title_bar {
-  background-color: lighten( $scinMainColor, 10% )!important;
+  background-color: lighten( $scinMainColor, 10% );
   padding: $scinSecondLinePaddingTopBottom 30px;
   border-bottom: 5px solid lighten( $scinMainColorbutton, 10% )!important;
-  div {
+  #titlebar_left {
     h2 {
       color: $scinMainMenuText;
       font-size: 22px;
@@ -134,40 +110,52 @@ input[type=text], input.datepicker, select, textarea {
       }
     }
   }
-}
-span.action_item {
-  a {
-    @include border-radius(4px);
-    background-color:$scinMainColorbutton!important;
-    padding: $scinPaddinButton!important;
-    font-size: 14px!important;
-    font-weight: 400!important;
-    color:$scinMainMenuText!important;
-    @include reset_item;
-    &:hover {
-      background-color:lighten( $scinMainColorbutton, 5% )!important;
-    }
-    &:active {
-      background-color:lighten( $scinMainColorbutton, 10% )!important;
-    }
-  }
-  div.dropdown_menu {
-    div.dropdown_menu_list_wrapper {
-      ul {
-        li {
-          a {
-            background-color: #ffffff!important;
-            color: #6f6f6f !important;
-            font-size: 0.95em!important;
-            font-weight: bold!important;
-            padding: 7px 16px 5px!important;
+  #titlebar_right {
+    div.action_items {
+      span.action_item {
+        a {
+          @include rounded($scinBorderRadius);
+          background-color:$scinMainColorbutton;
+          padding: $scinPaddinButton;
+          font-size: 14px;
+          font-weight: 400;
+          color:$scinMainMenuText;
+          @include reset_item;
+          &:hover {
+            background-color:lighten( $scinMainColorbutton, 5% );
+          }
+          &:active {
+            background-color:lighten( $scinMainColorbutton, 10% );
+          }
+        }
+      }
+      div.dropdown_menu {
+        div.dropdown_menu_list_wrapper {
+          ul {
+            box-shadow: 0 1px 3px #444444;
+            -moz-box-shadow: 0 1px 3px #444444;
+            -webkit-box-shadow: 0 1px 3px #444444;
+            li {
+              a {
+                background-color: #ffffff;
+                color: #6f6f6f;
+                font-size: 0.95em;
+                font-weight: bold;
+                padding: 7px 16px 5px;
+                &:hover {
+                  background-color:$scinMainColorbutton;
+                  color:#ffffff;
+                  border-radius: 0px;
+                }
+              }
+            }
           }
         }
       }
     }
   }
 }
-body.logged_in {
+#wrapper {
   .flashes {
     .flash {
       color: #ffffff;
@@ -184,342 +172,290 @@ body.logged_in {
   }
 }
 .dropdown_menu .dropdown_menu_button {
- &:before {
-   content: none;
- }
- &:after {
-   border-color: #FFF transparent;
-   right: 10px;
- }
-}
-form input[type=submit], form input[type=button], form button {
-  background-color:$scinMainColorbutton!important;
-  @include border-radius(4px);
-  padding: $scinPaddinButton;
-  color: $scinMainMenuText;
-  font-size: 14px;
-  font-weight: 400!important;
-  &:hover {
-    background-color:lighten( $scinMainColorbutton, 5% )!important;
+  &:before {
+    content: none;
   }
-  &:active {
-    background-color:lighten( $scinMainColorbutton, 10% )!important;
-  }
-}
-form fieldset.buttons li.cancel a, form fieldset.actions li.cancel a, .clear_filters_btn, .ui-dialog .ui-dialog-buttonpane button {
-  background-color:$scinMainColorbutton!important;
-  @include border-radius(4px);
-  padding: $scinPaddinButton!important;
-  color: $scinMainMenuText!important;
-  font-size: 14px!important;
-  font-weight: 400!important;
-  &:hover {
-    background-color:lighten( $scinMainColorbutton, 5% )!important;
-  }
-  &:active {
-    background-color:lighten( $scinMainColorbutton, 10% )!important;
+  &:after {
+    border-color: #FFF transparent;
+    right: 10px;
   }
 }
 #main_content_wrapper {
-  div {
-    .sidebar_section, .panel {
-      background-color: lighten( $scinMainColor,65% )!important;
-      h3 {
-        background-color:lighten( $scinMainColor, 15% )!important;
-        padding: 5px 10px;
-        color: $scinMainMenuText;
+  div.table_tools {
+    div.dropdown_menu {
+      a {
+        @include reset_item;
+        background-color:$scinMainColorbutton;
+        padding: $scinPaddinButton;
+        @include rounded($scinBorderRadius);
+        color:#ffffff;
+      }
+      div.dropdown_menu_list_wrapper {
+        ul {
+          box-shadow: 0 1px 3px #444444;
+          -moz-box-shadow: 0 1px 3px #444444;
+          -webkit-box-shadow: 0 1px 3px #444444;
+          li {
+            a {
+              background-color: #ffffff;
+              color: #6f6f6f;
+              font-size: 0.95em;
+              font-weight: bold;
+              padding: 7px 16px 5px;
+              &:hover {
+                background-color:$scinMainColorbutton;
+                color:#ffffff;
+                border-radius: 0px!important;
+              }
+            }
+          }
+        }
+      }
+    }
+    ul {
+      li {
+        &:first-child a {
+          @include border-radius-left($scinBorderRadius);
+        }
+        &:last-child a {
+          @include border-radius-right($scinBorderRadius);
+        }
+        &.selected a {
+          background-color: lighten( $scinMainColor, 10% );
+        }
+        a {
+          @include reset_item;
+          background-color:$scinMainColorbutton;
+          padding: $scinPaddinButton;
+          color: #ffffff;
+          border-radius: 0px;
+          span {
+            font-size: 12px;
+            color: #ffffff;
+          }
+        }
+      }
+    }
+  }
+  table.index_table {
+    th {
+      background-color: lighten( $scinMainColor, 15% );
+      padding: $scinTablePaddingTop 12px $scinTablePaddingBottom 12px;
+      a {
+        color: #ffffff;
+      }
+      &.sorted-asc, &.sorted-desc {
+        background-color: $scinMainColorbutton;
+      }
+    }
+  }
+  fieldset.inputs {
+    background-color: lighten( $scinMainColor, 60% );
+    @include rounded($scinBorderRadius);
+    legend {
+      span {
+        @include reset_item;
+        background-color: lighten( $scinMainColor, 15% );
+        color: #ffffff;
         font-weight: 400;
         font-size: 12px;
-        border: 1px solid lighten( $scinMainColor, 15% )!important;
+        padding: 5px 10px;
+      }
+    }
+  }
+  .panel {
+    background-color: lighten( $scinMainColor, 60% );
+    @include rounded($scinBorderRadius);
+    h3 {
+      @include reset_item;
+      background-color: lighten( $scinMainColor, 15% );
+      color: #ffffff;
+      font-weight: 400;
+      font-size: 12px;
+      padding: 5px 10px;
+    }
+  }
+  #main_content {
+    div.tabs {
+     > ul {
+        background-color:lighten( $scinMainColor, 15% );
+        padding: 15px 15px 0px 15px;
+
+        -webkit-border-top-left-radius: 4px;
+        -webkit-border-top-right-radius: 4px;
+        -moz-border-radius-topleft: 4px;
+        -moz-border-radius-topright: 4px;
+        border-top-left-radius: 4px;
+        border-top-right-radius: 4px;
+        li.ui-state-default {
+          a {
+            @include reset_item;
+            background-color:$scinMainColorbutton;
+            color: #ffffff;
+            padding: $scinPaddinButton;
+
+          }
+        }
+        li.ui-state-active {
+          a {
+            background-color: #ffffff;
+            color:lighten( $scinMainColor, 15% );
+            border: 1px solid #ffffff;
+          }
+        }
+        li:first-child a {
+          -webkit-border-top-left-radius: 4px;
+          -moz-border-radius-topleft: 4px;
+          border-top-left-radius: 4px;
+
+          -webkit-border-bottom-left-radius: 0px;
+          -moz-border-radius-bottomleft: 0px;
+          border-bottom-left-radius: 0px;
+        }
+        li:last-child a {
+          -webkit-border-top-right-radius: 4px;
+          -moz-border-radius-topright: 4px;
+          border-top-right-radius: 4px;
+
+          -webkit-border-bottom-right-radius: 0px;
+          -moz-border-radius-bottomright: 0px;
+          border-bottom-right-radius: 0px;
+        }
       }
     }
   }
 }
-table.index_table th {
-  background-color: lighten( $scinMainColor, 15% )!important;
-//  border-right: 1px solid lighten( $scinMainColor, 25% )!important;
-  padding: $scinTablePaddingTop 12px $scinTablePaddingBottom 12px;
-  a {
-    color: #ffffff!important;
-  }
-  &.sorted-asc, &.sorted-desc {
-    background-color: $scinMainColorbutton!important;
+.sidebar_section.panel {
+  background-color: lighten( $scinMainColor, 60% );
+  @include rounded($scinBorderRadius);
+  h3 {
+    background-color:lighten( $scinMainColor, 15% );
+    padding: 5px 10px;
+    color: $scinMainMenuText;
+    font-weight: 400;
+    font-size: 12px;
+    border: 1px solid lighten( $scinMainColor, 15% );
   }
 }
-#active_admin_content {
-  padding: $scinContentPadding;
+form fieldset.buttons li.cancel a,
+form fieldset.actions li.cancel a,
+form.filter_form a.clear_filters_btn,
+form input[type=submit],
+form input[type=button],
+form button {
+  @include reset_item;
+  background-color:$scinMainColorbutton;
+  @include rounded($scinBorderRadius);
+  padding: $scinPaddinButton;
+  color: $scinMainMenuText;
+  font-size: 14px;
+  font-weight: 400;
+  &:hover {
+    background-color:lighten( $scinMainColorbutton, 5% )!important;
+  }
 }
 .pagination {
   span.page.current {
     @include reset_item;
     color: #ffffff;
     padding: 5px 9px;
-    @include border-radius(4px);
-    background-color: lighten( $scinMainColor,25% )!important;
+    @include rounded($scinBorderRadius);
+    background-color: lighten( $scinMainColor,25% );
+    &:hover {
+      background-color: lighten( $scinMainColor,25% )!important;
+    }
   }
   a {
     @include reset_item;
     color: #ffffff;
     padding: 5px 9px;
-    @include border-radius(4px);
-    background-color: lighten( $scinMainColor,45% )!important;
+    @include rounded($scinBorderRadius);
+    background-color: lighten( $scinMainColor,45% );
     &:not(.disabled):hover {
-      background-color: lighten( $scinMainColor,15% )!important;
+      background-color: lighten( $scinMainColor,15% );
     }
   }
 }
-.ui-dialog {
-  .ui-dialog-titlebar {
-    background-image: none;
-    background-color:lighten( $scinMainColor, 15% )!important;
-    box-shadow: none;
-    padding: 5px 10px;
-    text-shadow: none;
-    color: $scinMainMenuText;
-    font-weight: 400;
-    font-size: 12px;
-    border: 1px solid lighten( $scinMainColor, 15% )!important;
-  }
-  background-color: lighten( $scinMainColor,65% )!important;
-}
-.dropdown_menu .dropdown_menu_list_wrapper {
-  padding: 2px;
-  background-color: $scinMainColor;
-  .dropdown_menu_list {
-    li {
-      a {
-        color:lighten( $scinMainColor,20% )!important; ;
-        &:hover {
-          @include reset_item;
-          background-color:$scinMainColorbutton!important;
-          color: #ffffff!important;
-        }
-      }
-
-    }
-  }
-  .dropdown_menu_nipple {
-    &:before {
-      border-color: $scinMainColor transparent;
-    }
-    &:after {
-      border-color: $scinMainColor transparent;
-    }
-  }
-}
-span.action_item {
-  .dropdown_menu {
-    .dropdown_menu_list_wrapper {
-      ul.dropdown_menu_list {
-        li {
-          a {
-            @include reset_item;
-            @include border-radius(0px);
-            &:hover {
-              @include reset_item;
-            }
-          }
-        }
-      }
-    }
-  }
-}
-div.table_tools {
-  ul.table_tools_segmented_control {
-    li {
-      &.scope a {
-        @include reset_item;
-        background-color: $scinMainColorbutton!important;
-        &:hover {
-          background-color: lighten( $scinMainColorbutton, 5% )!important;
-        }
-      }
-      &.selected a {
-        background-color:lighten( $scinMainColorbutton, 10% )!important;
-        &:hover {
-          background-color:lighten( $scinMainColorbutton, 15% )!important;
-        }
-      }
-      a.table_tools_button {
-        background-color: lighten( $scinMainColor,15% );
-        padding: 10px;
-        color: #ffffff;
-      }
-      span {
-        color: #ffffff;
-        font-size: 12px;
-      }
-      &:first-child a {
-        @include border-radius-left($scinBorderRadius);
-      }
-      &:last-child a {
-        @include border-radius-right($scinBorderRadius);
-      }
-    }
-  }
-  .dropdown_menu_button {
-    background-color: $scinMainColorbutton!important;
-    color: #ffffff;
-    padding: 10px;
-    @include border-radius($scinBorderRadius);
-  }
-}
-.ui-datepicker .ui-datepicker-header {
-  background-color:lighten( $scinMainColor, 15% )!important;
-  &:before {
-    border-bottom: 10px solid lighten( $scinMainColor, 15% )!important;
-  }
-}
-.ui-datepicker {
+#ui-datepicker-div {
   background: none;
-}
-#main_content {
-  form {
-    fieldset.inputs {
-
-      @include border-radius($scinBorderRadius);
-      @include reset_item;
-      legend {
-        span {
-          background-color:lighten( $scinMainColor, 15% )!important;
-          padding: 5px 10px;
-          color: $scinMainMenuText;
-          font-weight: 400;
-          font-size: 12px;
-          border: 1px solid lighten( $scinMainColor, 15% )!important;
-          @include reset_item;
-        }
-      }
-      ol {
-        li {
-          input {
-            border: 1px solid  lighten( $scinMainColor, 40% )!important;
-          }
-        }
-      }
+  .ui-datepicker-header {
+    background-color: lighten( $scinMainColor, 10% );
+    &:before {
+      border-bottom: 10px solid lighten( $scinMainColor, 10% );
     }
   }
-  div {
-    ul.ui-tabs-nav {
-      margin-bottom: 0px;
-      li {
-        &.ui-state-active a {
-          background-color:lighten( $scinMainColor, 30% )!important;
-          &:hover {
-            background-color:lighten( $scinMainColor, 30% )!important;
-          }
-        }
-        &:first-child a {
-          -webkit-border-radius: 4px;
-          -webkit-border-bottom-right-radius: 0;
-          -webkit-border-bottom-left-radius: 0;
-          -webkit-border-top-right-radius: 0;
-
-          -moz-border-radius: 4px;
-          -moz-border-bottom-right-radius: 0;
-          -moz-border-bottom-left-radius: 0;
-          -moz-border-top-right-radius: 0;
-
-          border-radius: 4px;
-          border-bottom-right-radius: 0;
-          border-bottom-left-radius: 0;
-          border-top-right-radius: 0;
-        }
-        &:last-child a {
-          -webkit-border-radius: 4px;
-          -webkit-border-bottom-right-radius: 0;
-          -webkit-border-bottom-left-radius: 0;
-          -webkit-border-top-left-radius: 0;
-
-          -moz-border-radius: 4px;
-          -moz-border-bottom-right-radius: 0;
-          -moz-border-bottom-left-radius: 0;
-          -moz-border-top-left-radius: 0;
-
-          border-radius: 4px;
-          border-bottom-right-radius: 0;
-          border-bottom-left-radius: 0;
-          border-top-left-radius: 0;
-        }
-        a {
-          color: #ffffff;
-          background-color: lighten( $scinMainColor, 10% )!important;
-          padding: 10px;
-          @include reset_item;
-          &:hover {
-            background-color: lighten( $scinMainColor, 20% )!important;
-          }
-        }
-      }
-    }
-    .tab-content {
-      background-color: lighten( $scinMainColor, 30% )!important;
-      @include border-radius($scinBorderRadius);
-    }
+  .ui-datepicker-calendar {
+    border: solid 1px lighten( $scinMainColor, 10% );
   }
-}
-#sidebar {
-  div.sidebar_section {
-              background-color: lighten( $scinMainColor, 60% )!important;
-                @include border-radius($scinBorderRadius);
-    h3 {
-      background-color:lighten( $scinMainColor, 15% )!important;
-      padding: 5px 10px;
-      color: $scinMainMenuText;
-      font-weight: 400;
-      font-size: 12px;
-      border: 1px solid lighten( $scinMainColor, 15% )!important;
-    }
-  }
-}
-.attributes_table table td .empty {
-  color:lighten( $scinMainColor, 30% )!important;
-}
-.attributes_table table th {
-  color:lighten( $scinMainColor, 10% )!important;
 }
 #wrapper {
   background-color: $scinColorBackground;
   #content_wrapper {
     #active_admin_content {
-      background-color: lighten( $scinMainColor,55% )!important;
-      @include border-radius($scinBorderRadius);
+      background-color: lighten( $scinMainColor,55% );
+      @include rounded($scinBorderRadius);
       #login {
         h2 {
           @include reset_item;
-          background-color:lighten( $scinMainColor, 15% )!important;
+          background-color:lighten( $scinMainColor, 15% );
           padding: 5px 10px;
           color: $scinMainMenuText;
           font-weight: 400;
           font-size: 12px;
-          border: 1px solid lighten( $scinMainColor, 15% )!important;
+          border: 1px solid lighten( $scinMainColor, 15% );
         }
       }
     }
-   }
-}
-.blank_slate {
-  border: 1px solid lighten( $scinMainColor, 60% )!important;
-  span, small {
-    color: lighten( $scinMainColor, 40% )!important;
   }
-}
-#ui-datepicker-div {
-  table {
-    tbody {
-      border: 2px solid red!important
+  #sidebar {
+    div.tabs {
+      ul {
+        background-color:lighten( $scinMainColor, 15% );
+        padding: 7px 7px 0px 7px;
+
+        -webkit-border-top-left-radius: 4px;
+        -webkit-border-top-right-radius: 4px;
+        -moz-border-radius-topleft: 4px;
+        -moz-border-radius-topright: 4px;
+        border-top-left-radius: 4px;
+        border-top-right-radius: 4px;
+        li.ui-state-default {
+          a {
+            @include reset_item;
+            background-color:$scinMainColorbutton;
+            color: #ffffff;
+            padding: $scinPaddinButton;
+
+          }
+        }
+        li.ui-state-active {
+          a {
+            background-color: lighten( $scinMainColor, 60% );
+            color:$scinMainColor;
+            border: 1px solid #ffffff;
+          }
+        }
+        li:first-child a {
+          -webkit-border-top-left-radius: 4px;
+          -moz-border-radius-topleft: 4px;
+          border-top-left-radius: 4px;
+
+          -webkit-border-bottom-left-radius: 0px;
+          -moz-border-radius-bottomleft: 0px;
+          border-bottom-left-radius: 0px;
+        }
+        li:last-child a {
+          -webkit-border-top-right-radius: 4px;
+          -moz-border-radius-topright: 4px;
+          border-top-right-radius: 4px;
+
+          -webkit-border-bottom-right-radius: 0px;
+          -moz-border-radius-bottomright: 0px;
+          border-bottom-right-radius: 0px;
+        }
+      }
     }
   }
 }
-.dropdown_menu_button, .buttons a, .cancel a {
-  @include reset_item;
-}
-.blank_slate_container {
-  span {
-    color: lighten( $scinMainColor, 40% )!important;
-  }
-}
-// Overriding any non-variable SASS must be done after the fact.
-// For example, to change the default status-tag color:
-//
-//   .status_tag { background: #6090DB; }
+
+//STYLES--------------------------------------------------------------
