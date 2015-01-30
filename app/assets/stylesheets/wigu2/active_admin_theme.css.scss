@@ -314,7 +314,7 @@ body.active_admin {
                 background-color: lighten( $skinMainSecondColor, 5% );
               }
             }
-            a:not[class="chosen-single"] {
+            a {
               @include reset_item;
               background-color: #ffffff;
               @include rounded($skinBorderRadius);
