@@ -67,7 +67,7 @@ html {
     color: #ffffff;
   }
   ul.tabs {
-    li {
+   > li {
       &:hover > a {
         background-color: $scinMainColorbutton;
       }
@@ -277,7 +277,7 @@ html {
   }
   #main_content {
     div.tabs {
-      ul {
+     > ul {
         background-color:lighten( $scinMainColor, 15% );
         padding: 15px 15px 0px 15px;
 
