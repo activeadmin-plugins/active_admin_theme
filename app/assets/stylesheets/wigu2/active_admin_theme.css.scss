@@ -8,7 +8,7 @@ $skinMainFirstColor: #23282f!default;
 $skinMainSecondColor: #5ea3d3!default;
 $skinBorderRadius: 4px!default;
 $skinBorderWindowColor: #e6e9ee!default;
-$skinTablePadding: 10px;
+$skinTablePadding: 10px!default;
 
 //MIXIN---------------------------------------------------------------------------------------------------------------//
 
@@ -716,5 +716,16 @@ body.logged_out #content_wrapper #active_admin_content {
         }
       }
     }
+  }
+}
+input[type=submit] {
+  @include reset_item;
+  background-color: $skinMainSecondColor;
+  @include rounded($skinBorderRadius);
+  border: none;
+  padding: 10px 20px;
+  color: #ffffff;
+  &:hover {
+    background-color: lighten( $skinMainSecondColor, 5% );
   }
 }
