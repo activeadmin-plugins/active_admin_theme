@@ -13,10 +13,10 @@ $skinTablePadding: 10px!default;
 //MIXIN---------------------------------------------------------------------------------------------------------------//
 
 @mixin reset_item {
-  text-shadow: none!important;
-  box-shadow: none!important;
-  background-image: none!important;
-  outline:none!important;
+  text-shadow: none;
+  box-shadow: none;
+  background-image: none;
+  outline:none;
 }
 
 html {
@@ -457,42 +457,10 @@ body.active_admin {
             }
           }
         }
-        form:not(.active_admin_comment) {
-          div.paginated_collection {
-            table.index_table {
-              background-color: #ffffff;
-              border: 1px solid $skinBorderWindowColor;
-              border-bottom: 2px solid $skinBorderWindowColor;
-              @include rounded($skinBorderRadius);
-              thead {
-                tr {
-                  th {
-                    @include reset_item;
-                    border: none;
-                    background-color: #f4f5f5;
-                    padding: $skinTablePadding 12px $skinTablePadding 12px;
-                    border-bottom: 3px solid $skinBorderWindowColor;
-                    border-right: 1px solid $skinBorderWindowColor;
-                    a {
-                      font-weight: 600;
-                    }
-                  }
-                }
-              }
-              tbody {
-                tr {
-                  td {
-                    padding: $skinTablePadding 12px $skinTablePadding 12px;
-                  }
-                }
-              }
-            }
-          }
+        form {
           fieldset.inputs {
             @include reset_item;
             background-color: #ffffff;
-            border: 1px solid $skinBorderWindowColor;
-            border-bottom: 2px solid $skinBorderWindowColor;
             legend {
               span {
                 @include reset_item;
@@ -522,6 +490,26 @@ body.active_admin {
                 input:focus {
                   border-color: lighten( $skinMainSecondColor, 20% ) ;
                   box-shadow: none;
+                }
+                a {
+                  @include reset_item;
+                  background-color: $skinMainSecondColor;
+                  @include rounded($skinBorderRadius);
+                  border: none;
+                  padding: 10px 20px;
+                  color: #ffffff;
+                  &:hover {
+                    background-color: lighten( $skinMainSecondColor, 5% );
+                  }
+                }
+                fieldset {
+                  ol {
+                    li {
+                      &:last-child {
+                        padding: 0px;
+                      }
+                    }
+                  }
                 }
               }
             }
@@ -728,4 +716,42 @@ input[type=submit] {
   &:hover {
     background-color: lighten( $skinMainSecondColor, 5% );
   }
+}
+table.index_table {
+  background-color: #ffffff;
+  border: 1px solid $skinBorderWindowColor;
+  border-bottom: 2px solid $skinBorderWindowColor;
+  @include rounded($skinBorderRadius);
+  thead {
+    tr {
+      th {
+        @include reset_item;
+        border: none;
+        background-color: #f4f5f5;
+        padding: $skinTablePadding 12px $skinTablePadding 12px;
+        border-bottom: 3px solid $skinBorderWindowColor;
+        border-right: 1px solid $skinBorderWindowColor;
+        a {
+          font-weight: 600;
+        }
+      }
+      th.sorted-desc {
+        @include reset_item;
+        background-color: #f4f5f5;
+      }
+      th:last-child {
+        border-right: none;
+      }
+    }
+  }
+  tbody {
+    tr {
+      td {
+        padding: $skinTablePadding 12px $skinTablePadding 12px;
+      }
+    }
+  }
+}
+form fieldset > ol > li fieldset.fragments ol {
+  margin-left: 20%;
 }
