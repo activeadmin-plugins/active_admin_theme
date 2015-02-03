@@ -23,9 +23,7 @@ body.active_admin {
 }
 #wrapper {
   div.tabs {
-    ul {
-      li {
-        a {
+    ul > li > a {
           background-image: none;
           box-shadow: none;
           text-shadow: none;
@@ -51,16 +49,12 @@ body.active_admin {
           -webkit-border-bottom-right-radius: 0px;
           -moz-border-radius-bottomright: 0px;
           border-bottom-right-radius: 0px;
-        }
-      }
-      li.ui-state-active {
-        a {
+    }
+    ul > li.ui-state-active > a {
           background-color: #ffffff;
           border: 1px solid $skinBorderWindowColor;
           border-bottom: 0px;
           color: $skinMainSecondColor;
-        }
-      }
     }
     div.tab-content {
       background-color: #ffffff;
@@ -188,7 +182,6 @@ body.active_admin {
     }
   }
   .flashes {
-    display: none;
     .flash {
       color: #ffffff;
       background-image: none;
