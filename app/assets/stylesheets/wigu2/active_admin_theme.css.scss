@@ -10,10 +10,6 @@ $skinBorderRadius: 4px!default;
 $skinBorderWindowColor: #e6e9ee!default;
 $skinTablePadding: 10px!default;
 
-//MIXIN---------------------------------------------------------------------------------------------------------------//
-
-
-
 //HTML----------------------------------------------------------------------------------------------------------------//
 
 html {
@@ -26,9 +22,56 @@ body.active_admin {
   background: #f7f9fb;
 }
 #wrapper {
+  div.tabs {
+    ul {
+      li {
+        a {
+          background-image: none;
+          box-shadow: none;
+          text-shadow: none;
+          box-shadow: none;
+          margin-bottom: 11px;
+          border: none;
+          background-color: $skinMainSecondColor;
+          color: #ffffff;
+          margin-right: 5px;
+          padding: 10px 20px;
+
+          -webkit-border-top-left-radius: $skinBorderRadius;
+          -webkit-border-top-right-radius: $skinBorderRadius;
+          -moz-border-radius-topleft: $skinBorderRadius;
+          -moz-border-radius-topright: $skinBorderRadius;
+          border-top-left-radius: $skinBorderRadius;
+          border-top-right-radius: $skinBorderRadius;
+
+          -webkit-border-bottom-left-radius: 0px;
+          -moz-border-radius-bottomleft: 0px;
+          border-bottom-left-radius: 0px;
+
+          -webkit-border-bottom-right-radius: 0px;
+          -moz-border-radius-bottomright: 0px;
+          border-bottom-right-radius: 0px;
+        }
+      }
+      li.ui-state-active {
+        a {
+          background-color: #ffffff;
+          border: 1px solid $skinBorderWindowColor;
+          border-bottom: 0px;
+          color: $skinMainSecondColor;
+        }
+      }
+    }
+    div.tab-content {
+      background-color: #ffffff;
+      border: 1px solid $skinBorderWindowColor;
+      border-bottom: 2px solid $skinBorderWindowColor;
+      @include rounded($skinBorderRadius);
+    }
+  }
   #header {
     background-color: $skinMainFirstColor;
-    border-bottom: 1px solid lighten( $skinMainFirstColor, 15% );
+    border-bottom: 1px solid lighten( $skinMainFirstColor, 15% )!important;
     padding-bottom: 9px;
     border: none;
     text-shadow: none;
@@ -101,6 +144,47 @@ body.active_admin {
           background-color: lighten( $skinMainSecondColor, 5% )!important;
         }
       }
+      div.dropdown_menu {
+        div.dropdown_menu_list_wrapper {
+          background-color: $skinMainFirstColor;
+          border: none;
+          background-image: none;
+          border: none;
+          box-shadow: none;
+          div.dropdown_menu_nipple, div.dropdown_menu_nipple:after, div.dropdown_menu_nipple:before {
+            border-color: $skinMainFirstColor transparent;
+          }
+          ul.dropdown_menu_list {
+            box-shadow:none;
+            li {
+              a {
+                background-color: #ffffff;
+                color: $skinMainFirstColor;
+                border-radius: 0px;
+                &:hover {
+                  background-color: $skinMainSecondColor;
+                  color: #ffffff;
+                }
+              }
+            }
+          }
+        }
+      }
+      div.batch_actions_selector {
+        a {
+          background-image: none;
+          border: none;
+          box-shadow: none;
+          background-color: $skinMainSecondColor;
+          @include rounded($skinBorderRadius);
+          border: none;
+          padding: 10px 20px;
+          color: #ffffff;
+          &:hover {
+            background-color: lighten( $skinMainSecondColor, 5% );
+          }
+        }
+      }
     }
   }
   .flashes {
@@ -131,6 +215,47 @@ body.active_admin {
     }
     div.table_tools {
       margin-bottom: 35px;
+      div.dropdown_menu {
+        div.dropdown_menu_list_wrapper {
+          background-color: $skinMainFirstColor;
+          border: none;
+          background-image: none;
+          border: none;
+          box-shadow: none;
+          div.dropdown_menu_nipple, div.dropdown_menu_nipple:after, div.dropdown_menu_nipple:before {
+            border-color: $skinMainFirstColor transparent;
+          }
+          ul.dropdown_menu_list {
+            box-shadow:none;
+            li {
+              a {
+                background-color: #ffffff;
+                color: $skinMainFirstColor;
+                border-radius: 0px;
+                &:hover {
+                  background-color: $skinMainSecondColor;
+                  color: #ffffff;
+                }
+              }
+            }
+          }
+        }
+      }
+      div.batch_actions_selector {
+        a {
+          background-image: none;
+          border: none;
+          box-shadow: none;
+          background-color: $skinMainSecondColor;
+          @include rounded($skinBorderRadius);
+          border: none;
+          padding: 10px 20px;
+          color: #ffffff;
+          &:hover {
+            background-color: lighten( $skinMainSecondColor, 5% );
+          }
+        }
+      }
       div.dropdown_menu {
         div.dropdown_menu_list_wrapper {
           background-color: $skinMainFirstColor;
@@ -227,16 +352,20 @@ body.active_admin {
       background-image: none;
       border: none;
       box-shadow: none;
-      background-color: #f4f5f5;
+      text-shadow: none;
+      font-size: 1.0em;
+      font-weight: bold;
+      background-color: $skinBorderWindowColor;
       padding: $skinTablePadding 12px $skinTablePadding 12px;
-      border-bottom: 3px solid $skinBorderWindowColor;
-      border-right: 1px solid $skinBorderWindowColor;
+      border-bottom: 3px solid darken( $skinBorderWindowColor, 5% );
+      border-right: 1px solid darken( $skinBorderWindowColor, 5% );
       a {
-        font-weight: 600;
+        font-size: 1.0em;
+        font-weight: bold!important;
       }
     }
     th.sorted-desc {
-      background-color: #f4f5f5;
+      background-color: $skinBorderWindowColor;
     }
     td {
       padding: $skinTablePadding 12px $skinTablePadding 12px;
@@ -286,7 +415,7 @@ form fieldset > ol > li fieldset.fragments ol {
 form fieldset ol > li.has_many_container h3 {
   color: #8494a8;
 }
-form input[type=submit], a.button, a:link.button, a:visited.button {
+form input[type=submit], a.button, a:link.button, a:visited.button, fieldset.actions > ol > li.button_action > button {
   background-image: none;
   box-shadow: none;
   text-shadow: none;
@@ -428,6 +557,9 @@ form fieldset.inputs {
     -moz-border-radius-topright: $skinBorderRadius;
     border-top-left-radius: $skinBorderRadius;
     border-top-right-radius: $skinBorderRadius;
+  }
+  .panel_contents {
+    font-weight: 400;
   }
 }
 .attributes_table table th, .attributes_table table td {
