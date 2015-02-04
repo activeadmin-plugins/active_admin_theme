@@ -351,6 +351,9 @@ body.active_admin {
         font-weight: bold!important;
       }
     }
+    th.col-selectable {
+      width: 12px;
+    }
     th.sorted-desc {
       background-color: $skinBorderWindowColor;
     }
