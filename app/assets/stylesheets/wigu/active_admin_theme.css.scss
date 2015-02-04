@@ -1,7 +1,3 @@
-//FONT----------------------------------------------------------------------------------------------------------------//
-
-@import url(http://fonts.googleapis.com/css?family=Open+Sans:400,300,600&subset=latin,cyrillic-ext);
-
 //VAR-----------------------------------------------------------------------------------------------------------------//
 
 $skinMainFirstColor: #23282f!default;
@@ -13,12 +9,9 @@ $skinTablePadding: 10px!default;
 //HTML----------------------------------------------------------------------------------------------------------------//
 
 html {
-  font-family: 'Open Sans', sans-serif;
   background: #f7f9fb;
-  font-weight: 300;
 }
 body.active_admin {
-  font-family: 'Open Sans', sans-serif;
   background: #f7f9fb;
 }
 #wrapper {
@@ -187,7 +180,7 @@ body.active_admin {
       background-image: none;
       text-shadow: none;
     }
-    
+
     .flash_notice {
       background-color: #669148;
       border-bottom: 2px solid #4C7331;
