@@ -5,7 +5,6 @@ $skinMainSecondColor: #5ea3d3!default;
 $skinBorderRadius: 4px!default;
 $skinBorderWindowColor: #e6e9ee!default;
 $skinTablePadding: 10px!default;
-
 //HTML----------------------------------------------------------------------------------------------------------------//
 
 html {
@@ -295,6 +294,7 @@ body.active_admin {
             padding: 10px 20px;
             color: #ffffff;
             text-shadow: none;
+            border-right: 1px solid #ffffff;
             span {
               color: #ffffff;
               font-size: 11px;
