@@ -729,3 +729,8 @@ form fieldset > ol > li fieldset ol li {
 .ui-widget-overlay {
   background: rgba(0, 0, 0, 0.7);
 }
+
+//becouse of sidebar border 2px
+form.filter_form .filter_form_field.filter_date_range .seperator {
+  width: 10px;
+}
