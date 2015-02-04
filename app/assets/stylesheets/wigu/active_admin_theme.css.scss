@@ -1,7 +1,3 @@
-//FONT----------------------------------------------------------------------------------------------------------------//
-
-@import url(http://fonts.googleapis.com/css?family=Open+Sans:400,300,600&subset=latin,cyrillic-ext);
-
 //VAR-----------------------------------------------------------------------------------------------------------------//
 
 $skinMainFirstColor: #23282f!default;
@@ -9,16 +5,12 @@ $skinMainSecondColor: #5ea3d3!default;
 $skinBorderRadius: 4px!default;
 $skinBorderWindowColor: #e6e9ee!default;
 $skinTablePadding: 10px!default;
-
 //HTML----------------------------------------------------------------------------------------------------------------//
 
 html {
-  font-family: 'Open Sans', sans-serif;
   background: #f7f9fb;
-  font-weight: 300;
 }
 body.active_admin {
-  font-family: 'Open Sans', sans-serif;
   background: #f7f9fb;
 }
 #wrapper {
@@ -187,7 +179,7 @@ body.active_admin {
       background-image: none;
       text-shadow: none;
     }
-    
+
     .flash_notice {
       background-color: #669148;
       border-bottom: 2px solid #4C7331;
@@ -302,6 +294,7 @@ body.active_admin {
             padding: 10px 20px;
             color: #ffffff;
             text-shadow: none;
+            border-right: 1px solid #ffffff;
             span {
               color: #ffffff;
               font-size: 11px;
@@ -357,6 +350,9 @@ body.active_admin {
         font-size: 1.0em;
         font-weight: bold!important;
       }
+    }
+    th.col-selectable {
+      width: 12px;
     }
     th.sorted-desc {
       background-color: $skinBorderWindowColor;
@@ -735,4 +731,9 @@ form fieldset > ol > li fieldset ol li {
 }
 .ui-widget-overlay {
   background: rgba(0, 0, 0, 0.7);
+}
+
+//becouse of sidebar border 2px
+form.filter_form .filter_form_field.filter_date_range .seperator {
+  width: 10px;
 }
