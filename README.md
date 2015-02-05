@@ -2,13 +2,12 @@
 
 Custom ActiveAdmin templates
 
-## Screens
-
-<a href="./img/wigu.png"><img src="./img/wigu.png"></a>
 
 ## Installation
+As active_skin is the css theme for the [activeadmin](https://github.com/activeadmin/activeadmin) administration framework - you have to install if first.
 
-Add this line to your application's Gemfile:
+Having active admin installed add the following line to your application's Gemfile:
+
 
 ```ruby
 gem 'active_admin_theme'
@@ -28,6 +27,9 @@ Or install it yourself as:
 @import "wigu/active_admin_theme";
 ```
   
+## Screen
+
+<a href="./img/wigu.png"><img src="./img/wigu.png"></a>
 
 
 ## Contributing
