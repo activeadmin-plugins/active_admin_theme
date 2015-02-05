@@ -2,6 +2,10 @@
 
 Custom ActiveAdmin templates
 
+## Screens
+
+<a href="./img/wigu.png"><img src="./img/wigu.png"></a>
+
 ## Installation
 
 Add this line to your application's Gemfile:
@@ -20,10 +24,11 @@ Or install it yourself as:
 
 ## Usage
 
-```
+```css
 @import "wigu/active_admin_theme";
 ```
   
+
 
 ## Contributing
 
