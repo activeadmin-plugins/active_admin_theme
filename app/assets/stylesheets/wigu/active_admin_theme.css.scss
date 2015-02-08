@@ -530,23 +530,23 @@ form fieldset.inputs {
   background-color: #ffffff;
   border: 1px solid $skinBorderWindowColor;
   border-bottom: 2px solid $skinBorderWindowColor;
-  h3 {
-    background-image: none;
-    box-shadow: none;
-    text-shadow: none;
-    box-shadow: none;
-    background-color: $skinMainSecondColor;
-    color: #ffffff;
-    border: none;
-    padding: 8px 15px;
-    font-weight: 400;
+  > h3 {
+     background-image: none;
+     box-shadow: none;
+     text-shadow: none;
+     box-shadow: none;
+     background-color: $skinMainSecondColor;
+     color: #ffffff;
+     border: none;
+     padding: 8px 15px;
+     font-weight: 400;
 
-    -webkit-border-top-left-radius: $skinBorderRadius;
-    -webkit-border-top-right-radius: $skinBorderRadius;
-    -moz-border-radius-topleft: $skinBorderRadius;
-    -moz-border-radius-topright: $skinBorderRadius;
-    border-top-left-radius: $skinBorderRadius;
-    border-top-right-radius: $skinBorderRadius;
+     -webkit-border-top-left-radius: $skinBorderRadius;
+     -webkit-border-top-right-radius: $skinBorderRadius;
+     -moz-border-radius-topleft: $skinBorderRadius;
+     -moz-border-radius-topright: $skinBorderRadius;
+     border-top-left-radius: $skinBorderRadius;
+     border-top-right-radius: $skinBorderRadius;
   }
   .panel_contents {
     font-weight: 400;
