@@ -26,7 +26,18 @@ Or install it yourself as:
 ```css
 @import "wigu/active_admin_theme";
 ```
-  
+You can change basic colors of the theme by setting some variable above active_admin_theme import line in active_admin.css.scss
+
+```css
+...
+$skinMainFirstColor: #A5A7AA!default;
+$skinMainSecondColor: #0066CC!default;
+$skinBorderWindowColor: #B8BABE!default;
+
+@import "wigu/active_admin_theme";
+...
+```
+
 ## Screen
 
 <a href="./img/wigu.png"><img src="./img/wigu.png"></a>
