@@ -85,6 +85,20 @@ body.active_admin {
         ul {
           background-color: $skinMainSecondColor;
           @include rounded($skinBorderRadius);
+          li > a {
+            padding-left: 15px;
+          }
+          li.current > a::before, li:hover > a::before {
+            content: '';
+            display: block;
+            width: 7px;
+            height: 4px;
+            position: absolute;
+            top: 12px;
+            left: 4px;
+            background: transparent image-url('active_admin/nested_menu_arrow_dark.gif') no-repeat 0 0;
+            transform: rotate(-90deg);
+          }
         }
       }
       li.has_nested:hover {
