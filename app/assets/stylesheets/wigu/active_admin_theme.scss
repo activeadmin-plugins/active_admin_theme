@@ -206,6 +206,10 @@ body.active_admin {
       background-color: #CD3333;
       border-bottom: 2px solid #962F2F;
     }
+    .flash_alert {
+      background-color: #cc9900;
+      border-bottom: 2px solid #cb9810;
+    }
   }
   #active_admin_content {
     span.blank_slate {
@@ -764,8 +768,8 @@ input[type='radio'] {
     display:block;
     width:50%;
     height:50%;
-    margin: 20% auto;    
-    border-radius:50%;   
+    margin: 20% auto;
+    border-radius:50%;
   }
   &:checked:before{
     background: $skinMainSecondColor;
