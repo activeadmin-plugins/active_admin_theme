@@ -15,38 +15,38 @@ body.active_admin {
 }
 #wrapper {
   div.tabs {
-   > ul > li > a {
-          background-image: none;
-          box-shadow: none;
-          text-shadow: none;
-          box-shadow: none;
-          margin-bottom: 11px;
-          border: none;
-          background-color: $skinMainSecondColor;
-          color: #ffffff;
-          margin-right: 5px;
-          padding: 10px 20px;
+    > ul > li > a {
+      background-image: none;
+      box-shadow: none;
+      text-shadow: none;
+      box-shadow: none;
+      margin-bottom: 11px;
+      border: none;
+      background-color: $skinMainSecondColor;
+      color: #ffffff;
+      margin-right: 5px;
+      padding: 10px 20px;
 
-          -webkit-border-top-left-radius: $skinBorderRadius;
-          -webkit-border-top-right-radius: $skinBorderRadius;
-          -moz-border-radius-topleft: $skinBorderRadius;
-          -moz-border-radius-topright: $skinBorderRadius;
-          border-top-left-radius: $skinBorderRadius;
-          border-top-right-radius: $skinBorderRadius;
+      -webkit-border-top-left-radius: $skinBorderRadius;
+      -webkit-border-top-right-radius: $skinBorderRadius;
+      -moz-border-radius-topleft: $skinBorderRadius;
+      -moz-border-radius-topright: $skinBorderRadius;
+      border-top-left-radius: $skinBorderRadius;
+      border-top-right-radius: $skinBorderRadius;
 
-          -webkit-border-bottom-left-radius: 0px;
-          -moz-border-radius-bottomleft: 0px;
-          border-bottom-left-radius: 0px;
+      -webkit-border-bottom-left-radius: 0px;
+      -moz-border-radius-bottomleft: 0px;
+      border-bottom-left-radius: 0px;
 
-          -webkit-border-bottom-right-radius: 0px;
-          -moz-border-radius-bottomright: 0px;
-          border-bottom-right-radius: 0px;
+      -webkit-border-bottom-right-radius: 0px;
+      -moz-border-radius-bottomright: 0px;
+      border-bottom-right-radius: 0px;
     }
     ul > li.ui-state-active > a {
-          background-color: #ffffff;
-          border: 1px solid $skinBorderWindowColor;
-          border-bottom: 0px;
-          color: $skinMainSecondColor;
+      background-color: #ffffff;
+      border: 1px solid $skinBorderWindowColor;
+      border-bottom: 0px;
+      color: $skinMainSecondColor;
     }
     div.tab-content {
       background-color: #ffffff;
@@ -764,8 +764,8 @@ input[type='radio'] {
     display:block;
     width:50%;
     height:50%;
-    margin: 20% auto;    
-    border-radius:50%;   
+    margin: 20% auto;
+    border-radius:50%;
   }
   &:checked:before{
     background: $skinMainSecondColor;
