@@ -34,18 +34,18 @@ body.active_admin {
       border-top-left-radius: $skinBorderRadius;
       border-top-right-radius: $skinBorderRadius;
 
-      -webkit-border-bottom-left-radius: 0px;
-      -moz-border-radius-bottomleft: 0px;
-      border-bottom-left-radius: 0px;
+      -webkit-border-bottom-left-radius: 0;
+      -moz-border-radius-bottomleft: 0;
+      border-bottom-left-radius: 0;
 
-      -webkit-border-bottom-right-radius: 0px;
-      -moz-border-radius-bottomright: 0px;
-      border-bottom-right-radius: 0px;
+      -webkit-border-bottom-right-radius: 0;
+      -moz-border-radius-bottomright: 0;
+      border-bottom-right-radius: 0;
     }
     ul > li.ui-state-active > a {
       background-color: #ffffff;
       border: 1px solid $skinBorderWindowColor;
-      border-bottom: 0px;
+      border-bottom: 0;
       color: $skinMainSecondColor;
     }
     div.tab-content {
@@ -160,7 +160,7 @@ body.active_admin {
               a {
                 background-color: #ffffff;
                 color: $skinMainFirstColor;
-                border-radius: 0px;
+                border-radius: 0;
                 &:hover {
                   background-color: $skinMainSecondColor;
                   color: #ffffff;
@@ -231,7 +231,7 @@ body.active_admin {
               a {
                 background-color: #ffffff;
                 color: $skinMainFirstColor;
-                border-radius: 0px;
+                border-radius: 0;
                 &:hover {
                   background-color: $skinMainSecondColor;
                   color: #ffffff;
@@ -271,7 +271,7 @@ body.active_admin {
                 background-color: #ffffff;
                 box-shadow: none;
                 color: $skinMainFirstColor;
-                border-radius: 0px;
+                border-radius: 0;
                 text-shadow: none;
                 &:hover {
                   background-color: $skinMainSecondColor;
