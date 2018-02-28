@@ -760,12 +760,12 @@ form.filter_form .filter_form_field.filter_date_range .seperator {
 //radio button color change
 input[type='radio'] {
   &:before {
-    content:'';
-    display:block;
-    width:50%;
-    height:50%;
+    content: '';
+    display: block;
+    width: 50%;
+    height: 50%;
     margin: 20% auto;
-    border-radius:50%;
+    border-radius: 50%;
   }
   &:checked:before{
     background: $skinMainSecondColor;
