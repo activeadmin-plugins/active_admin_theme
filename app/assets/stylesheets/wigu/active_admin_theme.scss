@@ -753,7 +753,7 @@ form.filter_form .filter_form_field.filter_date_range .seperator {
 }
 
 //filter select box border radius
-.filter_form_field select{
+.filter_form_field select {
   border-radius: 3px;
 }
 
@@ -767,7 +767,7 @@ input[type='radio'] {
     margin: 20% auto;
     border-radius: 50%;
   }
-  &:checked:before{
+  &:checked:before {
     background: $skinMainSecondColor;
   }
 }
