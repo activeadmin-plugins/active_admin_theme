@@ -15,38 +15,38 @@ body.active_admin {
 }
 #wrapper {
   div.tabs {
-   > ul > li > a {
-          background-image: none;
-          box-shadow: none;
-          text-shadow: none;
-          box-shadow: none;
-          margin-bottom: 11px;
-          border: none;
-          background-color: $skinMainSecondColor;
-          color: #ffffff;
-          margin-right: 5px;
-          padding: 10px 20px;
+    > ul > li > a {
+      background-image: none;
+      box-shadow: none;
+      text-shadow: none;
+      box-shadow: none;
+      margin-bottom: 11px;
+      border: none;
+      background-color: $skinMainSecondColor;
+      color: #ffffff;
+      margin-right: 5px;
+      padding: 10px 20px;
 
-          -webkit-border-top-left-radius: $skinBorderRadius;
-          -webkit-border-top-right-radius: $skinBorderRadius;
-          -moz-border-radius-topleft: $skinBorderRadius;
-          -moz-border-radius-topright: $skinBorderRadius;
-          border-top-left-radius: $skinBorderRadius;
-          border-top-right-radius: $skinBorderRadius;
+      -webkit-border-top-left-radius: $skinBorderRadius;
+      -webkit-border-top-right-radius: $skinBorderRadius;
+      -moz-border-radius-topleft: $skinBorderRadius;
+      -moz-border-radius-topright: $skinBorderRadius;
+      border-top-left-radius: $skinBorderRadius;
+      border-top-right-radius: $skinBorderRadius;
 
-          -webkit-border-bottom-left-radius: 0px;
-          -moz-border-radius-bottomleft: 0px;
-          border-bottom-left-radius: 0px;
+      -webkit-border-bottom-left-radius: 0;
+      -moz-border-radius-bottomleft: 0;
+      border-bottom-left-radius: 0;
 
-          -webkit-border-bottom-right-radius: 0px;
-          -moz-border-radius-bottomright: 0px;
-          border-bottom-right-radius: 0px;
+      -webkit-border-bottom-right-radius: 0;
+      -moz-border-radius-bottomright: 0;
+      border-bottom-right-radius: 0;
     }
     ul > li.ui-state-active > a {
-          background-color: #ffffff;
-          border: 1px solid $skinBorderWindowColor;
-          border-bottom: 0px;
-          color: $skinMainSecondColor;
+      background-color: #ffffff;
+      border: 1px solid $skinBorderWindowColor;
+      border-bottom: 0;
+      color: $skinMainSecondColor;
     }
     div.tab-content {
       background-color: #ffffff;
@@ -155,12 +155,12 @@ body.active_admin {
             border-color: $skinMainFirstColor transparent;
           }
           ul.dropdown_menu_list {
-            box-shadow:none;
+            box-shadow: none;
             li {
               a {
                 background-color: #ffffff;
                 color: $skinMainFirstColor;
-                border-radius: 0px;
+                border-radius: 0;
                 &:hover {
                   background-color: $skinMainSecondColor;
                   color: #ffffff;
@@ -226,12 +226,12 @@ body.active_admin {
             border-color: $skinMainFirstColor transparent;
           }
           ul.dropdown_menu_list {
-            box-shadow:none;
+            box-shadow: none;
             li {
               a {
                 background-color: #ffffff;
                 color: $skinMainFirstColor;
-                border-radius: 0px;
+                border-radius: 0;
                 &:hover {
                   background-color: $skinMainSecondColor;
                   color: #ffffff;
@@ -265,13 +265,13 @@ body.active_admin {
             border-color: $skinMainFirstColor transparent;
           }
           ul.dropdown_menu_list {
-            box-shadow:none;
+            box-shadow: none;
             li {
               a {
                 background-color: #ffffff;
                 box-shadow: none;
                 color: $skinMainFirstColor;
-                border-radius: 0px;
+                border-radius: 0;
                 text-shadow: none;
                 &:hover {
                   background-color: $skinMainSecondColor;
@@ -497,7 +497,7 @@ form fieldset.inputs {
   div.ui-datepicker-header {
     background-image: none;
     background-color: $skinMainSecondColor;
-    border-bottom:none;
+    border-bottom: none;
     div.ui-datepicker-title {
       span {
         background-image: none;
@@ -754,21 +754,21 @@ form.filter_form .filter_form_field.filter_date_range .seperator {
 }
 
 //filter select box border radius
-.filter_form_field select{
+.filter_form_field select {
   border-radius: 3px;
 }
 
 //radio button color change
 input[type='radio'] {
   &:before {
-    content:'';
-    display:block;
-    width:50%;
-    height:50%;
-    margin: 20% auto;    
-    border-radius:50%;   
+    content: '';
+    display: block;
+    width: 50%;
+    height: 50%;
+    margin: 20% auto;
+    border-radius: 50%;
   }
-  &:checked:before{
+  &:checked:before {
     background: $skinMainSecondColor;
   }
 }
