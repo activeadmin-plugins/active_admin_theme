@@ -298,7 +298,7 @@ body.active_admin {
           }
         }
       }
-      ul.scopes {
+      ul.scopes, div.scopes > ul {
         li {
           a {
             background-image: none;
