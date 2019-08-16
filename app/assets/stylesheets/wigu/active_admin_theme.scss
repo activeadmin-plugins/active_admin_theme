@@ -772,3 +772,7 @@ input[type='radio'] {
     background: $skinMainSecondColor;
   }
 }
+
+.attributes_table table td .status_tag.empty {
+  color: #ffffff;
+}
