@@ -96,7 +96,7 @@ body.active_admin {
             position: absolute;
             top: 12px;
             left: 4px;
-            background: transparent image-url('active_admin/nested_menu_arrow_dark.gif') no-repeat 0 0;
+            background: transparent url($menu-arrow-dark-icon-url) no-repeat 0 0;
             transform: rotate(-90deg);
           }
         }
