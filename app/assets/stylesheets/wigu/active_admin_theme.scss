@@ -138,6 +138,7 @@ body.active_admin {
         @include rounded($skinBorderRadius);
         background-color: $skinMainSecondColor;
         border: none;
+        padding: 10px 20px;
         color: #ffffff;
         font-weight: 600;
         &:hover {
