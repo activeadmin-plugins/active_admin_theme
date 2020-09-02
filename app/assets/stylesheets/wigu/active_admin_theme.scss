@@ -440,7 +440,7 @@ form fieldset.buttons li.cancel a, form fieldset.actions li.cancel a, form.filte
   text-shadow: none;
   background-color: #ffffff;
   @include rounded($skinBorderRadius);
-  padding: 10px 20px;
+  padding: 9px 20px 9px 20px;
   border-color: #E4E4E4;
   &:hover {
     background-image: none!important;
@@ -735,7 +735,7 @@ form fieldset > ol > li fieldset ol li {
         box-shadow: none;
         background-color: #ffffff;
         @include rounded($skinBorderRadius);
-        padding: 10px 20px;
+        padding: 9px 20px 9px 20px;
         border-color: #E4E4E4;
         &:hover {
           background-image: none!important;
