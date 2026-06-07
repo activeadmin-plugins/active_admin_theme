@@ -6,6 +6,14 @@ $skinBorderRadius: 4px!default;
 $skinBorderWindowColor: #e6e9ee!default;
 $skinTablePadding: 10px!default;
 
+// Header menu colors. Each defaults to the previous value, so projects that do
+// not set these compile to identical CSS (and a project that overrides
+// $skinMainSecondColor still gets the menu following that accent).
+$skinMenuPillColor: $skinMainSecondColor!default;   // top-level current/hover pill
+$skinMenuPanelColor: $skinMainSecondColor!default;  // dropdown panel bg + hover "bridge" border
+$skinMenuItemHoverColor: transparent!default;       // dropdown item hover/current bg (was: none)
+$skinMenuTextColor: #ffffff!default;                // dropdown item text (was: inherited #fff)
+
 // A wrong-typed override is legal SassScript, so it compiles without a word and
 // emits CSS the browser drops — `border-bottom: none solid #5ea3d3`,
 // `padding: 10 12px`. The rule silently vanishes and ActiveAdmin's own value
@@ -97,7 +105,7 @@ body.active_admin {
       padding: 6px 10px 6px 10px;
     }
     ul.tabs > li.current > a, ul.tabs > li:hover > a {
-      background-color: $skinMainSecondColor;
+      background-color: $skinMenuPillColor;
     }
     ul.tabs {
       li.has_nested {
@@ -105,10 +113,15 @@ body.active_admin {
           padding-right: 20px;
         }
         ul {
-          background-color: $skinMainSecondColor;
+          background-color: $skinMenuPanelColor;
           @include rounded($skinBorderRadius);
           li > a {
             padding-left: 15px;
+            color: $skinMenuTextColor;
+          }
+          li:hover > a, li.current > a {
+            background-color: $skinMenuItemHoverColor;
+            color: #ffffff;
           }
           li.current > a::before, li:hover > a::before {
             content: '';
@@ -123,9 +136,14 @@ body.active_admin {
           }
         }
       }
-      li.has_nested:hover {
-        a {
-          border-bottom: 7px solid $skinMainSecondColor;
+      // `> li.has_nested` + `> a` so the 7px "bridge" border is added only to a
+      // hovered TOP-LEVEL menu item (bridging its pill to the dropdown). Without
+      // the `>`, nested has_nested items (e.g. System > Components) also got the
+      // border, which pushed the next dropdown item down when their submenu
+      // opened. Colored to match the panel so it blends.
+      > li.has_nested:hover {
+        > a {
+          border-bottom: 7px solid $skinMenuPanelColor;
         }
       }
     }
