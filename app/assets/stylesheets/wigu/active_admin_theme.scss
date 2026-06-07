@@ -14,6 +14,21 @@ $skinMenuPanelColor: $skinMainSecondColor!default;  // dropdown panel bg + hover
 $skinMenuItemHoverColor: transparent!default;       // dropdown item hover/current bg (was: none)
 $skinMenuTextColor: #ffffff!default;                // dropdown item text (was: inherited #fff)
 
+// Header / menu sizing. Defaults reproduce (or keep the same total as) the
+// previous hard-coded values, so non-configuring projects are unchanged.
+$skinMenuFontSize: 1em!default;                     // header menu text size
+$skinMenuItemPaddingY: 5px!default;                 // dropdown item top/bottom padding (was ~6px/4px)
+$skinMenuItemLineHeight: 1.5!default;               // dropdown item line-height
+$skinHeaderPaddingY: 7px!default;                   // header top/bottom padding (was 5px top / 9px bottom)
+$skinHeaderLogoMaxHeight: none!default;             // cap the site_title logo image height
+
+// Title bar
+$skinTitleBarColor: lighten($skinMainFirstColor, 8%)!default;
+$skinTitleBarBorderColor: $skinMainSecondColor!default;
+$skinTitleBarBorderWidth: 3px!default;
+$skinTitleBarButtonPaddingY: 10px!default;          // action button vertical padding
+$skinTitleBarButtonPaddingX: 20px!default;          // action button horizontal padding
+
 // A wrong-typed override is legal SassScript, so it compiles without a word and
 // emits CSS the browser drops — `border-bottom: none solid #5ea3d3`,
 // `padding: 10 12px`. The rule silently vanishes and ActiveAdmin's own value
@@ -88,13 +103,20 @@ body.active_admin {
   #header {
     background-color: $skinMainFirstColor;
     border-bottom: 1px solid lighten( $skinMainFirstColor, 15% )!important;
-    padding-bottom: 9px;
+    padding-top: $skinHeaderPaddingY;
+    padding-bottom: $skinHeaderPaddingY;
     border: none;
     text-shadow: none;
     background-image: none;
     h1.site_title {
       color: $skinMainSecondColor;
       font-size: 16px;
+      img {
+        max-height: $skinHeaderLogoMaxHeight;
+      }
+    }
+    ul.tabs > li {
+      font-size: $skinMenuFontSize;
     }
     a, a:link {
       color: #ffffff;
@@ -115,9 +137,17 @@ body.active_admin {
         ul {
           background-color: $skinMenuPanelColor;
           @include rounded($skinBorderRadius);
+          // Size to content instead of the base's max-width: calc(100% + 20px),
+          // which truncates long labels onto a second line.
+          width: auto;
+          max-width: none;
           li > a {
             padding-left: 15px;
             color: $skinMenuTextColor;
+            white-space: nowrap;
+            line-height: $skinMenuItemLineHeight;
+            padding-top: $skinMenuItemPaddingY;
+            padding-bottom: $skinMenuItemPaddingY;
           }
           li:hover > a, li.current > a {
             background-color: $skinMenuItemHoverColor;
@@ -152,9 +182,9 @@ body.active_admin {
     background-image: none;
     border: none;
     box-shadow: none;
-    background-color: lighten( $skinMainFirstColor, 8% );
+    background-color: $skinTitleBarColor;
     border: none;
-    border-bottom: 3px solid $skinMainSecondColor;
+    border-bottom: $skinTitleBarBorderWidth solid $skinTitleBarBorderColor;
     #titlebar_left {
       span.breadcrumb {
         font-size: 12px;
@@ -178,7 +208,7 @@ body.active_admin {
         @include rounded($skinBorderRadius);
         background-color: $skinMainSecondColor;
         border: none;
-        padding: 10px 20px;
+        padding: $skinTitleBarButtonPaddingY $skinTitleBarButtonPaddingX;
         color: #ffffff;
         font-weight: 600;
         &:hover {
