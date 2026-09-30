@@ -15,9 +15,14 @@ Gem::Specification.new do |spec|
 
   spec.required_ruby_version = '>= 3.1.0'
 
-  spec.files         = `git ls-files -z`.split("\x0")
+  # Whitelist, not a reject list: a new directory in the repo does not
+  # reach consumers until it is named here. The reject form needs a new
+  # pattern every time the repo grows one, and that is how the 288 KB
+  # README screenshot under img/ ended up published in the first place.
+  spec.files         = Dir.chdir(File.expand_path(__dir__)) do
+    `git ls-files -z -- lib app vendor config exe bin README.md LICENSE.txt`.split("\x0")
+  end
   spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
-  spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
   spec.require_paths = ["lib"]
 
   spec.add_dependency "activeadmin", ">= 3.0", "< 4.0"
