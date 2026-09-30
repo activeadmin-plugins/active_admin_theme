@@ -15,9 +15,14 @@ Gem::Specification.new do |spec|
 
   spec.required_ruby_version = '>= 3.1.0'
 
-  spec.files         = `git ls-files -z`.split("\x0")
+  # No spec/ dir today, but without a filter the first one added ships
+  # to consumers automatically. `img/` is the README screenshot — 288 KB,
+  # 99% of the published gem; it is referenced only from README.md as a
+  # repo-relative path, never from the SCSS, so GitHub still renders it.
+  # `spec.test_files` is dropped: RubyGems deprecated it, and it only
+  # ever listed files that should not be in the package to begin with.
+  spec.files         = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features|img|\.github)/}) }
   spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
-  spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
   spec.require_paths = ["lib"]
 
   spec.add_dependency "activeadmin", ">= 3.0", "< 4.0"
