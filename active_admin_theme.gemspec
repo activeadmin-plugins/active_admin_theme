@@ -15,13 +15,11 @@ Gem::Specification.new do |spec|
 
   spec.required_ruby_version = '>= 3.1.0'
 
-  # No spec/ dir today, but without a filter the first one added ships
-  # to consumers automatically. `img/` is the README screenshot — 288 KB,
-  # 99% of the published gem; it is referenced only from README.md as a
-  # repo-relative path, never from the SCSS, so GitHub still renders it.
-  # `spec.test_files` is dropped: RubyGems deprecated it, and it only
-  # ever listed files that should not be in the package to begin with.
-  spec.files         = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features|img|\.github)/}) }
+  # Whitelist, not a reject list: a new directory in the repo does not
+  # reach consumers until it is named here. The reject form needs a new
+  # pattern every time the repo grows one, and that is how the 288 KB
+  # README screenshot under img/ ended up published in the first place.
+  spec.files         = Dir["lib/**/*", "app/**/*", "README.md", "LICENSE.txt"]
   spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
 
