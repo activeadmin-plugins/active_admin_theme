@@ -1,0 +1,198 @@
+--- /private/tmp/claude-501/-Users-igorfedoronchuk-Projects-gems-active-admin-theme/feaa18ab-ae8b-46ed-8ffb-9c0900ce682f/scratchpad/fix/head.scss	2026-09-30 15:05:17
++++ app/assets/stylesheets/wigu/active_admin_theme.scss	2026-10-01 12:59:13
+@@ -6,20 +6,24 @@
+ $skinBorderWindowColor: #e6e9ee!default;
+ $skinTablePadding: 10px!default;
+ 
+-// Header menu colors. Each defaults to the previous value, so projects that do
+-// not set these compile to identical CSS (and a project that overrides
+-// $skinMainSecondColor still gets the menu following that accent).
++// Header menu colors. Defaults follow $skinMainSecondColor, so a project that
++// overrides it still gets the menu following that accent. Every colour here has
++// a matching text colour, otherwise a light value would be unreadable.
+ $skinMenuPillColor: $skinMainSecondColor!default;   // top-level current/hover pill
++$skinMenuPillTextColor: #ffffff!default;            // text on that pill
+ $skinMenuPanelColor: $skinMainSecondColor!default;  // dropdown panel bg + hover "bridge" border
+-$skinMenuItemHoverColor: transparent!default;       // dropdown item hover/current bg (was: none)
+-$skinMenuTextColor: #ffffff!default;                // dropdown item text (was: inherited #fff)
++$skinMenuItemHoverColor: transparent!default;       // dropdown item hover/current bg
++$skinMenuTextColor: #ffffff!default;                // dropdown item text, hover/current included
+ 
+-// Header / menu sizing. Defaults reproduce (or keep the same total as) the
+-// previous hard-coded values, so non-configuring projects are unchanged.
+-$skinMenuFontSize: 1em!default;                     // header menu text size
+-$skinMenuItemPaddingY: 5px!default;                 // dropdown item top/bottom padding (was ~6px/4px)
++// Header / menu sizing. NOTE: not a no-op refactor — dropdown item height and
++// dropdown width change for every project, configured or not. Header padding
++// keeps its previous asymmetric values, so the header itself does not move.
++$skinMenuFontSize: 1em!default;                     // top-level tab text size (does not cascade into dropdowns)
++$skinMenuItemPaddingY: 8px!default;                 // dropdown item top/bottom padding (was 6px/4px + a 7px border)
+ $skinMenuItemLineHeight: 1.5!default;               // dropdown item line-height
+-$skinHeaderPaddingY: 7px!default;                   // header top/bottom padding (was 5px top / 9px bottom)
++$skinMenuPanelMaxWidth: 260px!default;              // dropdown panel ceiling; longer labels wrap instead of leaving the viewport
++$skinHeaderPaddingTop: 5px!default;                 // header top padding (base value, kept so the header does not shift)
++$skinHeaderPaddingBottom: 9px!default;              // header bottom padding
+ $skinHeaderLogoMaxHeight: none!default;             // cap the site_title logo image height
+ 
+ // Title bar
+@@ -28,6 +32,43 @@
+ $skinTitleBarBorderWidth: 3px!default;
+ $skinTitleBarButtonPaddingY: 10px!default;          // action button vertical padding
+ $skinTitleBarButtonPaddingX: 20px!default;          // action button horizontal padding
++
++// A wrong-typed override is legal SassScript, so it compiles without a word and
++// emits CSS the browser drops — `border-bottom: none solid #5ea3d3`,
++// `padding: 10 12px`. The rule silently vanishes and ActiveAdmin's own value
++// reappears. Fail the build with a readable message instead.
++@each $name, $value in (
++  skinBorderRadius: $skinBorderRadius,
++  skinTablePadding: $skinTablePadding,
++  skinMenuFontSize: $skinMenuFontSize,
++  skinMenuItemPaddingY: $skinMenuItemPaddingY,
++  skinMenuPanelMaxWidth: $skinMenuPanelMaxWidth,
++  skinHeaderPaddingTop: $skinHeaderPaddingTop,
++  skinHeaderPaddingBottom: $skinHeaderPaddingBottom,
++  skinTitleBarBorderWidth: $skinTitleBarBorderWidth,
++  skinTitleBarButtonPaddingY: $skinTitleBarButtonPaddingY,
++  skinTitleBarButtonPaddingX: $skinTitleBarButtonPaddingX
++) {
++  @if type-of($value) != number or (unitless($value) and $value != 0) {
++    @error "$#{$name} must be a length with a unit (e.g. 10px), got `#{$value}`.";
++  }
++}
++@each $name, $value in (
++  skinMainFirstColor: $skinMainFirstColor,
++  skinMainSecondColor: $skinMainSecondColor,
++  skinBorderWindowColor: $skinBorderWindowColor,
++  skinMenuPillColor: $skinMenuPillColor,
++  skinMenuPillTextColor: $skinMenuPillTextColor,
++  skinMenuPanelColor: $skinMenuPanelColor,
++  skinMenuItemHoverColor: $skinMenuItemHoverColor,
++  skinMenuTextColor: $skinMenuTextColor,
++  skinTitleBarColor: $skinTitleBarColor,
++  skinTitleBarBorderColor: $skinTitleBarBorderColor
++) {
++  @if type-of($value) != color {
++    @error "$#{$name} must be a color (use `transparent`, not `none`), got `#{$value}`.";
++  }
++}
+ //HTML----------------------------------------------------------------------------------------------------------------//
+ 
+ html {
+@@ -81,8 +122,8 @@
+   #header {
+     background-color: $skinMainFirstColor;
+     border-bottom: 1px solid lighten( $skinMainFirstColor, 15% )!important;
+-    padding-top: $skinHeaderPaddingY;
+-    padding-bottom: $skinHeaderPaddingY;
++    padding-top: $skinHeaderPaddingTop;
++    padding-bottom: $skinHeaderPaddingBottom;
+     border: none;
+     text-shadow: none;
+     background-image: none;
+@@ -93,65 +134,75 @@
+         max-height: $skinHeaderLogoMaxHeight;
+       }
+     }
+-    ul.tabs > li {
+-      font-size: $skinMenuFontSize;
+-    }
+     a, a:link {
+       color: #ffffff;
+     }
+     ul.tabs > li > a {
+-      color: #ffffff;
++      // On the anchor, not the li, so the dropdown subtree does not inherit it.
++      font-size: $skinMenuFontSize;
+       @include rounded($skinBorderRadius);
+       padding: 6px 10px 6px 10px;
+     }
+     ul.tabs > li.current > a, ul.tabs > li:hover > a {
+       background-color: $skinMenuPillColor;
++      color: $skinMenuPillTextColor;
+     }
+     ul.tabs {
+       li.has_nested {
+-        a {
++        // `> a` only: leaf items need no room for the submenu arrow.
++        > a {
+           padding-right: 20px;
+         }
+         ul {
+           background-color: $skinMenuPanelColor;
+-          @include rounded($skinBorderRadius);
++          @include rounded-all(0, $skinBorderRadius, $skinBorderRadius, $skinBorderRadius);
+           // Size to content instead of the base's max-width: calc(100% + 20px),
+-          // which truncates long labels onto a second line.
+-          width: auto;
+-          max-width: none;
++          // which wraps long labels onto a second line — but keep a ceiling, or
++          // a long label pushes the panel out of the viewport where the :hover
++          // chain cannot follow it. Past the ceiling, labels wrap as before.
++          // Known limit: a depth-2 flyout under a right-edge tab can still leave
++          // a 1280px viewport — it sits at left:100% of an already-offset panel,
++          // and CSS cannot see the distance to the viewport edge. ActiveAdmin's
++          // own 175px panels already land within 5px of the edge there, so any
++          // widening inherits this. A full fix needs JS that flips the flyout to
++          // `right:100%`, or CSS anchor positioning once it is baseline.
++          width: max-content;
++          max-width: $skinMenuPanelMaxWidth;
++          overflow-wrap: break-word;
+           li > a {
+             padding-left: 15px;
+             color: $skinMenuTextColor;
+-            white-space: nowrap;
+             line-height: $skinMenuItemLineHeight;
+             padding-top: $skinMenuItemPaddingY;
+             padding-bottom: $skinMenuItemPaddingY;
+           }
+-          li:hover > a, li.current > a {
++          li:hover > a, li.current > a, li > a:focus {
+             background-color: $skinMenuItemHoverColor;
+-            color: #ffffff;
+           }
+-          li.current > a::before, li:hover > a::before {
++          li.current > a::before, li:hover > a::before, li > a:focus::before {
+             content: '';
+             display: block;
+-            width: 7px;
+-            height: 4px;
+             position: absolute;
+-            top: 12px;
++            top: 50%;
+             left: 4px;
+-            background: transparent url($menu-arrow-dark-icon-url) no-repeat 0 0;
+-            transform: rotate(-90deg);
++            // currentColor, so the marker follows $skinMenuTextColor instead of
++            // a fixed-palette PNG that only reads against the default panel.
++            border: 3px solid transparent;
++            border-left-color: currentColor;
++            margin-top: -3px;
+           }
+         }
+       }
+-      // `> li.has_nested` + `> a` so the 7px "bridge" border is added only to a
++      // `> li.has_nested` + `> a` so the "bridge" border is added only to a
+       // hovered TOP-LEVEL menu item (bridging its pill to the dropdown). Without
+       // the `>`, nested has_nested items (e.g. System > Components) also got the
+       // border, which pushed the next dropdown item down when their submenu
+-      // opened. Colored to match the panel so it blends.
++      // opened. 5px to match the base's `ul { margin-top: 5px }` gap, and square
++      // off the corners that face the panel so the header does not show through.
+       > li.has_nested:hover {
+         > a {
+-          border-bottom: 7px solid $skinMenuPanelColor;
++          @include rounded-top($skinBorderRadius);
++          border-bottom: 5px solid $skinMenuPanelColor;
+         }
+       }
+     }
+@@ -227,7 +278,7 @@
+           background-color: $skinMainSecondColor;
+           @include rounded($skinBorderRadius);
+           border: none;
+-          padding: 10px 20px;
++          padding: $skinTitleBarButtonPaddingY $skinTitleBarButtonPaddingX;
+           color: #ffffff;
+           &:hover {
+             background-color: lighten( $skinMainSecondColor, 5% );
