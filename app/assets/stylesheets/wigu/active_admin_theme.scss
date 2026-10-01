@@ -5,6 +5,28 @@ $skinMainSecondColor: #5ea3d3!default;
 $skinBorderRadius: 4px!default;
 $skinBorderWindowColor: #e6e9ee!default;
 $skinTablePadding: 10px!default;
+
+// A wrong-typed override is legal SassScript, so it compiles without a word and
+// emits CSS the browser drops — `border-bottom: none solid #5ea3d3`,
+// `padding: 10 12px`. The rule silently vanishes and ActiveAdmin's own value
+// reappears. Fail the build with a readable message instead.
+@each $name, $value in (
+  skinBorderRadius: $skinBorderRadius,
+  skinTablePadding: $skinTablePadding
+) {
+  @if type-of($value) != number or (unitless($value) and $value != 0) {
+    @error "$#{$name} must be a length with a unit (e.g. 10px), got `#{$value}`.";
+  }
+}
+@each $name, $value in (
+  skinMainFirstColor: $skinMainFirstColor,
+  skinMainSecondColor: $skinMainSecondColor,
+  skinBorderWindowColor: $skinBorderWindowColor
+) {
+  @if type-of($value) != color {
+    @error "$#{$name} must be a color (use `transparent`, not `none`), got `#{$value}`.";
+  }
+}
 //HTML----------------------------------------------------------------------------------------------------------------//
 
 html {
