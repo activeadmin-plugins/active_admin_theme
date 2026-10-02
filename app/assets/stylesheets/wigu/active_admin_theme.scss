@@ -84,25 +84,14 @@ $skinTableToolsHeight: 30px!default;
 $skinTableToolsPaddingX: $skinTableToolsHeight * 0.4 !default; // 12px at 30px
 // Per-group table-tools button fills. All default to the surface palette so the
 // whole row shares one neutral look; override any group independently (both modes).
-$skinTableToolButtonColor:       $skinSurfaceColor!default;  $skinTableToolButtonColorDark:       $skinSurfaceColorDark!default;
-$skinTableToolScopeColor:        $skinSurfaceColor!default;  $skinTableToolScopeColorDark:        $skinSurfaceColorDark!default;
-$skinTableToolBatchActionsColor: $skinSurfaceColor!default;  $skinTableToolBatchActionsColorDark: $skinSurfaceColorDark!default;
 
 // Index-table column header text (both the sortable links and plain headers use
 // one color, configurable per mode).
-$skinTableHeaderTextColor: #5e6469!default;       // light
-$skinTableHeaderTextColorDark: #d7dbe0!default;    // dark
 
 // Inactive tab background. Defaults to the panel-header color so tabs stay
 // consistent, but can be set separately (e.g. a more subdued tab bar).
-$skinTabInactiveColor: $skinPanelHeaderColor!default;
-$skinTabInactiveColorDark: $skinPanelHeaderColorDark!default;
 
 // Tab text colors — the active (selected) tab and the inactive tabs, per mode.
-$skinActiveTabTextColor: $skinMainSecondColor!default;
-$skinActiveTabTextColorDark: $skinActiveTabTextColor!default;
-$skinInactiveTabTextColor: #ffffff!default;
-$skinInactiveTabTextColorDark: $skinInactiveTabTextColor!default;
 
 // Content link color (generic links inside the admin content), per mode.
 // Focus ring / accent outline. Follows the theme accent, so a project that
@@ -145,13 +134,10 @@ $skinDeleteLinkColorDark: #e06c6c!default;
   --aa-button:        #{$skinButtonColorDark};
   --aa-button-text:   #{$skinButtonTextColorDark};
   --aa-button-hover:  #{lighten($skinButtonColorDark, 5%)};
-  --aa-table-tool-button:        #{$skinTableToolButtonColorDark};
-  --aa-table-tool-scope:         #{$skinTableToolScopeColorDark};
-  --aa-table-tool-batch-actions: #{$skinTableToolBatchActionsColorDark};
-  --aa-table-header-text: #{$skinTableHeaderTextColorDark};
-  --aa-tab-inactive:  #{$skinTabInactiveColorDark};
-  --aa-active-tab-text:   #{$skinActiveTabTextColorDark};
-  --aa-inactive-tab-text: #{$skinInactiveTabTextColorDark};
+  --aa-table-header-text: #d7dbe0;
+  --aa-tab-inactive:  var(--aa-panel-header);
+  --aa-active-tab-text:   var(--aa-link);
+  --aa-inactive-tab-text: var(--aa-panel-header-text);
   --aa-delete-link:   #{$skinDeleteLinkColorDark};
 }
 :root {
@@ -175,13 +161,10 @@ $skinDeleteLinkColorDark: #e06c6c!default;
   --aa-button:        #{$skinButtonColor};
   --aa-button-text:   #{$skinButtonTextColor};
   --aa-button-hover:  #{lighten($skinButtonColor, 5%)};
-  --aa-table-tool-button:        #{$skinTableToolButtonColor};
-  --aa-table-tool-scope:         #{$skinTableToolScopeColor};
-  --aa-table-tool-batch-actions: #{$skinTableToolBatchActionsColor};
-  --aa-table-header-text: #{$skinTableHeaderTextColor};
-  --aa-tab-inactive:  #{$skinTabInactiveColor};
-  --aa-active-tab-text:   #{$skinActiveTabTextColor};
-  --aa-inactive-tab-text: #{$skinInactiveTabTextColor};
+  --aa-table-header-text: #5e6469;
+  --aa-tab-inactive:  var(--aa-panel-header);
+  --aa-active-tab-text:   var(--aa-link);
+  --aa-inactive-tab-text: var(--aa-panel-header-text);
   --aa-delete-link:   #{$skinDeleteLinkColor};
 }
 // OS preference, unless the user explicitly chose light
@@ -528,7 +511,7 @@ body.active_admin {
         box-sizing: border-box;
         height: $skinTableToolsHeight;
         line-height: $skinTableToolsHeight; // = button height: nudges the text to the optical centre (the font otherwise sits high in the line box)
-        background: var(--aa-table-tool-button);
+        background: var(--aa-surface);
         background-image: none;
         border: 1px solid var(--aa-border);
         color: var(--aa-text);
@@ -570,7 +553,7 @@ body.active_admin {
           line-height: $skinTableToolsHeight;
           background-image: none;
           box-shadow: none;
-          background-color: var(--aa-table-tool-batch-actions);
+          background-color: var(--aa-surface);
           @include rounded($skinBorderRadius);
           border: 1px solid var(--aa-border);
           padding: 0 $skinTableToolsPaddingX;
@@ -612,7 +595,7 @@ body.active_admin {
           height: $skinTableToolsHeight;
           line-height: $skinTableToolsHeight;
           background-image: none;
-          background-color: var(--aa-table-tool-batch-actions);
+          background-color: var(--aa-surface);
           @include rounded($skinBorderRadius);
           border: 1px solid var(--aa-border);
           padding: 0 $skinTableToolsPaddingX;
@@ -643,7 +626,7 @@ body.active_admin {
             // page background). Adjacent borders are collapsed below.
             border: 1px solid var(--aa-border);
             box-shadow: none;
-            background-color: var(--aa-table-tool-scope);
+            background-color: var(--aa-surface);
             padding: 0 $skinTableToolsPaddingX;
             color: var(--aa-text);
             text-shadow: none;

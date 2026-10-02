@@ -146,10 +146,6 @@ the light value keeps one consistent colour in both modes.
 | `$skinLabelColor` / `$skinLabelColorDark` | `#8494a8` / `$skinTextColorDark` |  |
 | `$skinTabPaddingY` | `10px` | tab height |
 | `$skinTabPaddingX` | `20px` | tab label horizontal padding (text → border) |
-| `$skinTabInactiveColor` / `$skinTabInactiveColorDark` | `$skinPanelHeaderColor` / `$skinPanelHeaderColorDark` |  |
-| `$skinActiveTabTextColor` / `$skinActiveTabTextColorDark` | `$skinMainSecondColor` / `$skinActiveTabTextColor` |  |
-| `$skinInactiveTabTextColor` / `$skinInactiveTabTextColorDark` | `#ffffff` / `$skinInactiveTabTextColor` |  |
-| `$skinTableHeaderTextColor` / `$skinTableHeaderTextColorDark` | `#5e6469` / `#d7dbe0` | light |
 
 #### Buttons and table tools
 
@@ -159,9 +155,6 @@ the light value keeps one consistent colour in both modes.
 | `$skinButtonTextColor` / `$skinButtonTextColorDark` | `#ffffff` / `$skinButtonTextColor` | label on those buttons |
 | `$skinTableToolsHeight` | `30px` |  |
 | `$skinTableToolsPaddingX` | `$skinTableToolsHeight * 0.4` | 12px at 30px |
-| `$skinTableToolButtonColor` / `$skinTableToolButtonColorDark` | `$skinSurfaceColor` / `$skinSurfaceColorDark` |  |
-| `$skinTableToolScopeColor` / `$skinTableToolScopeColorDark` | `$skinSurfaceColor` / `$skinSurfaceColorDark` |  |
-| `$skinTableToolBatchActionsColor` / `$skinTableToolBatchActionsColorDark` | `$skinSurfaceColor` / `$skinSurfaceColorDark` |  |
 
 #### Links
 
