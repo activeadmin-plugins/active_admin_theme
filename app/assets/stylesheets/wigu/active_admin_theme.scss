@@ -1493,11 +1493,15 @@ input[type='radio'] {
     background: var(--aa-surface);
     border-color: var(--aa-border);
     color: var(--aa-text);
-    div.ui-datepicker-header { background: var(--aa-surface-2); border-color: var(--aa-border); }
-    div.ui-datepicker-header:before { border-bottom-color: var(--aa-surface-2); }
-    a, td span, div.ui-datepicker-title { color: var(--aa-text); }
+    // The header keeps the accent fill and its white label in both modes — the
+    // theme paints it that way above, and it reads on either background. Only
+    // the calendar body needs repointing; a blanket `a` here would turn the
+    // header's month arrows and title dark on the accent.
+    border-color: var(--aa-border);
+    table.ui-datepicker-calendar { background-color: var(--aa-surface); }
     table.ui-datepicker-calendar thead th { background-color: var(--aa-surface-2); color: var(--aa-text-muted); }
     table.ui-datepicker-calendar tbody td a { color: var(--aa-text); }
+    table.ui-datepicker-calendar tbody td span { color: var(--aa-text-muted); }
     .ui-state-hover, .ui-state-active { background: var(--aa-surface-hover); }
   }
 }
