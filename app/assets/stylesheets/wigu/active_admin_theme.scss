@@ -101,6 +101,10 @@ $skinInactiveTabTextColor: #ffffff!default;
 $skinInactiveTabTextColorDark: $skinInactiveTabTextColor!default;
 
 // Content link color (generic links inside the admin content), per mode.
+// Focus ring / accent outline. Follows the theme accent, so a project that
+// rebrands $skinMainSecondColor does not keep a stray blue focus border.
+$skinAccentColor: $skinMainSecondColor!default;
+$skinAccentColorDark: $skinAccentColor!default;
 $skinLinkColor: #5ea3d3!default;
 $skinLinkColorDark: #6cb0de!default;
 
@@ -127,7 +131,7 @@ $skinDeleteLinkColorDark: #e06c6c!default;
   --aa-text-muted:    #{$skinTextMutedColorDark};
   --aa-border:        #{$skinBorderColorDark};
   --aa-link:          #{$skinLinkColorDark};
-  --aa-accent:        #5ea3d3;
+  --aa-accent:        #{$skinAccentColorDark};
   --aa-input-bg:      #{$skinInputBgColorDark};
   --aa-input-border:  #{$skinInputBorderColorDark};
   --aa-shadow:        rgba(0, 0, 0, 0.45);
@@ -156,7 +160,7 @@ $skinDeleteLinkColorDark: #e06c6c!default;
   --aa-text-muted:    #{$skinTextMutedColor};
   --aa-border:        #{$skinBorderColor};
   --aa-link:          #{$skinLinkColor};
-  --aa-accent:        #5ea3d3;
+  --aa-accent:        #{$skinAccentColor};
   --aa-input-bg:      #{$skinInputBgColor};
   --aa-input-border:  #{$skinInputBorderColor};
   --aa-shadow:        rgba(0, 0, 0, 0.08);
@@ -224,7 +228,9 @@ html[data-theme="dark"]  { @include aa-dark-palette; }
   skinTitleBarColor: $skinTitleBarColor,
   skinTitleBarBorderColor: $skinTitleBarBorderColor,
   skinSelectedRowColor: $skinSelectedRowColor,
-  skinSelectedRowColorDark: $skinSelectedRowColorDark
+  skinSelectedRowColorDark: $skinSelectedRowColorDark,
+  skinAccentColor: $skinAccentColor,
+  skinAccentColorDark: $skinAccentColorDark
 ) {
   @if type-of($value) != color {
     @error "$#{$name} must be a color (use `transparent`, not `none`), got `#{$value}`.";
