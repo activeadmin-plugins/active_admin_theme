@@ -225,6 +225,16 @@ html[data-theme="dark"]  { @include aa-dark-palette; }
     @error "$#{$name} must be a color (use `transparent`, not `none`), got `#{$value}`.";
   }
 }
+// Радиус внутреннего угла ячейки — на 1px меньше внешнего, чтобы не торчал
+// из-под рамки таблицы. Вычитать px напрямую нельзя: $skinBorderRadius задаёт
+// проект, и 0.25rem роняет всю компиляцию с «Incompatible units». calc()
+// откладывает вычитание до браузера, а безразмерный 0 обрабатываем отдельно —
+// calc(0 - 1px) невалиден.
+@function inner-radius($radius) {
+  @if unitless($radius) { @return 0; }
+  @return calc(#{$radius} - 1px);
+}
+
 //HTML----------------------------------------------------------------------------------------------------------------//
 
 html {
@@ -703,12 +713,12 @@ body.active_admin {
     // Round the corner cells so their square backgrounds follow the table's
     // rounded border instead of cutting square notches into it (separate borders
     // don't round cell backgrounds). Nest 1px inside the table's outer radius.
-    thead th:first-child { border-top-left-radius: $skinBorderRadius - 1px; }
-    thead th:last-child  { border-top-right-radius: $skinBorderRadius - 1px; }
-    tfoot tr:last-child > :first-child { border-bottom-left-radius: $skinBorderRadius - 1px; }
-    tfoot tr:last-child > :last-child  { border-bottom-right-radius: $skinBorderRadius - 1px; }
-    &:not(:has(tfoot)) tbody tr:last-child > td:first-child { border-bottom-left-radius: $skinBorderRadius - 1px; }
-    &:not(:has(tfoot)) tbody tr:last-child > td:last-child  { border-bottom-right-radius: $skinBorderRadius - 1px; }
+    thead th:first-child { border-top-left-radius: inner-radius($skinBorderRadius); }
+    thead th:last-child  { border-top-right-radius: inner-radius($skinBorderRadius); }
+    tfoot tr:last-child > :first-child { border-bottom-left-radius: inner-radius($skinBorderRadius); }
+    tfoot tr:last-child > :last-child  { border-bottom-right-radius: inner-radius($skinBorderRadius); }
+    &:not(:has(tfoot)) tbody tr:last-child > td:first-child { border-bottom-left-radius: inner-radius($skinBorderRadius); }
+    &:not(:has(tfoot)) tbody tr:last-child > td:last-child  { border-bottom-right-radius: inner-radius($skinBorderRadius); }
     th.col-selectable {
       width: 12px;
     }
