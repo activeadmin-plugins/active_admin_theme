@@ -10,9 +10,9 @@
 // a project can restyle it, instead of in a script it would have to fork.
 //
 // Binds by delegation to anything carrying .dark-mode-toggle or #theme_toggle,
-// the way ActiveAdmin 4 does, so the control can live anywhere and survive a
-// re-render. If neither exists it appends its own entry to the utility
-// navigation. No jQuery and no ujs, so it does not care how the admin is built.
+// so the control can live anywhere and survive a re-render. If neither exists
+// it inserts its own entry into the utility navigation. No jQuery and no ujs,
+// so it does not care how the admin is built.
 (function () {
   "use strict";
 
