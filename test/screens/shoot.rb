@@ -69,8 +69,9 @@ def wait_for(url, seconds: 90)
   end
 end
 
-env = %w[BUNDLE_GEMFILE BUNDLE_PATH BUNDLE_BIN_PATH RUBYOPT RUBYLIB].to_h { |k| [k, nil] }
-env["BUNDLE_APP_CONFIG"] = File.join(options[:app], ".bundle")
+env = ENV.keys.grep(/\ABUNDLE_/).to_h { |k| [k, nil] }
+env.merge!("RUBYOPT" => nil, "RUBYLIB" => nil,
+           "BUNDLE_APP_CONFIG" => File.join(options[:app], ".bundle"))
 server = spawn(env.merge("RAILS_ENV" => "development"),
                "bin/rails", "server", "-p", options[:port].to_s, "-b", "127.0.0.1",
                chdir: options[:app], out: File::NULL, err: File::NULL)

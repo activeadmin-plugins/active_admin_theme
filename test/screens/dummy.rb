@@ -25,8 +25,10 @@ RAILS = ENV.fetch("RAILS_VERSION", "7.2.3.1")
 # without this they would inherit a lockfile they are not described by.
 def sh(command, chdir: Dir.pwd, env: {})
   puts "  $ #{command}"
-  cleared = %w[BUNDLE_GEMFILE BUNDLE_PATH BUNDLE_BIN_PATH RUBYOPT RUBYLIB]
-             .to_h { |key| [key, nil] }
+  # Clear every BUNDLE_* rather than a list of them: ruby/setup-ruby exports
+  # several, and missing one leaves this resolving against the wrong lockfile.
+  cleared = ENV.keys.grep(/\ABUNDLE_/).to_h { |key| [key, nil] }
+  cleared.merge!("RUBYOPT" => nil, "RUBYLIB" => nil)
   isolated = { "BUNDLE_APP_CONFIG" => File.join(chdir, ".bundle"),
                "BUNDLE_FROZEN" => "false",
                "BUNDLE_DEPLOYMENT" => "false" }
