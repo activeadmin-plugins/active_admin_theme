@@ -125,34 +125,54 @@ and ships with the gem:
 import "@activeadmin-plugins/active_admin_theme/app/assets/javascripts/wigu/theme_toggle";
 ```
 
-With nothing else to do, it adds an entry to the utility navigation. To place
-the control yourself, render anything carrying `.dark-mode-toggle` or
-`#theme_toggle` — the script binds by delegation, so it also survives a
-re-render:
+A gem cannot add a menu item: ActiveAdmin builds the utility navigation from
+the host application's initializer, and nothing in a stylesheet or an asset
+runs at that point. So with nothing else to do, the script injects its own
+`li#theme_toggle` into `#utility_nav` on load. That works, but the item is
+appended after the server-rendered ones and is not yours to order or hide.
+
+Declaring it yourself costs four lines and puts it under your control — this is
+how [yeti-web](https://github.com/yeti-switch/yeti-web) does it:
 
 ```ruby
 # config/initializers/active_admin.rb
 config.namespace :admin do |admin|
   admin.build_menu :utility_navigation do |menu|
-    menu.add label: "Theme", url: "#", html_options: { class: "dark-mode-toggle" }
+    # A real url, not "#": ActiveAdmin drops a blank utility item.
+    menu.add id: "theme_toggle", label: "", url: "#theme",
+             priority: 9_999_998, html_options: { role: "button" }
   end
 end
 ```
 
+The script finds `#theme_toggle` or anything carrying `.dark-mode-toggle`,
+binds by delegation — so the control survives a re-render — and writes nothing
+to the page but `data-mode`. Everything visible comes from the stylesheet.
+
 [![Theme switch](./img/switch.png)](./img/switch.png)
 
-The same page one click apart — the label follows the state.
+Below the two pages: the three states at rest — half circle for **auto**, sun
+for **light**, moon for **dark** — then the last two hovered. A click moves to
+the next state, so the control costs the width of one icon in a header that is
+usually already full. The title says where that click goes, since one icon
+cannot show both.
 
-It cycles **auto → light → dark → auto**. `auto` removes the attribute, so the
-media query decides and the page follows the operating system live; the other
-two pin the choice in `localStorage`. ActiveAdmin 4's own toggle writes
-`light` or `dark` on the first click and never writes `auto` back, so a user
-there cannot return to following the system without clearing storage by hand —
-hence the third state.
+`auto` removes the attribute, so the media query decides and the page follows
+the operating system live; the other two pin the choice in `localStorage` under
+`aa-theme`. ActiveAdmin 4's own toggle writes `light` or `dark` on the first
+click and never writes `auto` back, so a user there cannot return to following
+the system without clearing storage by hand — hence the third state.
 
-Changing the theme in one tab applies it in the others, and an application that
-renders its own icon inside the control keeps it: the label is only written
-when the element has no child elements.
+The glyphs are inline SVG used as a CSS `mask`, so the gem still ships no image
+files, there is nothing for a host application's CSP to allow, and the icon
+takes `currentColor` — `$skinMenuTextColor` like the rest of the bar, and the
+hover colour on hover. To use your own icon font instead, override
+`$theme-icon-auto` / `$theme-icon-light` / `$theme-icon-dark`, or restyle
+`#theme_toggle > a:before` outright.
+
+The control is a link with no destination, so <kbd>Tab</kbd> reaches it and
+<kbd>Enter</kbd> and <kbd>Space</kbd> operate it. Changing the theme in one tab
+applies it in the others.
 
 ### Upgrading
 

@@ -5,6 +5,10 @@
 //   auto        no stored choice; follows prefers-color-scheme, live
 //   light/dark  pins html[data-theme] and remembers it
 //
+// The only thing this writes to the page is data-mode on the control; the
+// stylesheet draws the icon from it. That keeps appearance in the theme, where
+// a project can restyle it, instead of in a script it would have to fork.
+//
 // Binds by delegation to anything carrying .dark-mode-toggle or #theme_toggle,
 // the way ActiveAdmin 4 does, so the control can live anywhere and survive a
 // re-render. If neither exists it appends its own entry to the utility
@@ -14,7 +18,11 @@
 
   var KEY = "aa-theme";
   var ORDER = { auto: "light", light: "dark", dark: "auto" };
-  var LABEL = { auto: "Theme: auto", light: "Theme: light", dark: "Theme: dark" };
+  var LABEL = {
+    auto: "Theme: auto (follows the system) — click for light",
+    light: "Theme: light — click for dark",
+    dark: "Theme: dark — click for auto",
+  };
   var root = document.documentElement;
 
   // localStorage throws in private mode in some browsers, and is absent in a few
@@ -56,24 +64,36 @@
   function refresh() {
     var current = mode();
     Array.prototype.forEach.call(controls(), function (host) {
+      // The host itself may be the anchor (a menu item) or wrap one (our own li).
       var link = host.tagName === "A" ? host : host.querySelector("a") || host;
       host.setAttribute("data-mode", current);
-      link.setAttribute("title", LABEL[current] + " — click for " + ORDER[current]);
-      link.setAttribute("aria-label", link.getAttribute("title"));
-      // An application that renders its own control (an icon, say) keeps it.
-      if (link.children.length === 0) link.textContent = LABEL[current];
+      link.setAttribute("title", LABEL[current]);
+      link.setAttribute("aria-label", LABEL[current]);
     });
+  }
+
+  function cycle() {
+    var next = ORDER[mode()];
+    store(next === "auto" ? null : next);
+    apply();
+    refresh();
   }
 
   // Delegated, so a control added later — or replaced by a Turbo render — still
   // works without rebinding.
   document.addEventListener("click", function (event) {
-    var target = event.target.closest && event.target.closest(SELECTOR);
-    if (!target) return;
+    if (!event.target.closest || !event.target.closest(SELECTOR)) return;
     event.preventDefault();
-    store(ORDER[mode()] === "auto" ? null : ORDER[mode()]);
-    apply();
-    refresh();
+    cycle();
+  });
+
+  // The control is a link with no destination, so it is reachable by Tab; that
+  // makes Enter and Space its keyboard contract.
+  document.addEventListener("keydown", function (event) {
+    if (event.key !== "Enter" && event.key !== " ") return;
+    if (!event.target.closest || !event.target.closest(SELECTOR)) return;
+    event.preventDefault();
+    cycle();
   });
 
   // Another tab changed the preference.
@@ -95,7 +115,10 @@
       if (!nav) return;
       var host = document.createElement("li");
       host.id = "theme_toggle";
-      host.appendChild(document.createElement("a")).href = "#";
+      var link = host.appendChild(document.createElement("a"));
+      // Not "#": ActiveAdmin treats a bare hash as a blank menu item.
+      link.setAttribute("href", "#theme");
+      link.setAttribute("role", "button");
       nav.insertBefore(host, nav.firstChild);
     }
     refresh();
