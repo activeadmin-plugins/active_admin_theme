@@ -57,17 +57,117 @@ In your base stylesheet entry point `active_admin.scss` (as example), add line:
 @import '@activeadmin-plugins/active_admin_theme';
 ```
 
-You can change basic colors of the theme by setting some variable above active_admin_theme import line in active_admin.css.scss
+## Customising
 
-```css
-...
-$skinMainFirstColor: #A5A7AA!default;
-$skinMainSecondColor: #0066CC!default;
-$skinBorderWindowColor: #B8BABE!default;
+Set any of the variables below *above* the import line:
+
+```scss
+$skinMainFirstColor: #A5A7AA;
+$skinMainSecondColor: #0066CC;
+$skinBorderWindowColor: #B8BABE;
 
 @import 'wigu/active_admin_theme';
-...
 ```
+
+Variables are typed. A value of the wrong kind — `none` where a colour is
+expected, or a length without its unit — fails the build with a message
+naming the variable, instead of silently emitting CSS the browser discards.
+
+### Dark mode
+
+The theme follows the operating system via `prefers-color-scheme`, and can be
+pinned per page with `data-theme="light"` or `data-theme="dark"` on `<html>`.
+Every colour below that has a `…Dark` twin is what dark mode uses; each twin
+defaults to its light counterpart unless noted, so a project that only sets
+the light value keeps one consistent colour in both modes.
+
+### Variables
+
+#### Core
+
+| Variable | Default (light / dark) | |
+|---|---|---|
+| `$skinMainFirstColor` | `#23282f` |  |
+| `$skinMainSecondColor` | `#5ea3d3` |  |
+| `$skinBorderRadius` | `4px` |  |
+| `$skinBorderWindowColor` | `#e6e9ee` |  |
+| `$skinTablePadding` | `10px` |  |
+
+#### Surfaces, text and borders
+
+| Variable | Default (light / dark) | |
+|---|---|---|
+| `$skinPageBgColor` / `$skinPageBgColorDark` | `#f7f9fb` / `#1a1d21` | page background |
+| `$skinSurfaceColor` / `$skinSurfaceColorDark` | `#ffffff` / `#24272c` | panels / cards / content |
+| `$skinSurface2Color` / `$skinSurface2ColorDark` | `#f0f2f5` / `#2c3036` | table headers / striping / subtle fills |
+| `$skinSurfaceHoverColor` / `$skinSurfaceHoverColorDark` | `#f5f7fa` / `#30353b` | row / item hover |
+| `$skinSelectedRowColor` / `$skinSelectedRowColorDark` | `#d9e4ec` / `#35414c` | checked table row |
+| `$skinTextColor` / `$skinTextColorDark` | `#323537` / `#d7dbe0` | body text |
+| `$skinTextMutedColor` / `$skinTextMutedColorDark` | `#6b7177` / `#9aa0a6` | secondary text / axis labels |
+| `$skinBorderColor` / `$skinBorderColorDark` | `#e0e4e9` / `#3a3f45` | borders / grid lines |
+| `$skinInputBgColor` / `$skinInputBgColorDark` | `#ffffff` / `#2c3036` | form control background |
+| `$skinInputBorderColor` / `$skinInputBorderColorDark` | `#c9ced4` / `#454b52` | form control border |
+
+#### Header menu
+
+| Variable | Default (light / dark) | |
+|---|---|---|
+| `$skinMenuPillColor` | `$skinMainSecondColor` | top-level current/hover pill |
+| `$skinMenuPillTextColor` | `$skinMenuTextColor` | text on that pill; follows the dropdown text so a |
+| `$skinMenuPanelColor` | `$skinMainSecondColor` | dropdown panel bg + hover "bridge" border |
+| `$skinMenuTextColor` | `#ffffff` | dropdown item text (was: inherited #fff) |
+| `$skinMenuItemHoverColor` | `transparent` | dropdown item hover/current bg (was: none) |
+| `$skinMenuItemHoverTextColor` | `$skinMenuTextColor` | hover/current dropdown item text, same reason |
+| `$skinMenuFontSize` | `1em` | header menu text size |
+| `$skinMenuItemPaddingY` | `8px` | dropdown item top/bottom padding (was 6px/4px + a 7px border) |
+| `$skinMenuItemLineHeight` | `1.5` | dropdown item line-height |
+| `$skinMenuPanelMaxWidth` | `260px` | dropdown panel ceiling; longer labels wrap instead of leaving the viewport |
+| `$skinHeaderPaddingTop` | `5px` | header top padding (base value, kept so the header does not shift) |
+| `$skinHeaderPaddingBottom` | `9px` | header bottom padding |
+| `$skinHeaderLogoMaxHeight` | `none` | cap the site_title logo image height |
+
+#### Title bar
+
+| Variable | Default (light / dark) | |
+|---|---|---|
+| `$skinTitleBarColor` | `lighten($skinMainFirstColor, 8%)` |  |
+| `$skinTitleBarBorderColor` | `$skinMainSecondColor` |  |
+| `$skinTitleBarBorderWidth` | `3px` |  |
+| `$skinTitleBarButtonPaddingY` | `10px` | action button vertical padding |
+| `$skinTitleBarButtonPaddingX` | `20px` | action button horizontal padding |
+
+#### Panels, tabs and labels
+
+| Variable | Default (light / dark) | |
+|---|---|---|
+| `$skinPanelHeaderColor` / `$skinPanelHeaderColorDark` | `$skinMainSecondColor` / `$skinPanelHeaderColor` |  |
+| `$skinPanelHeaderTextColor` / `$skinPanelHeaderTextColorDark` | `#ffffff` / `$skinPanelHeaderTextColor` |  |
+| `$skinPanelHeaderPaddingY` | `8px` | panel + sidebar header height |
+| `$skinLabelColor` / `$skinLabelColorDark` | `#8494a8` / `$skinTextColorDark` |  |
+| `$skinTabPaddingY` | `10px` | tab height |
+| `$skinTabPaddingX` | `20px` | tab label horizontal padding (text → border) |
+| `$skinTabInactiveColor` / `$skinTabInactiveColorDark` | `$skinPanelHeaderColor` / `$skinPanelHeaderColorDark` |  |
+| `$skinActiveTabTextColor` / `$skinActiveTabTextColorDark` | `$skinMainSecondColor` / `$skinActiveTabTextColor` |  |
+| `$skinInactiveTabTextColor` / `$skinInactiveTabTextColorDark` | `#ffffff` / `$skinInactiveTabTextColor` |  |
+| `$skinTableHeaderTextColor` / `$skinTableHeaderTextColorDark` | `#5e6469` / `#d7dbe0` | light |
+
+#### Buttons and table tools
+
+| Variable | Default (light / dark) | |
+|---|---|---|
+| `$skinButtonColor` / `$skinButtonColorDark` | `$skinMainSecondColor` / `$skinButtonColor` |  |
+| `$skinTableToolsHeight` | `30px` |  |
+| `$skinTableToolsPaddingX` | `$skinTableToolsHeight * 0.4` | 12px at 30px |
+| `$skinTableToolButtonColor` / `$skinTableToolButtonColorDark` | `$skinSurfaceColor` / `$skinSurfaceColorDark` |  |
+| `$skinTableToolScopeColor` / `$skinTableToolScopeColorDark` | `$skinSurfaceColor` / `$skinSurfaceColorDark` |  |
+| `$skinTableToolBatchActionsColor` / `$skinTableToolBatchActionsColorDark` | `$skinSurfaceColor` / `$skinSurfaceColorDark` |  |
+
+#### Links
+
+| Variable | Default (light / dark) | |
+|---|---|---|
+| `$skinLinkColor` / `$skinLinkColorDark` | `#5ea3d3` / `#6cb0de` |  |
+| `$skinDeleteLinkColor` / `$skinDeleteLinkColorDark` | `$skinLinkColor` / `#e06c6c` |  |
 
 ## Screen
 
