@@ -121,7 +121,7 @@ $skinDeleteLinkColorDark: #f49b9b!default;
 // inactive tabs recede to the page background and the active one read as raised.
 $skinTabInactiveColor: #f7f9fb!default;
 $skinTabInactiveColorDark: #161a1e!default;
-$skinActiveTabTextColor: #5ea3d3!default;
+$skinActiveTabTextColor: $skinMainSecondColor!default;
 $skinActiveTabTextColorDark: #7cc0ec!default;
 $skinInactiveTabTextColor: #5e6469!default;
 $skinInactiveTabTextColorDark: #b0b8c2!default;
