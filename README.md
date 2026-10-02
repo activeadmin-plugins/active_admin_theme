@@ -122,6 +122,7 @@ the light value keeps one consistent colour in both modes.
 | `$skinMenuItemPaddingY` | `8px` | dropdown item top/bottom padding (was 6px/4px + a 7px border) |
 | `$skinMenuItemLineHeight` | `1.5` | dropdown item line-height |
 | `$skinMenuPanelMaxWidth` | `260px` | dropdown panel ceiling; longer labels wrap instead of leaving the viewport |
+| `$skinHeaderPaddingY` | `null` | sets both halves at once |
 | `$skinHeaderPaddingTop` | `5px` | header top padding (base value, kept so the header does not shift) |
 | `$skinHeaderPaddingBottom` | `9px` | header bottom padding |
 | `$skinHeaderLogoMaxHeight` | `none` | cap the site_title logo image height |
