@@ -788,7 +788,7 @@ form fieldset > ol > li fieldset.fragments ol {
 form fieldset ol > li.has_many_container h3 {
   color: #8494a8;
 }
-form input[type=submit], a.button, a:link.button, a:visited.button, fieldset.actions > ol > li.button_action > button {
+form input[type=submit], form input[type=button], form button, a.button, a:link.button, a:visited.button {
   background-image: none;
   box-shadow: none;
   text-shadow: none;
