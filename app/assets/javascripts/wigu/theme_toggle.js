@@ -5,9 +5,10 @@
 //   auto        no stored choice; follows prefers-color-scheme, live
 //   light/dark  pins html[data-theme] and remembers it
 //
-// Wires an existing #theme_toggle element if the application renders one (see
-// the README for the ActiveAdmin menu item), otherwise appends its own entry to
-// the utility navigation. No jQuery, so it does not care how the admin is built.
+// Binds by delegation to anything carrying .dark-mode-toggle or #theme_toggle,
+// the way ActiveAdmin 4 does, so the control can live anywhere and survive a
+// re-render. If neither exists it appends its own entry to the utility
+// navigation. No jQuery and no ujs, so it does not care how the admin is built.
 (function () {
   "use strict";
 
@@ -46,44 +47,57 @@
     else document.addEventListener("DOMContentLoaded", fn);
   }
 
-  ready(function () {
-    var host = document.getElementById("theme_toggle");
+  var SELECTOR = ".dark-mode-toggle, #theme_toggle";
 
-    if (!host) {
+  function controls() {
+    return document.querySelectorAll(SELECTOR);
+  }
+
+  function refresh() {
+    var current = mode();
+    Array.prototype.forEach.call(controls(), function (host) {
+      var link = host.tagName === "A" ? host : host.querySelector("a") || host;
+      host.setAttribute("data-mode", current);
+      link.setAttribute("title", LABEL[current] + " — click for " + ORDER[current]);
+      link.setAttribute("aria-label", link.getAttribute("title"));
+      // An application that renders its own control (an icon, say) keeps it.
+      if (link.children.length === 0) link.textContent = LABEL[current];
+    });
+  }
+
+  // Delegated, so a control added later — or replaced by a Turbo render — still
+  // works without rebinding.
+  document.addEventListener("click", function (event) {
+    var target = event.target.closest && event.target.closest(SELECTOR);
+    if (!target) return;
+    event.preventDefault();
+    store(ORDER[mode()] === "auto" ? null : ORDER[mode()]);
+    apply();
+    refresh();
+  });
+
+  // Another tab changed the preference.
+  window.addEventListener("storage", function (event) {
+    if (event.key === KEY) { apply(); refresh(); }
+  });
+
+  // In auto mode, follow the operating system while the page is open.
+  if (window.matchMedia) {
+    var query = window.matchMedia("(prefers-color-scheme: dark)");
+    var onChange = function () { if (mode() === "auto") { apply(); refresh(); } };
+    if (query.addEventListener) query.addEventListener("change", onChange);
+    else if (query.addListener) query.addListener(onChange);
+  }
+
+  ready(function () {
+    if (controls().length === 0) {
       var nav = document.getElementById("utility_nav");
       if (!nav) return;
-      host = document.createElement("li");
+      var host = document.createElement("li");
       host.id = "theme_toggle";
       host.appendChild(document.createElement("a")).href = "#";
       nav.insertBefore(host, nav.firstChild);
     }
-
-    var link = host.tagName === "A" ? host : host.querySelector("a") || host;
-
-    function refresh() {
-      var current = mode();
-      host.setAttribute("data-mode", current);
-      link.setAttribute("title", LABEL[current] + " — click for " + ORDER[current]);
-      link.setAttribute("aria-label", link.getAttribute("title"));
-      if (!link.getAttribute("data-keep-label")) link.textContent = LABEL[current];
-    }
-
-    link.addEventListener("click", function (event) {
-      event.preventDefault();
-      var next = ORDER[mode()];
-      store(next === "auto" ? null : next);
-      apply();
-      refresh();
-    });
-
     refresh();
-
-    // In auto mode, follow the operating system while the page is open.
-    if (window.matchMedia) {
-      var query = window.matchMedia("(prefers-color-scheme: dark)");
-      var onChange = function () { if (mode() === "auto") { apply(); refresh(); } };
-      if (query.addEventListener) query.addEventListener("change", onChange);
-      else if (query.addListener) query.addListener(onChange);
-    }
   });
 })();

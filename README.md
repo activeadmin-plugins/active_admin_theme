@@ -111,58 +111,44 @@ the mode on its own, so one line covers both themes.
 
 ### Switching themes
 
-Out of the box the theme follows the operating system. It also honours
-`data-theme="light"` or `data-theme="dark"` on `<html>`, which is all a switch
-needs — the gem ships CSS only and deliberately no JavaScript, because where
-the control belongs is a decision per application.
+The stylesheet follows the operating system on its own and honours
+`data-theme="light"` or `data-theme="dark"` on `<html>`. A switch is optional
+and ships with the gem:
 
-This is the whole of it. Put it in your admin JS; it adds an entry to the
-utility navigation and remembers the choice:
-
-```js
-// Theme switch for active_admin_theme. Drop into your admin JS.
-(function () {
-  var KEY = "aa-theme", root = document.documentElement;
-
-  // Apply the stored choice as early as possible — if this runs after paint the
-  // page flashes the other theme first.
-  var saved = localStorage.getItem(KEY);
-  if (saved) root.setAttribute("data-theme", saved);
-
-  function isDark() {
-    var set = root.getAttribute("data-theme");
-    if (set) return set === "dark";
-    return window.matchMedia("(prefers-color-scheme: dark)").matches;
-  }
-
-  document.addEventListener("DOMContentLoaded", function () {
-    var nav = document.getElementById("utility_nav");
-    if (!nav) return;
-
-    var li = document.createElement("li"), a = document.createElement("a");
-    a.href = "#";
-    a.id = "theme_toggle";
-    function label() { a.textContent = isDark() ? "Light mode" : "Dark mode"; }
-
-    a.addEventListener("click", function (event) {
-      event.preventDefault();
-      var next = isDark() ? "light" : "dark";
-      root.setAttribute("data-theme", next);
-      localStorage.setItem(KEY, next);
-      label();
-    });
-
-    label();
-    li.appendChild(a);
-    nav.insertBefore(li, nav.firstChild);
-  });
-})();
+```scss
+// app/assets/javascripts/active_admin.js
+//= require wigu/theme_toggle
 ```
 
-Two things worth keeping if you rewrite it: read `localStorage` **before**
-`DOMContentLoaded`, or the page paints in the other theme first and flashes;
-and with no attribute set, fall back to `prefers-color-scheme` rather than
-assuming light, so the label matches what the user is actually looking at.
+```js
+// or, as an npm module
+import "@activeadmin-plugins/active_admin_theme/app/assets/javascripts/wigu/theme_toggle";
+```
+
+With nothing else to do, it adds an entry to the utility navigation. To place
+the control yourself, render anything carrying `.dark-mode-toggle` or
+`#theme_toggle` — the script binds by delegation, so it also survives a
+re-render:
+
+```ruby
+# config/initializers/active_admin.rb
+config.namespace :admin do |admin|
+  admin.build_menu :utility_navigation do |menu|
+    menu.add label: "Theme", url: "#", html_options: { class: "dark-mode-toggle" }
+  end
+end
+```
+
+It cycles **auto → light → dark → auto**. `auto` removes the attribute, so the
+media query decides and the page follows the operating system live; the other
+two pin the choice in `localStorage`. ActiveAdmin 4's own toggle writes
+`light` or `dark` on the first click and never writes `auto` back, so a user
+there cannot return to following the system without clearing storage by hand —
+hence the third state.
+
+Changing the theme in one tab applies it in the others, and an application that
+renders its own icon inside the control keeps it: the label is only written
+when the element has no child elements.
 
 ### Upgrading
 
