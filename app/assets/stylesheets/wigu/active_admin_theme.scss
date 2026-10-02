@@ -1486,15 +1486,19 @@ input[type='radio'] {
     }
 
     // Forms & inputs
+    // :focus is nested rather than written out alongside: the six :not()s count
+    // as six class-level points, so a sibling `input:focus` (one) loses to the
+    // resting border every time and the focus indicator never appears at all.
     input:not([type=checkbox]):not([type=radio]):not([type=submit]):not([type=button]):not([type=file]):not([type=image]),
     textarea,
     select {
       background-color: var(--aa-input-bg);
       border-color: var(--aa-input-border);
       color: var(--aa-text);
+
+      &:focus { border-color: var(--aa-accent); }
     }
     input::placeholder, textarea::placeholder { color: var(--aa-text-muted); }
-    input:focus, textarea:focus, select:focus { border-color: var(--aa-accent); }
     option, optgroup { background-color: var(--aa-input-bg); color: var(--aa-text); }
     label, fieldset > legend, .fieldset > legend { color: var(--aa-label-text); }
     .inline-hints, .inline_hints, p.inline-hints { color: var(--aa-text-muted); }
