@@ -536,7 +536,10 @@ body.active_admin {
       // tools like "Visible columns", etc.). The base AA style is a light gradient;
       // theme it via the --aa-* vars. Scopes override the fill + segmented-control
       // geometry below (they reset border-radius and re-round only the ends).
-      a.table_tools_button {
+      // .dropdown_menu_button is the same control with a different class (the
+      // "Visible columns" style tools); without it here it keeps ActiveAdmin's
+      // white gradient pill at 22px next to the themed 30px buttons.
+      a.table_tools_button, a.dropdown_menu_button {
         box-sizing: border-box;
         height: $skinTableToolsHeight;
         line-height: $skinTableToolsHeight; // = button height: nudges the text to the optical centre (the font otherwise sits high in the line box)
