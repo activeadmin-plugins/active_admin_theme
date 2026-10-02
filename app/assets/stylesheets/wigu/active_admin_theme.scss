@@ -1417,7 +1417,11 @@ input[type='radio'] {
     // (.table_tools_button), jQuery-UI tab anchors (.ui-tabs-anchor) — and delete
     // links (handled by their own rule). Excluding them means those rules win on
     // their own, with no need for !important.
-    a:not(.button):not(.action_item):not(.table_tools_button):not(.dropdown_menu_button):not(.ui-tabs-anchor):not(.delete_link):not([data-method="delete"]) { color: var(--aa-link); }
+    // :where() wraps the exclusions so they filter without adding weight. Bare,
+    // the seven :not()s are worth seven class-level points, and that beat every
+    // component rule declared later — pagination links and the Clear Filters
+    // button came out --aa-link instead of --aa-text.
+    a:where(:not(.button):not(.action_item):not(.table_tools_button):not(.dropdown_menu_button):not(.ui-tabs-anchor):not(.delete_link):not([data-method="delete"])) { color: var(--aa-link); }
     a[data-method="delete"], a.delete_link { color: var(--aa-delete-link); }
 
     // Pagination — non-current page chips use a light-grey bg in the theme
