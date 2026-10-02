@@ -118,6 +118,7 @@ $skinDeleteLinkColorDark: #e06c6c!default;
   --aa-page-bg:       #{$skinPageBgColorDark};
   --aa-surface:       #{$skinSurfaceColorDark};
   --aa-surface-2:     #{$skinSurface2ColorDark};
+  --aa-table-header:  #{$skinSurface2ColorDark};
   --aa-surface-hover: #{$skinSurfaceHoverColorDark};
   --aa-selected:      #{$skinSelectedRowColorDark};
   --aa-text:          #{$skinTextColorDark};
@@ -145,6 +146,9 @@ $skinDeleteLinkColorDark: #e06c6c!default;
   --aa-page-bg:       #{$skinPageBgColor};
   --aa-surface:       #{$skinSurfaceColor};
   --aa-surface-2:     #{$skinSurface2Color};
+  // Index-table headers keep following $skinBorderWindowColor, the knob the
+  // README has documented for years, instead of the new surface scale.
+  --aa-table-header:  #{$skinBorderWindowColor};
   --aa-surface-hover: #{$skinSurfaceHoverColor};
   --aa-selected:      #{$skinSelectedRowColor};
   --aa-text:          #{$skinTextColor};
@@ -1351,6 +1355,7 @@ input[type='radio'] {
     table thead th {
       background: var(--aa-surface-2);
     }
+    table.index_table thead th { background: var(--aa-table-header); }
     table.index_table thead th,
     .attributes_table th {
       border-color: var(--aa-border);
