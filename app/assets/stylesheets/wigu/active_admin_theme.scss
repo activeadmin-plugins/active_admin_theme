@@ -502,7 +502,12 @@ body.active_admin {
                 color: var(--aa-text);
                 border-radius: 0;
                 &:hover {
-                  background-color: var(--aa-surface-hover);
+                  // background-image, not just background-color: ActiveAdmin
+                  // paints this hover with a linear-gradient, and a gradient
+                  // sits on top of the background colour — leaving it in place
+                  // made every colour set here invisible.
+                  background-image: none;
+                  background-color: var(--aa-selected);
                   color: var(--aa-text);
                 }
               }
@@ -598,7 +603,12 @@ body.active_admin {
                 color: var(--aa-text);
                 border-radius: 0;
                 &:hover {
-                  background-color: var(--aa-surface-hover);
+                  // background-image, not just background-color: ActiveAdmin
+                  // paints this hover with a linear-gradient, and a gradient
+                  // sits on top of the background colour — leaving it in place
+                  // made every colour set here invisible.
+                  background-image: none;
+                  background-color: var(--aa-selected);
                   color: var(--aa-text);
                 }
               }
@@ -647,7 +657,12 @@ body.active_admin {
                 border-radius: 0;
                 text-shadow: none;
                 &:hover {
-                  background-color: var(--aa-surface-hover);
+                  // background-image, not just background-color: ActiveAdmin
+                  // paints this hover with a linear-gradient, and a gradient
+                  // sits on top of the background colour — leaving it in place
+                  // made every colour set here invisible.
+                  background-image: none;
+                  background-color: var(--aa-selected);
                   color: var(--aa-text);
                 }
               }
