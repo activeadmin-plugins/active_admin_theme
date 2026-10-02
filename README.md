@@ -231,8 +231,20 @@ set variables:
 
 ## Screen
 
-<a href="./img/wigu.png"><img src="./img/wigu.png"></a>
+Light and dark, same configuration — the theme follows the operating system
+and can be pinned per page.
 
+| Light | Dark |
+|---|---|
+| [![Light](./img/light.png)](./img/light.png) | [![Dark](./img/dark.png)](./img/dark.png) |
+
+With the variables set, here using [yeti-web](https://github.com/yeti-switch/yeti-web)'s
+configuration from the example above — an anthracite menu, tabs receding to the
+page background, a teal button palette in dark:
+
+| Light | Dark |
+|---|---|
+| [![yeti-web light](./img/yeti-light.png)](./img/yeti-light.png) | [![yeti-web dark](./img/yeti-dark.png)](./img/yeti-dark.png) |
 
 ## Contributing
 
