@@ -23,6 +23,6 @@
     "src/**/*"
   ],
   "scripts": {
-    "prepublishOnly": "rm -rf src && cp -R app/assets/stylesheets/wigu/ src"
+    "prepublishOnly": "rm -rf src && cp -R app/assets/stylesheets/wigu/ src && cp app/assets/javascripts/wigu/theme_toggle.js src/"
   }
 }

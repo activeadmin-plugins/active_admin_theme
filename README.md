@@ -122,14 +122,14 @@ and ships with the gem:
 
 ```js
 // or, as an npm module
-import "@activeadmin-plugins/active_admin_theme/app/assets/javascripts/wigu/theme_toggle";
+import "@activeadmin-plugins/active_admin_theme/src/theme_toggle";
 ```
 
 A gem cannot add a menu item: ActiveAdmin builds the utility navigation from
 the host application's initializer, and nothing in a stylesheet or an asset
 runs at that point. So with nothing else to do, the script injects its own
 `li#theme_toggle` into `#utility_nav` on load. That works, but the item is
-appended after the server-rendered ones and is not yours to order or hide.
+inserted before the server-rendered ones and is not yours to order or hide.
 
 Declaring it yourself costs four lines and puts it under your control — this is
 how [yeti-web](https://github.com/yeti-switch/yeti-web) does it:
