@@ -9,12 +9,8 @@
 #
 #   ruby test/screens/dummy.rb [path]     # default: tmp/screens-dummy
 require "fileutils"
-require "shellwords"
 
 APP  = File.expand_path(ARGV[0] || "tmp/screens-dummy", Dir.pwd)
-# Rails 8 defaults to propshaft + importmap; ActiveAdmin 3 still expects
-# sprockets and jquery-rails, so pin the generator to the last 7.x.
-RAILS = ENV.fetch("RAILS_VERSION", "7.2.3.1")
 
 # Every command runs with the parent's bundler environment cleared, so the
 # generated app resolves against its own Gemfile and not this gem's.
@@ -35,6 +31,17 @@ def sh(command, chdir: Dir.pwd, env: {})
   system(cleared.merge(isolated).merge(env), command, chdir: chdir, exception: true)
 end
 
+# Run a command with the current interpreter and its own RubyGems, never via
+# PATH: on a machine with more than one Ruby the `gem` and `rails` on PATH can
+# belong to a different installation than the one running this script, and then
+# `gem install rails` and `rails new` disagree about what is installed.
+def ruby_sh(*arguments, chdir: Dir.pwd)
+  puts "  $ ruby #{arguments.join(" ")}"
+  cleared = ENV.keys.grep(/\ABUNDLE_/).to_h { |key| [key, nil] }
+  cleared.merge!("RUBYOPT" => nil, "RUBYLIB" => nil)
+  system(cleared, Gem.ruby, *arguments, chdir: chdir, exception: true)
+end
+
 def write(relative, contents)
   path = File.join(APP, relative)
   FileUtils.mkdir_p(File.dirname(path))
@@ -44,23 +51,24 @@ end
 if File.directory?(APP)
   puts "dummy: reusing #{APP}"
 else
-  puts "dummy: generating #{APP} (rails #{RAILS})"
+  puts "dummy: generating #{APP}"
   FileUtils.mkdir_p(File.dirname(APP))
 
-  # Pin the generator itself through its own Gemfile rather than trusting
-  # whatever `rails` resolves to on PATH — on a machine with more than one Ruby
-  # the shim and the installed railties can disagree.
-  boot = File.join(File.dirname(APP), "screens-boot")
-  FileUtils.mkdir_p(boot)
-  File.write(File.join(boot, "Gemfile"),
-             %(source "https://rubygems.org"\ngem "rails", "#{RAILS}"\n))
-  sh "bundle install --quiet", chdir: boot, env: { "BUNDLE_GEMFILE" => File.join(boot, "Gemfile") }
-  sh "bundle exec rails new #{Shellwords.escape(APP)} " \
-     "--asset-pipeline=sprockets --skip-git --skip-bootsnap --skip-jbuilder " \
-     "--skip-action-mailbox --skip-action-text --skip-action-cable --skip-active-storage " \
-     "--skip-hotwire --skip-test --skip-system-test --skip-kamal --skip-solid --skip-ci " \
-     "--skip-rubocop --skip-brakeman --skip-dev-gems --skip-docker --quiet",
-     chdir: boot, env: { "BUNDLE_GEMFILE" => File.join(boot, "Gemfile") }
+  ruby_sh Gem.bin_path("railties", "rails"), "new", APP,
+          "--asset-pipeline=sprockets", "--skip-git", "--skip-bootsnap", "--skip-jbuilder",
+          "--skip-action-mailbox", "--skip-action-text", "--skip-action-cable",
+          "--skip-active-storage", "--skip-hotwire", "--skip-test", "--skip-system-test",
+          "--skip-kamal", "--skip-solid", "--skip-ci", "--skip-rubocop", "--skip-brakeman",
+          "--skip-dev-gems", "--skip-docker", "--quiet"
+
+  # `--asset-pipeline=sprockets` installs the gem but, since Rails 7, no longer
+  # writes the manifest sprockets-rails refuses to boot without.
+  FileUtils.mkdir_p(File.join(APP, "app/assets/stylesheets"))
+  FileUtils.mkdir_p(File.join(APP, "app/assets/javascripts"))
+  write "app/assets/config/manifest.js", <<~JS
+    //= link_directory ../stylesheets .css
+    //= link_directory ../javascripts .js
+  JS
 
   File.open(File.join(APP, "Gemfile"), "a") do |gemfile|
     gemfile.puts
