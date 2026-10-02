@@ -143,7 +143,11 @@ $skinTableHeaderTextColorDark: #d7dbe0!default;
   --aa-page-bg:       #{$skinPageBgColorDark};
   --aa-surface:       #{$skinSurfaceColorDark};
   --aa-surface-2:     #{$skinSurface2ColorDark};
-  --aa-table-header:  #{$skinSurface2ColorDark};
+  // Not $skinSurface2ColorDark: that is the zebra fill, and feeding both from
+  // one variable left the header band and every other row byte-identical.
+  // Light mode never had that problem — $skinBorderWindowColor gives the
+  // header its own step there.
+  --aa-table-header:  #{$skinElevatedColorDark};
   --aa-surface-hover: #{$skinSurfaceHoverColorDark};
   --aa-selected:      #{$skinSelectedRowColorDark};
   --aa-elevated:      #{$skinElevatedColorDark};
