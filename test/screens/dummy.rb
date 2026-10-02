@@ -53,7 +53,13 @@ else
   puts "dummy: generating #{APP}"
   FileUtils.mkdir_p(File.dirname(APP))
 
-  ruby_sh Gem.bin_path("railties", "rails"), "new", APP,
+  # Install the generator outside this gem's bundle and resolve its path in the
+  # child, which is also unbundled — resolving it here would find the railties
+  # vendored for this gem, which is not on the load path once the bundle is
+  # gone. --conservative is a no-op when a Rails is already installed.
+  ruby_sh File.join(RbConfig::CONFIG["bindir"], "gem"),
+          "install", "rails", "--conservative", "--no-document"
+  ruby_sh "-e", 'load Gem.bin_path("railties", "rails")', "--", "new", APP,
           "--asset-pipeline=sprockets", "--skip-git", "--skip-bootsnap", "--skip-jbuilder",
           "--skip-action-mailbox", "--skip-action-text", "--skip-action-cable",
           "--skip-active-storage", "--skip-hotwire", "--skip-test", "--skip-system-test",
