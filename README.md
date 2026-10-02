@@ -109,6 +109,61 @@ $skinLinkColor:              $skinMainSecondColor;
 Note `var(--aa-page-bg)` works as a variable value: a custom property follows
 the mode on its own, so one line covers both themes.
 
+### Switching themes
+
+Out of the box the theme follows the operating system. It also honours
+`data-theme="light"` or `data-theme="dark"` on `<html>`, which is all a switch
+needs — the gem ships CSS only and deliberately no JavaScript, because where
+the control belongs is a decision per application.
+
+This is the whole of it. Put it in your admin JS; it adds an entry to the
+utility navigation and remembers the choice:
+
+```js
+// Theme switch for active_admin_theme. Drop into your admin JS.
+(function () {
+  var KEY = "aa-theme", root = document.documentElement;
+
+  // Apply the stored choice as early as possible — if this runs after paint the
+  // page flashes the other theme first.
+  var saved = localStorage.getItem(KEY);
+  if (saved) root.setAttribute("data-theme", saved);
+
+  function isDark() {
+    var set = root.getAttribute("data-theme");
+    if (set) return set === "dark";
+    return window.matchMedia("(prefers-color-scheme: dark)").matches;
+  }
+
+  document.addEventListener("DOMContentLoaded", function () {
+    var nav = document.getElementById("utility_nav");
+    if (!nav) return;
+
+    var li = document.createElement("li"), a = document.createElement("a");
+    a.href = "#";
+    a.id = "theme_toggle";
+    function label() { a.textContent = isDark() ? "Light mode" : "Dark mode"; }
+
+    a.addEventListener("click", function (event) {
+      event.preventDefault();
+      var next = isDark() ? "light" : "dark";
+      root.setAttribute("data-theme", next);
+      localStorage.setItem(KEY, next);
+      label();
+    });
+
+    label();
+    li.appendChild(a);
+    nav.insertBefore(li, nav.firstChild);
+  });
+})();
+```
+
+Two things worth keeping if you rewrite it: read `localStorage` **before**
+`DOMContentLoaded`, or the page paints in the other theme first and flashes;
+and with no attribute set, fall back to `prefers-color-scheme` rather than
+assuming light, so the label matches what the user is actually looking at.
+
 ### Upgrading
 
 Two things changed shape in this release and are worth knowing if you already
@@ -200,7 +255,7 @@ set variables:
 
 | Variable | Default (light / dark) | |
 |---|---|---|
-| `$skinButtonColor` / `$skinButtonColorDark` | `$skinMainSecondColor` / `$skinButtonColor` |  |
+| `$skinButtonColor` / `$skinButtonColorDark` | `$skinMainSecondColor` / `darken($skinButtonColor, 20%)` | darker in dark mode so a white label clears 4.5:1 |
 | `$skinButtonTextColor` / `$skinButtonTextColorDark` | `#ffffff` / `$skinButtonTextColor` | label on those buttons |
 | `$skinTableToolsHeight` | `30px` |  |
 | `$skinTableToolsPaddingX` | `$skinTableToolsHeight * 0.4` | 12px at 30px |
