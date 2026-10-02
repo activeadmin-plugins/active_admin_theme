@@ -81,6 +81,50 @@ Every colour below that has a `…Dark` twin is what dark mode uses; each twin
 defaults to its light counterpart unless noted, so a project that only sets
 the light value keeps one consistent colour in both modes.
 
+### A worked example
+
+[yeti-web](https://github.com/yeti-switch/yeti-web) runs this theme with an
+anthracite header instead of the blue one, and tabs that recede to the page
+background so the selected one reads as raised. Its full configuration is in
+`app/assets/stylesheets/themes/variables.scss`; the shape of it:
+
+```scss
+// Anthracite header menu instead of the theme's blue
+$skinMenuPillColor:          #2e3236;
+$skinMenuPillTextColor:      #6cb0de;   // accent highlight
+$skinMenuPanelColor:         #2e3236;
+$skinMenuItemHoverColor:     #3f454c;
+$skinMenuTextColor:          #dfe2e6;
+$skinMenuItemHoverTextColor: #6cb0de;
+$skinMenuFontSize:           13px;
+$skinHeaderPaddingY:         4.5px;
+$skinHeaderLogoMaxHeight:    27px;
+
+// Title bar: dark, no accent border, smaller buttons
+$skinTitleBarColor:          #343c46;
+$skinTitleBarBorderWidth:    0;
+$skinTitleBarButtonPaddingY: 6px;
+$skinTitleBarButtonPaddingX: 10px;
+
+// Panel headers recede to the page background, in both modes
+$skinPanelHeaderColor:       var(--aa-page-bg);
+$skinPanelHeaderColorDark:   var(--aa-page-bg);
+
+// Inactive tabs recede too, so the active one reads as raised
+$skinTabInactiveColor:       #f7f9fb;
+$skinTabInactiveColorDark:   #1a1d21;
+$skinActiveTabTextColor:     #5ea3d3;
+$skinActiveTabTextColorDark: #6cb0de;
+
+// A muted teal for buttons in dark mode
+$skinButtonColorDark:        #3c6e62;
+
+@import 'wigu/active_admin_theme';
+```
+
+Note `var(--aa-page-bg)` used as a variable value: a custom property follows
+the mode on its own, so one line covers both themes.
+
 ### Upgrading
 
 Two things changed shape in this release and are worth knowing if you already
