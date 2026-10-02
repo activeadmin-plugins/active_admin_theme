@@ -161,7 +161,7 @@ the light value keeps one consistent colour in both modes.
 | Variable | Default (light / dark) | |
 |---|---|---|
 | `$skinAccentColor` / `$skinAccentColorDark` | `$skinMainSecondColor` / `$skinAccentColor` | focus ring / accent outline |
-| `$skinLinkColor` / `$skinLinkColorDark` | `#5ea3d3` / `#6cb0de` |  |
+| `$skinLinkColor` / `$skinLinkColorDark` | `#1f5f8d` / `#6cb0de` |  |
 | `$skinDeleteLinkColor` / `$skinDeleteLinkColorDark` | `$skinLinkColor` / `#e06c6c` |  |
 
 ## Screen

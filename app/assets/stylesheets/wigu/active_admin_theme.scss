@@ -98,7 +98,12 @@ $skinTableToolsPaddingX: $skinTableToolsHeight * 0.4 !default; // 12px at 30px
 // rebrands $skinMainSecondColor does not keep a stray blue focus border.
 $skinAccentColor: $skinMainSecondColor!default;
 $skinAccentColorDark: $skinAccentColor!default;
-$skinLinkColor: #5ea3d3!default;
+// Darker than the theme accent on purpose: the accent is a fill colour and
+// fails WCAG AA as body text — #5ea3d3 is 2.74 on white, where 4.5 is the bar
+// for text this size — and links also sit on zebra rows, table headers and
+// selected rows, so the worst of those is what has to clear it. #1f5f8d
+// keeps the hue and gives 5.28 against the darkest of them.
+$skinLinkColor: #1f5f8d!default;
 $skinLinkColorDark: #6cb0de!default;
 
 // Delete / destroy links. Light follows the regular link color (so action links
