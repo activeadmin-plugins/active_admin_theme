@@ -444,7 +444,11 @@ body.active_admin {
       }
     }
     #titlebar_right {
-      .action_item a {
+      // `> a` and `> .dropdown_menu > a`: an action item may hold a dropdown, and
+      // a descendant selector here paints its menu entries with the button fill
+      // too — with !important, so the entry rules below cannot undo it.
+      .action_item > a,
+      .action_item > .dropdown_menu > a {
         background-image: none;
         border: none;
         box-shadow: none;
@@ -1014,8 +1018,8 @@ form fieldset.inputs > ol { clear: both; }
 // AA base hardcodes `.comments .pagination_information { color: #000 }` (the
 // "Displaying 1 comment" line) — black-on-dark in dark mode. Re-point to the
 // themed text color so it reads in both modes.
-.comments .pagination_information,
-.comments .pagination_information b { color: var(--aa-text); }
+.pagination_information,
+.pagination_information b { color: var(--aa-text); }
 .pagination {
   span > a {
     background-image: none;
