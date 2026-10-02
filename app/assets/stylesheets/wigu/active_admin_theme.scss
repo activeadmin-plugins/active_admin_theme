@@ -10,20 +10,20 @@ $skinTablePadding: 10px!default;
 // mode. Each has a light value (the existing look) and a *Dark value; they feed
 // the --aa-* custom properties below. Defaults reproduce the current colors, so
 // non-configuring projects are unchanged.
-$skinPageBgColor:       #f7f9fb!default;  $skinPageBgColorDark:      #1a1d21!default;  // page background
-$skinSurfaceColor:      #ffffff!default;  $skinSurfaceColorDark:     #24272c!default;  // panels / cards / content
-$skinSurface2Color:     #f0f2f5!default;  $skinSurface2ColorDark:    #2c3036!default;  // table headers / striping / subtle fills
-$skinSurfaceHoverColor: #f5f7fa!default;  $skinSurfaceHoverColorDark:#30353b!default;  // row / item hover
-$skinSelectedRowColor:  #d9e4ec!default;  $skinSelectedRowColorDark: #35414c!default;  // checked table row
+$skinPageBgColor:       #f7f9fb!default;  $skinPageBgColorDark:      #161a1e!default;  // page background
+$skinSurfaceColor:      #ffffff!default;  $skinSurfaceColorDark:     #25292f!default;  // panels / cards / content
+$skinSurface2Color:     #f0f2f5!default;  $skinSurface2ColorDark:    #2c3137!default;  // table headers / striping / subtle fills
+$skinSurfaceHoverColor: #f5f7fa!default;  $skinSurfaceHoverColorDark:#3f454d!default;  // row / item hover
+$skinSelectedRowColor:  #d9e4ec!default;  $skinSelectedRowColorDark: #304457!default;  // checked table row
 // Things that float above the page — tool-row buttons and dropdown panels.
 // On light they match the content surface; on dark they have to sit a step
 // lighter than the page or they read as holes in it.
-$skinElevatedColor: $skinSurfaceColor!default;  $skinElevatedColorDark: #30353b!default;
-$skinTextColor:         #323537!default;  $skinTextColorDark:        #d7dbe0!default;  // body text
-$skinTextMutedColor:    #6b7177!default;  $skinTextMutedColorDark:   #9aa0a6!default;  // secondary text / axis labels
-$skinBorderColor:       #e0e4e9!default;  $skinBorderColorDark:      #3a3f45!default;  // borders / grid lines
-$skinInputBgColor:      #ffffff!default;  $skinInputBgColorDark:     #2c3036!default;  // form control background
-$skinInputBorderColor:  #c9ced4!default;  $skinInputBorderColorDark: #454b52!default;  // form control border
+$skinElevatedColor: $skinSurfaceColor!default;  $skinElevatedColorDark: #363c43!default;
+$skinTextColor:         #323537!default;  $skinTextColorDark:        #dde2e8!default;  // body text
+$skinTextMutedColor:    #6b7177!default;  $skinTextMutedColorDark:   #b0b8c2!default;  // secondary text / axis labels
+$skinBorderColor:       #e0e4e9!default;  $skinBorderColorDark:      #404750!default;  // borders / grid lines
+$skinInputBgColor:      #ffffff!default;  $skinInputBgColorDark:     #1e2227!default;  // form control background
+$skinInputBorderColor:  #c9ced4!default;  $skinInputBorderColorDark: #4d555f!default;  // form control border
 
 // Header menu colors. Each defaults to the previous value, so projects that do
 // not set these compile to identical CSS (and a project that overrides
@@ -113,23 +113,23 @@ $skinAccentColorDark: $skinAccentColor!default;
 // selected rows, so the worst of those is what has to clear it. #1f5f8d
 // keeps the hue and gives 5.28 against the darkest of them.
 $skinLinkColor: #38678b!default;
-$skinLinkColorDark: #6cb0de!default;
+$skinLinkColorDark: #7cc0ec!default;
 
 // Delete / destroy links. Light follows the regular link color (so action links
 // match); dark uses a lightened red, since the default red is too dark there.
 $skinDeleteLinkColor: $skinLinkColor!default;
-$skinDeleteLinkColorDark: #e06c6c!default;
+$skinDeleteLinkColorDark: #eb7b7b!default;
 // Tabs: fill and label colours per mode. yeti-web sets all four to make the
 // inactive tabs recede to the page background and the active one read as raised.
 $skinTabInactiveColor: #f7f9fb!default;
-$skinTabInactiveColorDark: #1a1d21!default;
+$skinTabInactiveColorDark: #161a1e!default;
 $skinActiveTabTextColor: #5ea3d3!default;
-$skinActiveTabTextColorDark: #6cb0de!default;
+$skinActiveTabTextColorDark: #7cc0ec!default;
 $skinInactiveTabTextColor: #5e6469!default;
-$skinInactiveTabTextColorDark: #9aa0a6!default;
+$skinInactiveTabTextColorDark: #b0b8c2!default;
 // Index-table column header text, one colour for sortable and plain headers.
 $skinTableHeaderTextColor: #5e6469!default;
-$skinTableHeaderTextColorDark: #d7dbe0!default;
+$skinTableHeaderTextColorDark: #dde2e8!default;
 
 //DARK-MODE PALETTE---------------------------------------------------------------------------------------------------//
 // Semantic CSS custom properties for runtime light/dark switching. Light values

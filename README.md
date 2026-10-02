@@ -140,17 +140,17 @@ set variables:
 
 | Variable | Default (light / dark) | |
 |---|---|---|
-| `$skinPageBgColor` / `$skinPageBgColorDark` | `#f7f9fb` / `#1a1d21` | page background |
-| `$skinSurfaceColor` / `$skinSurfaceColorDark` | `#ffffff` / `#24272c` | panels / cards / content |
-| `$skinSurface2Color` / `$skinSurface2ColorDark` | `#f0f2f5` / `#2c3036` | table headers / striping / subtle fills |
-| `$skinSurfaceHoverColor` / `$skinSurfaceHoverColorDark` | `#f5f7fa` / `#30353b` | row / item hover |
-| `$skinSelectedRowColor` / `$skinSelectedRowColorDark` | `#d9e4ec` / `#35414c` | checked table row |
-| `$skinElevatedColor` / `$skinElevatedColorDark` | `$skinSurfaceColor` / `#30353b` | tool buttons and dropdown panels floating above the page |
-| `$skinTextColor` / `$skinTextColorDark` | `#323537` / `#d7dbe0` | body text |
-| `$skinTextMutedColor` / `$skinTextMutedColorDark` | `#6b7177` / `#9aa0a6` | secondary text / axis labels |
-| `$skinBorderColor` / `$skinBorderColorDark` | `#e0e4e9` / `#3a3f45` | borders / grid lines |
-| `$skinInputBgColor` / `$skinInputBgColorDark` | `#ffffff` / `#2c3036` | form control background |
-| `$skinInputBorderColor` / `$skinInputBorderColorDark` | `#c9ced4` / `#454b52` | form control border |
+| `$skinPageBgColor` / `$skinPageBgColorDark` | `#f7f9fb` / `#161a1e` | page background |
+| `$skinSurfaceColor` / `$skinSurfaceColorDark` | `#ffffff` / `#25292f` | panels / cards / content |
+| `$skinSurface2Color` / `$skinSurface2ColorDark` | `#f0f2f5` / `#2c3137` | table headers / striping / subtle fills |
+| `$skinSurfaceHoverColor` / `$skinSurfaceHoverColorDark` | `#f5f7fa` / `#3f454d` | row / item hover |
+| `$skinSelectedRowColor` / `$skinSelectedRowColorDark` | `#d9e4ec` / `#304457` | checked table row |
+| `$skinElevatedColor` / `$skinElevatedColorDark` | `$skinSurfaceColor` / `#3f454d` | tool buttons and dropdown panels floating above the page |
+| `$skinTextColor` / `$skinTextColorDark` | `#323537` / `#dde2e8` | body text |
+| `$skinTextMutedColor` / `$skinTextMutedColorDark` | `#6b7177` / `#b0b8c2` | secondary text / axis labels |
+| `$skinBorderColor` / `$skinBorderColorDark` | `#e0e4e9` / `#404750` | borders / grid lines |
+| `$skinInputBgColor` / `$skinInputBgColorDark` | `#ffffff` / `#2c3137` | form control background |
+| `$skinInputBorderColor` / `$skinInputBorderColorDark` | `#c9ced4` / `#4d555f` | form control border |
 
 #### Header menu
 
@@ -192,7 +192,7 @@ set variables:
 | `$skinTabInactiveColor` / `$skinTabInactiveColorDark` | `$skinPanelHeaderColor` / `$skinPanelHeaderColorDark` | inactive tab fill |
 | `$skinActiveTabTextColor` / `$skinActiveTabTextColorDark` | `$skinLinkColor` / `$skinLinkColorDark` | selected tab label |
 | `$skinInactiveTabTextColor` / `$skinInactiveTabTextColorDark` | `$skinPanelHeaderTextColor` / `$skinInactiveTabTextColor` | inactive tab label |
-| `$skinTableHeaderTextColor` / `$skinTableHeaderTextColorDark` | `#5e6469` / `#d7dbe0` | index-table column header text |
+| `$skinTableHeaderTextColor` / `$skinTableHeaderTextColorDark` | `#5e6469` / `#dde2e8` | index-table column header text |
 | `$skinTabPaddingY` | `10px` | tab height |
 | `$skinTabPaddingX` | `20px` | tab label horizontal padding (text → border) |
 
@@ -210,8 +210,8 @@ set variables:
 | Variable | Default (light / dark) | |
 |---|---|---|
 | `$skinAccentColor` / `$skinAccentColorDark` | `$skinMainSecondColor` / `$skinAccentColor` | focus ring / accent outline |
-| `$skinLinkColor` / `$skinLinkColorDark` | `#1f5f8d` / `#6cb0de` |  |
-| `$skinDeleteLinkColor` / `$skinDeleteLinkColorDark` | `$skinLinkColor` / `#e06c6c` |  |
+| `$skinLinkColor` / `$skinLinkColorDark` | `#1f5f8d` / `#7cc0ec` |  |
+| `$skinDeleteLinkColor` / `$skinDeleteLinkColorDark` | `$skinLinkColor` / `#eb7b7b` |  |
 
 ## Screen
 
