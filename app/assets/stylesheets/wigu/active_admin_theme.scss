@@ -550,7 +550,7 @@ body.active_admin {
         }
       }
       div.batch_actions_selector {
-        a {
+        > a {
           box-sizing: border-box;
           height: $skinTableToolsHeight;
           line-height: $skinTableToolsHeight;
@@ -593,7 +593,7 @@ body.active_admin {
         }
       }
       div.batch_actions_selector {
-        a {
+        > a {
           box-sizing: border-box;
           height: $skinTableToolsHeight;
           line-height: $skinTableToolsHeight;
