@@ -469,8 +469,14 @@ body.active_admin {
           border: 1px solid var(--aa-border);
           background-image: none;
           box-shadow: none;
-          div.dropdown_menu_nipple, div.dropdown_menu_nipple:after, div.dropdown_menu_nipple:before {
-            border-color: var(--aa-surface) transparent;
+          // ActiveAdmin draws the nipple as three stacked triangles: the element
+          // itself is the outline, :before the inner shadow, :after the fill.
+          // Painting all three the same colour collapses it into a solid arrow
+          // that is invisible whenever the panel fill is close to the page —
+          // which is exactly what a light surface is. Outline it like the panel.
+          div.dropdown_menu_nipple {
+            border-color: var(--aa-border) transparent;
+            &:before, &:after { border-color: var(--aa-surface) transparent; }
           }
           ul.dropdown_menu_list {
             box-shadow: none;
@@ -559,8 +565,14 @@ body.active_admin {
           border: 1px solid var(--aa-border);
           background-image: none;
           box-shadow: none;
-          div.dropdown_menu_nipple, div.dropdown_menu_nipple:after, div.dropdown_menu_nipple:before {
-            border-color: var(--aa-surface) transparent;
+          // ActiveAdmin draws the nipple as three stacked triangles: the element
+          // itself is the outline, :before the inner shadow, :after the fill.
+          // Painting all three the same colour collapses it into a solid arrow
+          // that is invisible whenever the panel fill is close to the page —
+          // which is exactly what a light surface is. Outline it like the panel.
+          div.dropdown_menu_nipple {
+            border-color: var(--aa-border) transparent;
+            &:before, &:after { border-color: var(--aa-surface) transparent; }
           }
           ul.dropdown_menu_list {
             box-shadow: none;
@@ -600,8 +612,14 @@ body.active_admin {
           background-color: var(--aa-surface);
           border: 1px solid var(--aa-border);
           background-image: none;
-          div.dropdown_menu_nipple, div.dropdown_menu_nipple:after, div.dropdown_menu_nipple:before {
-            border-color: var(--aa-surface) transparent;
+          // ActiveAdmin draws the nipple as three stacked triangles: the element
+          // itself is the outline, :before the inner shadow, :after the fill.
+          // Painting all three the same colour collapses it into a solid arrow
+          // that is invisible whenever the panel fill is close to the page —
+          // which is exactly what a light surface is. Outline it like the panel.
+          div.dropdown_menu_nipple {
+            border-color: var(--aa-border) transparent;
+            &:before, &:after { border-color: var(--aa-surface) transparent; }
           }
           ul.dropdown_menu_list {
             box-shadow: none;
