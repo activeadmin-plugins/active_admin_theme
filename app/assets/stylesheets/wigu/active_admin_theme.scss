@@ -365,6 +365,7 @@ body.active_admin {
           }
           li:hover > a, li.current > a, li > a:focus {
             background-color: $skinMenuItemHoverColor;
+            color: $skinMenuItemHoverTextColor;
           }
           li.current > a::before, li:hover > a::before, li > a:focus::before {
             content: '';
