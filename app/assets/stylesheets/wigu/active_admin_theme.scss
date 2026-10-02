@@ -1170,7 +1170,7 @@ form fieldset > ol > li fieldset ol li {
         text-shadow: none;
         box-shadow: none;
         @include rounded($skinBorderRadius);
-        background-color: $skinMainSecondColor;
+        background-color: var(--aa-button);
         border: none;
         color: #ffffff;
         font-weight: 400;
