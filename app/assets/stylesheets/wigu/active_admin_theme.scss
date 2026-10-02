@@ -79,7 +79,7 @@ $skinButtonColor: $skinMainSecondColor!default;
 // without this the label stays white and a light fill is unreadable.
 $skinButtonTextColor: #ffffff!default;
 $skinButtonTextColorDark: $skinButtonTextColor!default;
-$skinButtonColorDark: #3c6e62!default;
+$skinButtonColorDark: darken($skinButtonColor, 20%)!default;
 
 // Vertical padding controlling the height of panel/section headers and tabs.
 $skinPanelHeaderPaddingY: 5px!default;   // panel + sidebar header height
