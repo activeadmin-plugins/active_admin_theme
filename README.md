@@ -83,46 +83,30 @@ the light value keeps one consistent colour in both modes.
 
 ### A worked example
 
-[yeti-web](https://github.com/yeti-switch/yeti-web) runs this theme with an
-anthracite header instead of the blue one, and tabs that recede to the page
-background so the selected one reads as raised. Its full configuration is in
-`app/assets/stylesheets/themes/variables.scss`; the shape of it:
+The defaults are the configuration this theme is run with in
+[yeti-web](https://github.com/yeti-switch/yeti-web). To go back to the blue
+header the theme shipped before:
 
 ```scss
-// Anthracite header menu instead of the theme's blue
-$skinMenuPillColor:          #2e3236;
-$skinMenuPillTextColor:      #6cb0de;   // accent highlight
-$skinMenuPanelColor:         #2e3236;
-$skinMenuItemHoverColor:     #3f454c;
-$skinMenuTextColor:          #dfe2e6;
-$skinMenuItemHoverTextColor: #6cb0de;
-$skinMenuFontSize:           13px;
-$skinHeaderPaddingY:         4.5px;
-$skinHeaderLogoMaxHeight:    27px;
-
-// Title bar: dark, no accent border, smaller buttons
-$skinTitleBarColor:          #343c46;
-$skinTitleBarBorderWidth:    0;
-$skinTitleBarButtonPaddingY: 6px;
-$skinTitleBarButtonPaddingX: 10px;
-
-// Panel headers recede to the page background, in both modes
-$skinPanelHeaderColor:       var(--aa-page-bg);
-$skinPanelHeaderColorDark:   var(--aa-page-bg);
-
-// Inactive tabs recede too, so the active one reads as raised
-$skinTabInactiveColor:       #f7f9fb;
-$skinTabInactiveColorDark:   #1a1d21;
-$skinActiveTabTextColor:     #5ea3d3;
-$skinActiveTabTextColorDark: #6cb0de;
-
-// A muted teal for buttons in dark mode
-$skinButtonColorDark:        #3c6e62;
+$skinMenuPillColor:          $skinMainSecondColor;
+$skinMenuPanelColor:         $skinMainSecondColor;
+$skinMenuTextColor:          #ffffff;
+$skinMenuItemHoverColor:     transparent;
+$skinMenuItemHoverTextColor: #ffffff;
+$skinMenuFontSize:           1em;
+$skinHeaderPaddingY:         null;      // 5px top / 9px bottom, as before
+$skinTitleBarColor:          lighten($skinMainFirstColor, 8%);
+$skinTitleBarBorderWidth:    3px;
+$skinPanelHeaderColor:       $skinMainSecondColor;
+$skinPanelHeaderTextColor:   #ffffff;
+$skinTabInactiveColor:       $skinMainSecondColor;
+$skinInactiveTabTextColor:   #ffffff;
+$skinLinkColor:              $skinMainSecondColor;
 
 @import 'wigu/active_admin_theme';
 ```
 
-Note `var(--aa-page-bg)` used as a variable value: a custom property follows
+Note `var(--aa-page-bg)` works as a variable value: a custom property follows
 the mode on its own, so one line covers both themes.
 
 ### Upgrading
@@ -231,20 +215,17 @@ set variables:
 
 ## Screen
 
-Light and dark, same configuration — the theme follows the operating system
-and can be pinned per page.
+Index with filters, show page, nested `has_many` form, an open batch-actions
+menu and the datepicker — the same admin in both modes. The theme follows the
+operating system and can be pinned per page with `data-theme`.
 
-| Light | Dark |
-|---|---|
-| [![Light](./img/light.png)](./img/light.png) | [![Dark](./img/dark.png)](./img/dark.png) |
+#### Light
 
-With the variables set, here using [yeti-web](https://github.com/yeti-switch/yeti-web)'s
-configuration from the example above — an anthracite menu, tabs receding to the
-page background, a teal button palette in dark:
+[![Light](./img/light.png)](./img/light.png)
 
-| Light | Dark |
-|---|---|
-| [![yeti-web light](./img/yeti-light.png)](./img/yeti-light.png) | [![yeti-web dark](./img/yeti-dark.png)](./img/yeti-dark.png) |
+#### Dark
+
+[![Dark](./img/dark.png)](./img/dark.png)
 
 ## Contributing
 
