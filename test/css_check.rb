@@ -22,6 +22,12 @@ module CssCheck
                         $skinMenuPillColor: #f0f0f0; $skinMenuPillTextColor: #222222;',
     "dark menu"     => '$skinMenuPanelColor: #222222; $skinMenuItemHoverColor: #3a3a3a;',
     "roomy menu"    => '$skinMenuFontSize: 1.6em; $skinMenuItemPaddingY: 12px;',
+    "header padding shorthand" => '$skinHeaderPaddingY: 7px;',
+    # The panel header pair is documented as taking a custom property, so the
+    # colour guard has to let one through.
+    "panel header as a custom property" => '$skinPanelHeaderColor: var(--aa-surface);',
+    "repainted palette" => '$skinPageBgColor: #fafafa; $skinSurfaceColor: #ffffff;
+                            $skinTextColor: #202020; $skinLinkColor: #0b5;',
   }.freeze
 
   # Wrong-typed overrides. All of these are legal SassScript, so without the
@@ -35,6 +41,10 @@ module CssCheck
     "$skinMenuItemPaddingY without a unit" => '$skinMenuItemPaddingY: 8;',
     "$skinMenuItemHoverColor: none"       => '$skinMenuItemHoverColor: none;',
     "$skinTitleBarBorderWidth: none"      => '$skinTitleBarBorderWidth: none;',
+    "$skinPageBgColor as a length"        => '$skinPageBgColor: 10px;',
+    "$skinTextColor: none"                => '$skinTextColor: none;',
+    "$skinLinkColorDark: none"            => '$skinLinkColorDark: none;',
+    "$skinPanelHeaderColor as a length"   => '$skinPanelHeaderColor: 10px;',
   }.freeze
 
   def self.load_paths

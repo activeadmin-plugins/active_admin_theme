@@ -218,10 +218,6 @@ html[data-theme="dark"]  { @include aa-dark-palette; }
   html[data-theme="dark"] { @content; }
 }
 
-// A wrong-typed override is legal SassScript, so it compiles without a word and
-// emits CSS the browser drops — `border-bottom: none solid #5ea3d3`,
-// `padding: 10 12px`. The rule silently vanishes and ActiveAdmin's own value
-// reappears. Fail the build with a readable message instead.
 // Иконки переключателя тем. Инлайном, потому что гем не возит картинок, и
 // маской, а не цветным SVG: маска красится currentColor и сама идёт за
 // $skinMenuTextColor. Половинка круга — auto, солнце — light, месяц — dark.
@@ -229,6 +225,10 @@ $theme-icon-auto: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/s
 $theme-icon-light: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='black' stroke-width='1.4' stroke-linecap='round'%3E%3Ccircle cx='8' cy='8' r='3.1'/%3E%3Cpath d='M8 .9v1.8M8 13.3v1.8M.9 8h1.8M13.3 8h1.8M2.9 2.9l1.3 1.3M11.8 11.8l1.3 1.3M13.1 2.9l-1.3 1.3M4.2 11.8l-1.3 1.3'/%3E%3C/svg%3E")!default;
 $theme-icon-dark: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M13.4 9.6A5.9 5.9 0 0 1 6.4 2.6a5.9 5.9 0 1 0 7 7z'/%3E%3C/svg%3E")!default;
 
+// A wrong-typed override is legal SassScript, so it compiles without a word and
+// emits CSS the browser drops — `border-bottom: none solid #5ea3d3`,
+// `padding: 10 12px`. The rule silently vanishes and ActiveAdmin's own value
+// reappears. Fail the build with a readable message instead.
 @each $name, $value in (
   skinBorderRadius: $skinBorderRadius,
   skinTablePadding: $skinTablePadding,
@@ -261,10 +261,59 @@ $theme-icon-dark: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/s
   skinAccentColor: $skinAccentColor,
   skinAccentColorDark: $skinAccentColorDark,
   skinButtonTextColor: $skinButtonTextColor,
-  skinButtonTextColorDark: $skinButtonTextColorDark
+  skinButtonTextColorDark: $skinButtonTextColorDark,
+  skinPageBgColor: $skinPageBgColor,
+  skinPageBgColorDark: $skinPageBgColorDark,
+  skinSurfaceColor: $skinSurfaceColor,
+  skinSurfaceColorDark: $skinSurfaceColorDark,
+  skinSurface2Color: $skinSurface2Color,
+  skinSurface2ColorDark: $skinSurface2ColorDark,
+  skinSurfaceHoverColor: $skinSurfaceHoverColor,
+  skinSurfaceHoverColorDark: $skinSurfaceHoverColorDark,
+  skinElevatedColor: $skinElevatedColor,
+  skinElevatedColorDark: $skinElevatedColorDark,
+  skinTextColor: $skinTextColor,
+  skinTextColorDark: $skinTextColorDark,
+  skinTextMutedColor: $skinTextMutedColor,
+  skinTextMutedColorDark: $skinTextMutedColorDark,
+  skinBorderColor: $skinBorderColor,
+  skinBorderColorDark: $skinBorderColorDark,
+  skinInputBgColor: $skinInputBgColor,
+  skinInputBgColorDark: $skinInputBgColorDark,
+  skinInputBorderColor: $skinInputBorderColor,
+  skinInputBorderColorDark: $skinInputBorderColorDark,
+  skinMenuItemHoverTextColor: $skinMenuItemHoverTextColor,
+  skinLabelColor: $skinLabelColor,
+  skinLabelColorDark: $skinLabelColorDark,
+  skinButtonColor: $skinButtonColor,
+  skinButtonColorDark: $skinButtonColorDark,
+  skinLinkColor: $skinLinkColor,
+  skinLinkColorDark: $skinLinkColorDark,
+  skinDeleteLinkColor: $skinDeleteLinkColor,
+  skinDeleteLinkColorDark: $skinDeleteLinkColorDark,
+  skinTabInactiveColor: $skinTabInactiveColor,
+  skinTabInactiveColorDark: $skinTabInactiveColorDark,
+  skinActiveTabTextColor: $skinActiveTabTextColor,
+  skinActiveTabTextColorDark: $skinActiveTabTextColorDark,
+  skinInactiveTabTextColor: $skinInactiveTabTextColor,
+  skinInactiveTabTextColorDark: $skinInactiveTabTextColorDark,
+  skinTableHeaderTextColor: $skinTableHeaderTextColor,
+  skinTableHeaderTextColorDark: $skinTableHeaderTextColorDark
 ) {
   @if type-of($value) != color {
     @error "$#{$name} must be a color (use `transparent`, not `none`), got `#{$value}`.";
+  }
+}
+// The panel header pair defaults to a custom property and is documented as
+// accepting one, so a plain `type-of != color` would reject the shipped value.
+@each $name, $value in (
+  skinPanelHeaderColor: $skinPanelHeaderColor,
+  skinPanelHeaderColorDark: $skinPanelHeaderColorDark,
+  skinPanelHeaderTextColor: $skinPanelHeaderTextColor,
+  skinPanelHeaderTextColorDark: $skinPanelHeaderTextColorDark
+) {
+  @if type-of($value) != color and str-index("#{$value}", "var(") != 1 {
+    @error "$#{$name} must be a color or a CSS custom property (e.g. var(--aa-page-bg)), got `#{$value}`.";
   }
 }
 // Радиус внутреннего угла ячейки — на 1px меньше внешнего, чтобы не торчал
