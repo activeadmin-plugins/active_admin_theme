@@ -28,44 +28,44 @@ $skinInputBorderColor:  #c9ced4!default;  $skinInputBorderColorDark: #454b52!def
 // Header menu colors. Each defaults to the previous value, so projects that do
 // not set these compile to identical CSS (and a project that overrides
 // $skinMainSecondColor still gets the menu following that accent).
-$skinMenuPillColor: $skinMainSecondColor!default;   // top-level current/hover pill
-$skinMenuTextColor: #ffffff!default;                // dropdown item text (was: inherited #fff)
-$skinMenuPillTextColor: $skinMenuTextColor!default; // text on that pill; follows the dropdown text so a
+$skinMenuPillColor: #2e3236!default;   // top-level current/hover pill
+$skinMenuTextColor: #dfe2e6!default;                // dropdown item text (was: inherited #fff)
+$skinMenuPillTextColor: #6cb0de!default; // text on that pill; follows the dropdown text so a
                                                     // light menu is one variable to set, not two
-$skinMenuPanelColor: $skinMainSecondColor!default;  // dropdown panel bg + hover "bridge" border
-$skinMenuItemHoverColor: transparent!default;       // dropdown item hover/current bg (was: none)
-$skinMenuItemHoverTextColor: $skinMenuTextColor!default; // hover/current dropdown item text, same reason
+$skinMenuPanelColor: #2e3236!default;  // dropdown panel bg + hover "bridge" border
+$skinMenuItemHoverColor: #3f454c!default;       // dropdown item hover/current bg (was: none)
+$skinMenuItemHoverTextColor: #6cb0de!default; // hover/current dropdown item text, same reason
 
 // Header / menu sizing. Defaults reproduce (or keep the same total as) the
 // previous hard-coded values, so non-configuring projects are unchanged.
-$skinMenuFontSize: 1em!default;                     // header menu text size
-$skinMenuItemPaddingY: 8px!default;                 // dropdown item top/bottom padding (was 6px/4px + a 7px border)
+$skinMenuFontSize: 13px!default;                     // header menu text size
+$skinMenuItemPaddingY: 5px!default;                 // dropdown item top/bottom padding (was 6px/4px + a 7px border)
 $skinMenuPanelMaxWidth: 260px!default;              // dropdown panel ceiling; longer labels wrap instead of leaving the viewport
-$skinMenuItemLineHeight: 1.5!default;               // dropdown item line-height
+$skinMenuItemLineHeight: 1.35!default;               // dropdown item line-height
 // Header padding. Set $skinHeaderPaddingY for the same value top and bottom,
 // or the two halves separately. The defaults are asymmetric because that is
 // what the theme has always rendered, and a symmetric value shifts every
 // element in the header.
 $skinHeaderPaddingY: null!default;
-$skinHeaderPaddingTop: if($skinHeaderPaddingY == null, 5px, $skinHeaderPaddingY)!default;
-$skinHeaderPaddingBottom: if($skinHeaderPaddingY == null, 9px, $skinHeaderPaddingY)!default;
+$skinHeaderPaddingTop: 4.5px!default;
+$skinHeaderPaddingBottom: 4.5px!default;
 $skinHeaderLogoMaxHeight: none!default;             // cap the site_title logo image height
 
 // Title bar
-$skinTitleBarColor: lighten($skinMainFirstColor, 8%)!default;
+$skinTitleBarColor: #343c46!default;
 $skinTitleBarBorderColor: $skinMainSecondColor!default;
-$skinTitleBarBorderWidth: 3px!default;
-$skinTitleBarButtonPaddingY: 10px!default;          // action button vertical padding
-$skinTitleBarButtonPaddingX: 20px!default;          // action button horizontal padding
+$skinTitleBarBorderWidth: 0!default;
+$skinTitleBarButtonPaddingY: 6px!default;          // action button vertical padding
+$skinTitleBarButtonPaddingX: 10px!default;          // action button horizontal padding
 
 // Panel/section headers + tabs accent (the blue bar on panel headers and the
 // inactive tabs). $skinPanelHeaderColor is the base/light value;
 // $skinPanelHeaderColorDark lets a project use a different color in dark mode.
-$skinPanelHeaderColor: $skinMainSecondColor!default;
-$skinPanelHeaderColorDark: $skinPanelHeaderColor!default;
+$skinPanelHeaderColor: var(--aa-page-bg)!default;
+$skinPanelHeaderColorDark: var(--aa-page-bg)!default;
 // Panel/section header TEXT color (the label on the colored header bar), per mode.
-$skinPanelHeaderTextColor: #ffffff!default;
-$skinPanelHeaderTextColorDark: $skinPanelHeaderTextColor!default;
+$skinPanelHeaderTextColor: var(--aa-inactive-tab-text)!default;
+$skinPanelHeaderTextColorDark: var(--aa-inactive-tab-text)!default;
 
 // Form label / legend text — a muted blue-grey in light; the regular text color
 // in dark (where the muted blue-grey would be too dim).
@@ -79,12 +79,12 @@ $skinButtonColor: $skinMainSecondColor!default;
 // without this the label stays white and a light fill is unreadable.
 $skinButtonTextColor: #ffffff!default;
 $skinButtonTextColorDark: $skinButtonTextColor!default;
-$skinButtonColorDark: $skinButtonColor!default;
+$skinButtonColorDark: #3c6e62!default;
 
 // Vertical padding controlling the height of panel/section headers and tabs.
-$skinPanelHeaderPaddingY: 8px!default;   // panel + sidebar header height
-$skinTabPaddingY: 10px!default;          // tab height
-$skinTabPaddingX: 20px!default;          // tab label horizontal padding (text → border)
+$skinPanelHeaderPaddingY: 5px!default;   // panel + sidebar header height
+$skinTabPaddingY: 8px!default;          // tab height
+$skinTabPaddingX: 15px!default;          // tab label horizontal padding (text → border)
 // Height of every table-tools button (scopes, batch actions, view switcher,
 // custom tools) — matched to the panel-header height.
 $skinTableToolsHeight: 30px!default;
@@ -112,7 +112,7 @@ $skinAccentColorDark: $skinAccentColor!default;
 // for text this size — and links also sit on zebra rows, table headers and
 // selected rows, so the worst of those is what has to clear it. #1f5f8d
 // keeps the hue and gives 5.28 against the darkest of them.
-$skinLinkColor: #1f5f8d!default;
+$skinLinkColor: #38678b!default;
 $skinLinkColorDark: #6cb0de!default;
 
 // Delete / destroy links. Light follows the regular link color (so action links
@@ -121,12 +121,12 @@ $skinDeleteLinkColor: $skinLinkColor!default;
 $skinDeleteLinkColorDark: #e06c6c!default;
 // Tabs: fill and label colours per mode. yeti-web sets all four to make the
 // inactive tabs recede to the page background and the active one read as raised.
-$skinTabInactiveColor: $skinPanelHeaderColor!default;
-$skinTabInactiveColorDark: $skinPanelHeaderColorDark!default;
-$skinActiveTabTextColor: $skinLinkColor!default;
-$skinActiveTabTextColorDark: $skinLinkColorDark!default;
-$skinInactiveTabTextColor: $skinPanelHeaderTextColor!default;
-$skinInactiveTabTextColorDark: $skinInactiveTabTextColor!default;
+$skinTabInactiveColor: #f7f9fb!default;
+$skinTabInactiveColorDark: #1a1d21!default;
+$skinActiveTabTextColor: #5ea3d3!default;
+$skinActiveTabTextColorDark: #6cb0de!default;
+$skinInactiveTabTextColor: #5e6469!default;
+$skinInactiveTabTextColorDark: #9aa0a6!default;
 // Index-table column header text, one colour for sortable and plain headers.
 $skinTableHeaderTextColor: #5e6469!default;
 $skinTableHeaderTextColorDark: #d7dbe0!default;
@@ -358,6 +358,12 @@ body.active_admin {
     ul.tabs > li.current > a, ul.tabs > li:hover > a {
       background-color: $skinMenuPillColor;
       color: $skinMenuPillTextColor;
+    }
+    // ActiveAdmin swaps in its "dark" submenu arrow on the current/hovered item,
+    // which assumes the highlight is lighter than the bar. The default pill is
+    // not, so keep the light arrow there.
+    ul.tabs > li.has_nested.current > a, ul.tabs > li.has_nested:hover > a {
+      background-image: url($menu-arrow-light-icon-url);
     }
     // The utility nav (username, clock, theme switcher, logout) are not navigation
     // tabs: drop the pill padding, and on hover highlight by text colour only — no
