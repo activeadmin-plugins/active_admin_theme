@@ -1,0 +1,43 @@
+name: Screens
+
+# Runs in the PR's own context, so it also works for pull requests from forks —
+# which means it gets a read-only token and no secrets. It only produces an
+# artifact; publishing the images and posting the comment is screens-comment.yml,
+# which runs afterwards with the repository's own permissions.
+on:
+  pull_request:
+    paths:
+      - 'app/assets/stylesheets/**'
+      - 'test/screens/**'
+      - '.github/workflows/screens.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  shoot:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.3'
+          bundler-cache: true
+
+      - name: Shoot both revisions
+        run: bundle exec rake "screens[origin/${{ github.base_ref }}]"
+
+      - name: Record which PR this was
+        run: echo "${{ github.event.pull_request.number }}" > tmp/screens/pr-number
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: screens
+          path: |
+            tmp/screens/before
+            tmp/screens/after
+            tmp/screens/pr-number
+          retention-days: 7

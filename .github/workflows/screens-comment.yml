@@ -1,0 +1,78 @@
+name: Screens comment
+
+# Second half of the screenshot workflow. Screens runs in the pull request's
+# context (read-only, fork-safe) and leaves an artifact; this one runs in the
+# repository's context, so it can publish the images and write the comment.
+#
+# The images go to a prerelease tagged `screens` — release assets are not part
+# of the git history, so nothing lands in the repository or in a branch, and a
+# clone does not carry them.
+on:
+  workflow_run:
+    workflows: ["Screens"]
+    types: [completed]
+
+permissions:
+  contents: write
+  pull-requests: write
+  actions: read
+
+jobs:
+  publish:
+    if: github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: screens
+          path: screens
+          run-id: ${{ github.event.workflow_run.id }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Read the PR number
+        id: pr
+        run: echo "number=$(cat screens/pr-number)" >> "$GITHUB_OUTPUT"
+
+      - name: Publish the images as release assets
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR: ${{ steps.pr.outputs.number }}
+        run: |
+          set -euo pipefail
+          gh release view screens >/dev/null 2>&1 || \
+            gh release create screens --prerelease --title "Screenshots" \
+              --notes "Images referenced from pull request comments. Not part of the repository."
+
+          mkdir -p upload
+          for side in before after; do
+            for file in screens/$side/*.png; do
+              cp "$file" "upload/pr-$PR-$side-$(basename "$file")"
+            done
+          done
+          gh release upload screens upload/*.png --clobber
+
+      - name: Build and post the comment
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR: ${{ steps.pr.outputs.number }}
+          BASE: ${{ github.event.workflow_run.pull_requests[0].base.ref || 'master' }}
+        run: |
+          set -euo pipefail
+          ruby test/screens/comment.rb \
+            --before screens/before --after screens/after --base "$BASE" \
+            --url-prefix "https://github.com/${{ github.repository }}/releases/download/screens/pr-$PR-" \
+            > comment.md
+
+          # Replace this workflow's previous comment instead of stacking a new
+          # one on every push.
+          existing=$(gh api "repos/${{ github.repository }}/issues/$PR/comments" \
+            --jq 'map(select(.body | startswith("<!-- theme-screens -->"))) | .[0].id // empty')
+          if [ -n "$existing" ]; then
+            gh api --method PATCH "repos/${{ github.repository }}/issues/comments/$existing" \
+              -F body=@comment.md >/dev/null
+          else
+            gh api --method POST "repos/${{ github.repository }}/issues/$PR/comments" \
+              -F body=@comment.md >/dev/null
+          fi
