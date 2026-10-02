@@ -194,7 +194,7 @@ set variables:
 | `$skinTextColor` / `$skinTextColorDark` | `#323537` / `#dde2e8` | body text |
 | `$skinTextMutedColor` / `$skinTextMutedColorDark` | `#6b7177` / `#b0b8c2` | secondary text / axis labels |
 | `$skinBorderColor` / `$skinBorderColorDark` | `#e0e4e9` / `#404750` | borders / grid lines |
-| `$skinInputBgColor` / `$skinInputBgColorDark` | `#ffffff` / `#2c3137` | form control background |
+| `$skinInputBgColor` / `$skinInputBgColorDark` | `#ffffff` / `#1e2227` | form control background |
 | `$skinInputBorderColor` / `$skinInputBorderColorDark` | `#c9ced4` / `#4d555f` | form control border |
 
 #### Header menu
@@ -271,6 +271,16 @@ operating system and can be pinned per page with `data-theme`.
 #### Dark
 
 [![Dark](./img/dark.png)](./img/dark.png)
+
+#### Form and filter controls
+
+Shown at full size, because the two shots above scale the controls down past
+the point where you can tell what colour they are. Inputs, selects and
+textareas take `$skinInputBgColor` / `$skinInputBorderColor` — white on
+`#c9ced4` in light mode, a recessed `#1e2227` well on `#4d555f` in dark — and
+the focused field (`Name`, `Title`) carries `$skinMainSecondColor`.
+
+[![Form and filter inputs](./img/inputs.png)](./img/inputs.png)
 
 ## Contributing
 
