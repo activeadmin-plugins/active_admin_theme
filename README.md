@@ -266,7 +266,7 @@ set variables:
 |---|---|---|
 | `$skinAccentColor` / `$skinAccentColorDark` | `$skinMainSecondColor` / `$skinAccentColor` | focus ring / accent outline |
 | `$skinLinkColor` / `$skinLinkColorDark` | `#1f5f8d` / `#7cc0ec` |  |
-| `$skinDeleteLinkColor` / `$skinDeleteLinkColorDark` | `$skinLinkColor` / `#eb7b7b` |  |
+| `$skinDeleteLinkColor` / `$skinDeleteLinkColorDark` | `$skinLinkColor` / `#f49b9b` |  |
 
 ## Screen
 
