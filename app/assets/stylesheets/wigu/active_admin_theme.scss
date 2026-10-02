@@ -1283,6 +1283,13 @@ input[type='radio'] {
 
     // Pagination — non-current page chips use a light-grey bg in the theme
     .pagination span > a { background-color: var(--aa-surface-2); color: var(--aa-text); }
+    // The hovered page link keeps its accent fill, so the label has to be
+    // the colour that reads on the accent — not the link colour. The generic
+    // link rule above scores (2,6,1) thanks to its six :not() clauses and
+    // cannot be out-specified by anything sane here, which is why this needs
+    // !important, like the accent fill one line over in the base pagination
+    // block. Without it the digit renders at 1.00:1 on its own background.
+    .pagination span > a:hover { color: $skinMenuPillTextColor !important; }
 
     // Batch-actions / table-tools dropdown menu items are white by default
     .table_tools .dropdown_menu_list li a {
