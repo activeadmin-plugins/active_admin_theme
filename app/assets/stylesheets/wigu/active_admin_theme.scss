@@ -1240,7 +1240,11 @@ input[type='radio'] {
 @mixin status-tag-colors($c) {
   background: $c;
   border-color: mix($c, #000000, 84%); // = darken($c) — outline in the fill colour
-  color: #ffffff;
+  // Black, not white: the five fills below are mid-tone, and white lands
+  // between 2.35 and 3.78 against them — under the 4.5 WCAG AA asks for text
+  // this small. Black gives at least 5.56 on every one of them. #1a1d21 was
+  // the first thing tried and misses by 0.02 on the error red.
+  color: #000000;
 }
 
 //CONTENT (both modes)-----------------------------------------------------------//
