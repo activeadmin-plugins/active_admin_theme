@@ -272,21 +272,6 @@ body.active_admin {
           }
         }
       }
-      div.batch_actions_selector {
-        a {
-          background-image: none;
-          border: none;
-          box-shadow: none;
-          background-color: $skinMainSecondColor;
-          @include rounded($skinBorderRadius);
-          border: none;
-          padding: $skinTitleBarButtonPaddingY $skinTitleBarButtonPaddingX;
-          color: #ffffff;
-          &:hover {
-            background-color: lighten( $skinMainSecondColor, 5% );
-          }
-        }
-      }
     }
   }
   .flashes {
