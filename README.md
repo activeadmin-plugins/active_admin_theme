@@ -81,6 +81,21 @@ Every colour below that has a `…Dark` twin is what dark mode uses; each twin
 defaults to its light counterpart unless noted, so a project that only sets
 the light value keeps one consistent colour in both modes.
 
+### Upgrading
+
+Two things changed shape in this release and are worth knowing if you already
+set variables:
+
+* Dropdown panels — the title-bar menu, the batch-actions menu and the
+  table-tools menus — now follow the surface palette (`$skinSurfaceColor` and
+  friends) instead of `$skinMainFirstColor` / `$skinMainSecondColor`. That is
+  what lets them work in both modes. If you branded those panels through the
+  two main colours, point `$skinSurfaceColor` and `$skinSurfaceHoverColor` at
+  the same values.
+* The default content link colour is darker (`#1f5f8d` rather than the accent).
+  The accent is a fill colour and failed WCAG AA as body text. Set
+  `$skinLinkColor` back to `$skinMainSecondColor` if you prefer the old look.
+
 ### Variables
 
 #### Core
