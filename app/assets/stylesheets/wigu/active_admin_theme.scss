@@ -1125,6 +1125,17 @@ form fieldset > ol > li fieldset ol li {
 // Dropdown (batch-actions / title-bar / table-tools) menu items: keep them on the
 // surface text colour, not the global link blue that otherwise leaks in.
 .dropdown_menu_list li a { color: var(--aa-text) !important; }
+// The list itself and its row dividers were never repainted — ActiveAdmin
+// leaves them #FFF and #ebebeb, which in dark mode is a white panel behind
+// the items and a bright hairline between every one of them. Same selector
+// depth as the base rules, so source order decides and this comes later.
+.dropdown_menu .dropdown_menu_list_wrapper .dropdown_menu_list {
+  background-color: var(--aa-surface);
+  border-color: var(--aa-border);
+}
+.dropdown_menu .dropdown_menu_list_wrapper .dropdown_menu_list li {
+  border-bottom-color: var(--aa-border);
+}
 
 .ui-dialog {
   background-image: none;
