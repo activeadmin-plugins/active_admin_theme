@@ -94,7 +94,7 @@ $skinMenuTextColor:          #ffffff;
 $skinMenuItemHoverColor:     transparent;
 $skinMenuItemHoverTextColor: #ffffff;
 $skinMenuFontSize:           1em;
-$skinHeaderPaddingY:         null;      // 5px top / 9px bottom, as before
+$skinHeaderPaddingY:         7px;       // one value top and bottom
 $skinTitleBarColor:          lighten($skinMainFirstColor, 8%);
 $skinTitleBarBorderWidth:    3px;
 $skinPanelHeaderColor:       $skinMainSecondColor;
@@ -210,7 +210,7 @@ set variables:
 | `$skinSurface2Color` / `$skinSurface2ColorDark` | `#f0f2f5` / `#2c3137` | table headers / striping / subtle fills |
 | `$skinSurfaceHoverColor` / `$skinSurfaceHoverColorDark` | `#f5f7fa` / `#3f454d` | row / item hover |
 | `$skinSelectedRowColor` / `$skinSelectedRowColorDark` | `#d9e4ec` / `#304457` | checked table row |
-| `$skinElevatedColor` / `$skinElevatedColorDark` | `$skinSurfaceColor` / `#3f454d` | tool buttons and dropdown panels floating above the page |
+| `$skinElevatedColor` / `$skinElevatedColorDark` | `$skinSurfaceColor` / `#363c43` | tool buttons and dropdown panels floating above the page |
 | `$skinTextColor` / `$skinTextColorDark` | `#323537` / `#dde2e8` | body text |
 | `$skinTextMutedColor` / `$skinTextMutedColorDark` | `#6b7177` / `#b0b8c2` | secondary text / axis labels |
 | `$skinBorderColor` / `$skinBorderColorDark` | `#e0e4e9` / `#404750` | borders / grid lines |
@@ -221,45 +221,45 @@ set variables:
 
 | Variable | Default (light / dark) | |
 |---|---|---|
-| `$skinMenuPillColor` | `$skinMainSecondColor` | top-level current/hover pill |
-| `$skinMenuPillTextColor` | `$skinMenuTextColor` | text on that pill; follows the dropdown text so a |
-| `$skinMenuPanelColor` | `$skinMainSecondColor` | dropdown panel bg + hover "bridge" border |
-| `$skinMenuTextColor` | `#ffffff` | dropdown item text (was: inherited #fff) |
-| `$skinMenuItemHoverColor` | `transparent` | dropdown item hover/current bg (was: none) |
-| `$skinMenuItemHoverTextColor` | `$skinMenuTextColor` | hover/current dropdown item text, same reason |
-| `$skinMenuFontSize` | `1em` | header menu text size |
-| `$skinMenuItemPaddingY` | `8px` | dropdown item top/bottom padding (was 6px/4px + a 7px border) |
-| `$skinMenuItemLineHeight` | `1.5` | dropdown item line-height |
+| `$skinMenuPillColor` | `#2e3236` | top-level current/hover pill |
+| `$skinMenuPillTextColor` | `#6cb0de` | text on that pill; follows the dropdown text so a |
+| `$skinMenuPanelColor` | `#2e3236` | dropdown panel bg + hover "bridge" border |
+| `$skinMenuTextColor` | `#dfe2e6` | dropdown item text (was: inherited #fff) |
+| `$skinMenuItemHoverColor` | `#3f454c` | dropdown item hover/current bg (was: none) |
+| `$skinMenuItemHoverTextColor` | `#6cb0de` | hover/current dropdown item text, same reason |
+| `$skinMenuFontSize` | `13px` | header menu text size |
+| `$skinMenuItemPaddingY` | `5px` | dropdown item top/bottom padding (was 6px/4px + a 7px border) |
+| `$skinMenuItemLineHeight` | `1.35` | dropdown item line-height |
 | `$skinMenuPanelMaxWidth` | `260px` | dropdown panel ceiling; longer labels wrap instead of leaving the viewport |
 | `$skinHeaderPaddingY` | `null` | sets both halves at once |
-| `$skinHeaderPaddingTop` | `5px` | header top padding (base value, kept so the header does not shift) |
-| `$skinHeaderPaddingBottom` | `9px` | header bottom padding |
+| `$skinHeaderPaddingTop` | `4.5px` | header top padding (base value, kept so the header does not shift) |
+| `$skinHeaderPaddingBottom` | `4.5px` | header bottom padding |
 | `$skinHeaderLogoMaxHeight` | `none` | cap the site_title logo image height |
 
 #### Title bar
 
 | Variable | Default (light / dark) | |
 |---|---|---|
-| `$skinTitleBarColor` | `lighten($skinMainFirstColor, 8%)` |  |
+| `$skinTitleBarColor` | `#343c46` |  |
 | `$skinTitleBarBorderColor` | `$skinMainSecondColor` |  |
-| `$skinTitleBarBorderWidth` | `3px` |  |
-| `$skinTitleBarButtonPaddingY` | `10px` | action button vertical padding |
-| `$skinTitleBarButtonPaddingX` | `20px` | action button horizontal padding |
+| `$skinTitleBarBorderWidth` | `0` |  |
+| `$skinTitleBarButtonPaddingY` | `6px` | action button vertical padding |
+| `$skinTitleBarButtonPaddingX` | `10px` | action button horizontal padding |
 
 #### Panels, tabs and labels
 
 | Variable | Default (light / dark) | |
 |---|---|---|
-| `$skinPanelHeaderColor` / `$skinPanelHeaderColorDark` | `$skinMainSecondColor` / `$skinPanelHeaderColor` |  |
-| `$skinPanelHeaderTextColor` / `$skinPanelHeaderTextColorDark` | `#ffffff` / `$skinPanelHeaderTextColor` |  |
-| `$skinPanelHeaderPaddingY` | `8px` | panel + sidebar header height |
+| `$skinPanelHeaderColor` / `$skinPanelHeaderColorDark` | `var(--aa-page-bg)` / `var(--aa-page-bg)` |  |
+| `$skinPanelHeaderTextColor` / `$skinPanelHeaderTextColorDark` | `var(--aa-inactive-tab-text)` / `var(--aa-inactive-tab-text)` |  |
+| `$skinPanelHeaderPaddingY` | `5px` | panel + sidebar header height |
 | `$skinLabelColor` / `$skinLabelColorDark` | `#8494a8` / `$skinTextColorDark` |  |
-| `$skinTabInactiveColor` / `$skinTabInactiveColorDark` | `$skinPanelHeaderColor` / `$skinPanelHeaderColorDark` | inactive tab fill |
-| `$skinActiveTabTextColor` / `$skinActiveTabTextColorDark` | `$skinLinkColor` / `$skinLinkColorDark` | selected tab label |
-| `$skinInactiveTabTextColor` / `$skinInactiveTabTextColorDark` | `$skinPanelHeaderTextColor` / `$skinInactiveTabTextColor` | inactive tab label |
+| `$skinTabInactiveColor` / `$skinTabInactiveColorDark` | `#f7f9fb` / `#161a1e` | inactive tab fill |
+| `$skinActiveTabTextColor` / `$skinActiveTabTextColorDark` | `$skinMainSecondColor` / `#7cc0ec` | selected tab label |
+| `$skinInactiveTabTextColor` / `$skinInactiveTabTextColorDark` | `#5e6469` / `#b0b8c2` | inactive tab label |
 | `$skinTableHeaderTextColor` / `$skinTableHeaderTextColorDark` | `#5e6469` / `#dde2e8` | index-table column header text |
-| `$skinTabPaddingY` | `10px` | tab height |
-| `$skinTabPaddingX` | `20px` | tab label horizontal padding (text → border) |
+| `$skinTabPaddingY` | `8px` | tab height |
+| `$skinTabPaddingX` | `15px` | tab label horizontal padding (text → border) |
 
 #### Buttons and table tools
 
@@ -275,7 +275,7 @@ set variables:
 | Variable | Default (light / dark) | |
 |---|---|---|
 | `$skinAccentColor` / `$skinAccentColorDark` | `$skinMainSecondColor` / `$skinAccentColor` | focus ring / accent outline |
-| `$skinLinkColor` / `$skinLinkColorDark` | `#1f5f8d` / `#7cc0ec` |  |
+| `$skinLinkColor` / `$skinLinkColorDark` | `#38678b` / `#7cc0ec` |  |
 | `$skinDeleteLinkColor` / `$skinDeleteLinkColorDark` | `$skinLinkColor` / `#f49b9b` |  |
 
 ## Screen
