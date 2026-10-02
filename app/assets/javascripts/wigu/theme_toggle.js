@@ -35,8 +35,18 @@
     try { value === null ? localStorage.removeItem(KEY) : localStorage.setItem(KEY, value); } catch (e) {}
   }
 
+  // The choice is held here and storage is best-effort persistence. Reading it
+  // back instead would make the switch a no-op wherever localStorage throws —
+  // private mode in some browsers — because the write is swallowed and the next
+  // read returns the old value.
+  var current = null;
+
   function mode() {
-    var value = stored();
+    if (current === null) current = normalise(stored());
+    return current;
+  }
+
+  function normalise(value) {
     return value === "light" || value === "dark" ? value : "auto";
   }
 
@@ -62,18 +72,19 @@
   }
 
   function refresh() {
-    var current = mode();
+    var active = mode();
     Array.prototype.forEach.call(controls(), function (host) {
       // The host itself may be the anchor (a menu item) or wrap one (our own li).
       var link = host.tagName === "A" ? host : host.querySelector("a") || host;
-      host.setAttribute("data-mode", current);
-      link.setAttribute("title", LABEL[current]);
-      link.setAttribute("aria-label", LABEL[current]);
+      host.setAttribute("data-mode", active);
+      link.setAttribute("title", LABEL[active]);
+      link.setAttribute("aria-label", LABEL[active]);
     });
   }
 
   function cycle() {
     var next = ORDER[mode()];
+    current = next;
     store(next === "auto" ? null : next);
     apply();
     refresh();
@@ -98,7 +109,10 @@
 
   // Another tab changed the preference.
   window.addEventListener("storage", function (event) {
-    if (event.key === KEY) { apply(); refresh(); }
+    if (event.key !== KEY) return;
+    current = normalise(event.newValue);
+    apply();
+    refresh();
   });
 
   // In auto mode, follow the operating system while the page is open.
