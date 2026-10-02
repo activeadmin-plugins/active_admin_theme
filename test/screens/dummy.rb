@@ -18,11 +18,19 @@ RAILS = ENV.fetch("RAILS_VERSION", "7.2.3.1")
 
 # Every command runs with the parent's bundler environment cleared, so the
 # generated app resolves against its own Gemfile and not this gem's.
+#
+# BUNDLE_APP_CONFIG matters on CI: ruby/setup-ruby with bundler-cache writes
+# .bundle/config into the repository with `frozen` and a vendored path, and
+# bundler walks up to find it — these directories live under the repository, so
+# without this they would inherit a lockfile they are not described by.
 def sh(command, chdir: Dir.pwd, env: {})
   puts "  $ #{command}"
   cleared = %w[BUNDLE_GEMFILE BUNDLE_PATH BUNDLE_BIN_PATH RUBYOPT RUBYLIB]
              .to_h { |key| [key, nil] }
-  system(cleared.merge(env), command, chdir: chdir, exception: true)
+  isolated = { "BUNDLE_APP_CONFIG" => File.join(chdir, ".bundle"),
+               "BUNDLE_FROZEN" => "false",
+               "BUNDLE_DEPLOYMENT" => "false" }
+  system(cleared.merge(isolated).merge(env), command, chdir: chdir, exception: true)
 end
 
 def write(relative, contents)
