@@ -161,6 +161,7 @@ set variables:
 | `$skinSurface2Color` / `$skinSurface2ColorDark` | `#f0f2f5` / `#2c3036` | table headers / striping / subtle fills |
 | `$skinSurfaceHoverColor` / `$skinSurfaceHoverColorDark` | `#f5f7fa` / `#30353b` | row / item hover |
 | `$skinSelectedRowColor` / `$skinSelectedRowColorDark` | `#d9e4ec` / `#35414c` | checked table row |
+| `$skinElevatedColor` / `$skinElevatedColorDark` | `$skinSurfaceColor` / `#30353b` | tool buttons and dropdown panels floating above the page |
 | `$skinTextColor` / `$skinTextColorDark` | `#323537` / `#d7dbe0` | body text |
 | `$skinTextMutedColor` / `$skinTextMutedColorDark` | `#6b7177` / `#9aa0a6` | secondary text / axis labels |
 | `$skinBorderColor` / `$skinBorderColorDark` | `#e0e4e9` / `#3a3f45` | borders / grid lines |

@@ -15,6 +15,10 @@ $skinSurfaceColor:      #ffffff!default;  $skinSurfaceColorDark:     #24272c!def
 $skinSurface2Color:     #f0f2f5!default;  $skinSurface2ColorDark:    #2c3036!default;  // table headers / striping / subtle fills
 $skinSurfaceHoverColor: #f5f7fa!default;  $skinSurfaceHoverColorDark:#30353b!default;  // row / item hover
 $skinSelectedRowColor:  #d9e4ec!default;  $skinSelectedRowColorDark: #35414c!default;  // checked table row
+// Things that float above the page — tool-row buttons and dropdown panels.
+// On light they match the content surface; on dark they have to sit a step
+// lighter than the page or they read as holes in it.
+$skinElevatedColor: $skinSurfaceColor!default;  $skinElevatedColorDark: #30353b!default;
 $skinTextColor:         #323537!default;  $skinTextColorDark:        #d7dbe0!default;  // body text
 $skinTextMutedColor:    #6b7177!default;  $skinTextMutedColorDark:   #9aa0a6!default;  // secondary text / axis labels
 $skinBorderColor:       #e0e4e9!default;  $skinBorderColorDark:      #3a3f45!default;  // borders / grid lines
@@ -142,6 +146,7 @@ $skinTableHeaderTextColorDark: #d7dbe0!default;
   --aa-table-header:  #{$skinSurface2ColorDark};
   --aa-surface-hover: #{$skinSurfaceHoverColorDark};
   --aa-selected:      #{$skinSelectedRowColorDark};
+  --aa-elevated:      #{$skinElevatedColorDark};
   --aa-text:          #{$skinTextColorDark};
   --aa-text-muted:    #{$skinTextMutedColorDark};
   --aa-border:        #{$skinBorderColorDark};
@@ -172,6 +177,7 @@ $skinTableHeaderTextColorDark: #d7dbe0!default;
   --aa-table-header:  #{$skinBorderWindowColor};
   --aa-surface-hover: #{$skinSurfaceHoverColor};
   --aa-selected:      #{$skinSelectedRowColor};
+  --aa-elevated:      #{$skinElevatedColor};
   --aa-text:          #{$skinTextColor};
   --aa-text-muted:    #{$skinTextMutedColor};
   --aa-border:        #{$skinBorderColor};
@@ -465,7 +471,7 @@ body.active_admin {
       }
       div.dropdown_menu {
         div.dropdown_menu_list_wrapper {
-          background-color: var(--aa-surface);
+          background-color: var(--aa-elevated);
           border: 1px solid var(--aa-border);
           background-image: none;
           box-shadow: none;
@@ -476,7 +482,7 @@ body.active_admin {
           // which is exactly what a light surface is. Outline it like the panel.
           div.dropdown_menu_nipple {
             border-color: var(--aa-border) transparent;
-            &:before, &:after { border-color: var(--aa-surface) transparent; }
+            &:before, &:after { border-color: var(--aa-elevated) transparent; }
           }
           ul.dropdown_menu_list {
             box-shadow: none;
@@ -549,7 +555,7 @@ body.active_admin {
         box-sizing: border-box;
         height: $skinTableToolsHeight;
         line-height: $skinTableToolsHeight; // = button height: nudges the text to the optical centre (the font otherwise sits high in the line box)
-        background: var(--aa-surface);
+        background: var(--aa-elevated);
         background-image: none;
         border: 1px solid var(--aa-border);
         color: var(--aa-text);
@@ -561,7 +567,7 @@ body.active_admin {
       }
       div.dropdown_menu {
         div.dropdown_menu_list_wrapper {
-          background-color: var(--aa-surface);
+          background-color: var(--aa-elevated);
           border: 1px solid var(--aa-border);
           background-image: none;
           box-shadow: none;
@@ -572,7 +578,7 @@ body.active_admin {
           // which is exactly what a light surface is. Outline it like the panel.
           div.dropdown_menu_nipple {
             border-color: var(--aa-border) transparent;
-            &:before, &:after { border-color: var(--aa-surface) transparent; }
+            &:before, &:after { border-color: var(--aa-elevated) transparent; }
           }
           ul.dropdown_menu_list {
             box-shadow: none;
@@ -597,7 +603,7 @@ body.active_admin {
           line-height: $skinTableToolsHeight;
           background-image: none;
           box-shadow: none;
-          background-color: var(--aa-surface);
+          background-color: var(--aa-elevated);
           @include rounded($skinBorderRadius);
           border: 1px solid var(--aa-border);
           padding: 0 $skinTableToolsPaddingX;
@@ -609,7 +615,7 @@ body.active_admin {
       }
       div.dropdown_menu {
         div.dropdown_menu_list_wrapper {
-          background-color: var(--aa-surface);
+          background-color: var(--aa-elevated);
           border: 1px solid var(--aa-border);
           background-image: none;
           // ActiveAdmin draws the nipple as three stacked triangles: the element
@@ -619,7 +625,7 @@ body.active_admin {
           // which is exactly what a light surface is. Outline it like the panel.
           div.dropdown_menu_nipple {
             border-color: var(--aa-border) transparent;
-            &:before, &:after { border-color: var(--aa-surface) transparent; }
+            &:before, &:after { border-color: var(--aa-elevated) transparent; }
           }
           ul.dropdown_menu_list {
             box-shadow: none;
@@ -645,7 +651,7 @@ body.active_admin {
           height: $skinTableToolsHeight;
           line-height: $skinTableToolsHeight;
           background-image: none;
-          background-color: var(--aa-surface);
+          background-color: var(--aa-elevated);
           @include rounded($skinBorderRadius);
           border: 1px solid var(--aa-border);
           padding: 0 $skinTableToolsPaddingX;
@@ -1155,7 +1161,7 @@ form fieldset > ol > li fieldset ol li {
 // the items and a bright hairline between every one of them. Same selector
 // depth as the base rules, so source order decides and this comes later.
 .dropdown_menu .dropdown_menu_list_wrapper .dropdown_menu_list {
-  background-color: var(--aa-surface);
+  background-color: var(--aa-elevated);
   border-color: var(--aa-border);
 }
 .dropdown_menu .dropdown_menu_list_wrapper .dropdown_menu_list li {
