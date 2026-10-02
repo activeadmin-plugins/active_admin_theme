@@ -13,6 +13,7 @@ require "fileutils"
 require "optparse"
 require "net/http"
 require "tmpdir"
+require "bundler"
 require "sassc"
 require "ferrum"
 
@@ -70,12 +71,13 @@ def wait_for(url, seconds: 90)
   end
 end
 
-env = ENV.keys.grep(/\ABUNDLE_/).to_h { |k| [k, nil] }
-env.merge!("RUBYOPT" => nil, "RUBYLIB" => nil,
-           "BUNDLE_APP_CONFIG" => File.join(options[:app], ".bundle"))
-server = spawn(env.merge("RAILS_ENV" => "development"),
-               "bin/rails", "server", "-p", options[:port].to_s, "-b", "127.0.0.1",
-               chdir: options[:app], out: File::NULL, err: File::NULL)
+# Escape this gem's bundle so the dummy app boots on its own Gemfile; see the
+# same note in dummy.rb.
+server = Bundler.with_unbundled_env do
+  spawn({ "RAILS_ENV" => "development" },
+        "bin/rails", "server", "-p", options[:port].to_s, "-b", "127.0.0.1",
+        chdir: options[:app], out: File::NULL, err: File::NULL)
+end
 at_exit { Process.kill("TERM", server) rescue nil }
 wait_for("#{BASE}/admin")
 

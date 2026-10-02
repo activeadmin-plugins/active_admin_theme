@@ -8,6 +8,7 @@
 # opinion about how a host project builds its assets.
 #
 #   ruby test/screens/dummy.rb [path]     # default: tmp/screens-dummy
+require "bundler"
 require "fileutils"
 require "tmpdir"
 
@@ -17,34 +18,27 @@ require "tmpdir"
 # resolves in local mode.
 APP = File.expand_path(ARGV[0] || File.join(Dir.tmpdir, "active-admin-theme-screens"), Dir.pwd)
 
-# Every command runs with the parent's bundler environment cleared, so the
-# generated app resolves against its own Gemfile and not this gem's.
-#
-# BUNDLE_APP_CONFIG matters on CI: ruby/setup-ruby with bundler-cache writes
-# .bundle/config into the repository with `frozen` and a vendored path, and
-# bundler walks up to find it — these directories live under the repository, so
-# without this they would inherit a lockfile they are not described by.
-def sh(command, chdir: Dir.pwd, env: {})
-  puts "  $ #{command}"
-  # Clear every BUNDLE_* rather than a list of them: ruby/setup-ruby exports
-  # several, and missing one leaves this resolving against the wrong lockfile.
-  cleared = ENV.keys.grep(/\ABUNDLE_/).to_h { |key| [key, nil] }
-  cleared.merge!("RUBYOPT" => nil, "RUBYLIB" => nil)
-  isolated = { "BUNDLE_APP_CONFIG" => File.join(chdir, ".bundle"),
-               "BUNDLE_FROZEN" => "false",
-               "BUNDLE_DEPLOYMENT" => "false" }
-  system(cleared.merge(isolated).merge(env), command, chdir: chdir, exception: true)
+# This script is run from `rake screens`, i.e. from inside this gem's bundle.
+# Everything below must escape it: the generated app has its own Gemfile and
+# must resolve against that. with_unbundled_env restores the environment as it
+# was before bundler touched it — clearing a list of BUNDLE_* variables by hand
+# misses whatever the CI Ruby action added, and the symptom is bundler quietly
+# resolving in local mode and failing to find gems that are simply not fetched.
+def unbundled
+  defined?(Bundler) ? Bundler.with_unbundled_env { yield } : yield
 end
 
-# Run a command with the current interpreter and its own RubyGems, never via
-# PATH: on a machine with more than one Ruby the `gem` and `rails` on PATH can
-# belong to a different installation than the one running this script, and then
-# `gem install rails` and `rails new` disagree about what is installed.
+def sh(command, chdir: Dir.pwd)
+  puts "  $ #{command}"
+  unbundled { system(command, chdir: chdir, exception: true) }
+end
+
+# Run with the current interpreter rather than via PATH: on a machine with more
+# than one Ruby, the `rails` on PATH can belong to a different installation than
+# the one running this script.
 def ruby_sh(*arguments, chdir: Dir.pwd)
   puts "  $ ruby #{arguments.join(" ")}"
-  cleared = ENV.keys.grep(/\ABUNDLE_/).to_h { |key| [key, nil] }
-  cleared.merge!("RUBYOPT" => nil, "RUBYLIB" => nil)
-  system(cleared, Gem.ruby, *arguments, chdir: chdir, exception: true)
+  unbundled { system(Gem.ruby, *arguments, chdir: chdir, exception: true) }
 end
 
 def write(relative, contents)
