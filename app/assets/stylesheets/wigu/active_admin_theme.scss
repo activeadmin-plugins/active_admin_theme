@@ -6,34 +6,227 @@ $skinBorderRadius: 4px!default;
 $skinBorderWindowColor: #e6e9ee!default;
 $skinTablePadding: 10px!default;
 
-// Header menu colors. Defaults follow $skinMainSecondColor, so a project that
-// overrides it still gets the menu following that accent. Every colour here has
-// a matching text colour, otherwise a light value would be unreadable.
-$skinMenuPillColor: $skinMainSecondColor!default;   // top-level current/hover pill
-$skinMenuTextColor: #ffffff!default;                // dropdown item text, hover/current included
-// Follows the dropdown text rather than defaulting to white on its own: a
-// project that light-themes the menu sets one variable, not two.
-$skinMenuPillTextColor: $skinMenuTextColor!default; // text on that pill
-$skinMenuPanelColor: $skinMainSecondColor!default;  // dropdown panel bg + hover "bridge" border
-$skinMenuItemHoverColor: transparent!default;       // dropdown item hover/current bg
+// Content palette — the surfaces, text and borders the UI is built from, per
+// mode. Each has a light value (the existing look) and a *Dark value; they feed
+// the --aa-* custom properties below. Defaults reproduce the current colors, so
+// non-configuring projects are unchanged.
+$skinPageBgColor:       #f7f9fb!default;  $skinPageBgColorDark:      #161a1e!default;  // page background
+$skinSurfaceColor:      #ffffff!default;  $skinSurfaceColorDark:     #25292f!default;  // panels / cards / content
+$skinSurface2Color:     #f0f2f5!default;  $skinSurface2ColorDark:    #2c3137!default;  // table headers / striping / subtle fills
+$skinSurfaceHoverColor: #f5f7fa!default;  $skinSurfaceHoverColorDark:#3f454d!default;  // row / item hover
+$skinSelectedRowColor:  #d9e4ec!default;  $skinSelectedRowColorDark: #304457!default;  // checked table row
+// Things that float above the page — tool-row buttons and dropdown panels.
+// On light they match the content surface; on dark they have to sit a step
+// lighter than the page or they read as holes in it.
+$skinElevatedColor: $skinSurfaceColor!default;  $skinElevatedColorDark: #363c43!default;
+$skinTextColor:         #323537!default;  $skinTextColorDark:        #dde2e8!default;  // body text
+$skinTextMutedColor:    #6b7177!default;  $skinTextMutedColorDark:   #b0b8c2!default;  // secondary text / axis labels
+$skinBorderColor:       #e0e4e9!default;  $skinBorderColorDark:      #404750!default;  // borders / grid lines
+$skinInputBgColor:      #ffffff!default;  $skinInputBgColorDark:     #1e2227!default;  // form control background
+$skinInputBorderColor:  #c9ced4!default;  $skinInputBorderColorDark: #4d555f!default;  // form control border
 
-// Header / menu sizing. NOTE: not a no-op refactor — dropdown item height and
-// dropdown width change for every project, configured or not. Header padding
-// keeps its previous asymmetric values, so the header itself does not move.
-$skinMenuFontSize: 1em!default;                     // top-level tab text size (does not cascade into dropdowns)
-$skinMenuItemPaddingY: 8px!default;                 // dropdown item top/bottom padding (was 6px/4px + a 7px border)
-$skinMenuItemLineHeight: 1.5!default;               // dropdown item line-height
+// Header menu colors. Each defaults to the previous value, so projects that do
+// not set these compile to identical CSS (and a project that overrides
+// $skinMainSecondColor still gets the menu following that accent).
+$skinMenuPillColor: #2e3236!default;   // top-level current/hover pill
+$skinMenuTextColor: #dfe2e6!default;                // dropdown item text (was: inherited #fff)
+$skinMenuPillTextColor: #6cb0de!default; // text on that pill; follows the dropdown text so a
+                                                    // light menu is one variable to set, not two
+$skinMenuPanelColor: #2e3236!default;  // dropdown panel bg + hover "bridge" border
+$skinMenuItemHoverColor: #3f454c!default;       // dropdown item hover/current bg (was: none)
+$skinMenuItemHoverTextColor: #6cb0de!default; // hover/current dropdown item text, same reason
+
+// Header / menu sizing. Defaults reproduce (or keep the same total as) the
+// previous hard-coded values, so non-configuring projects are unchanged.
+$skinMenuFontSize: 13px!default;                     // header menu text size
+$skinMenuItemPaddingY: 5px!default;                 // dropdown item top/bottom padding (was 6px/4px + a 7px border)
 $skinMenuPanelMaxWidth: 260px!default;              // dropdown panel ceiling; longer labels wrap instead of leaving the viewport
-$skinHeaderPaddingTop: 5px!default;                 // header top padding (base value, kept so the header does not shift)
-$skinHeaderPaddingBottom: 9px!default;              // header bottom padding
+$skinMenuItemLineHeight: 1.35!default;               // dropdown item line-height
+// Header padding. Set $skinHeaderPaddingY for the same value top and bottom,
+// or the two halves separately — the halves win, since they are read last.
+$skinHeaderPaddingY: null!default;
+$skinHeaderPaddingTop: if($skinHeaderPaddingY == null, 4.5px, $skinHeaderPaddingY)!default;
+$skinHeaderPaddingBottom: if($skinHeaderPaddingY == null, 4.5px, $skinHeaderPaddingY)!default;
 $skinHeaderLogoMaxHeight: none!default;             // cap the site_title logo image height
 
 // Title bar
-$skinTitleBarColor: lighten($skinMainFirstColor, 8%)!default;
+$skinTitleBarColor: #343c46!default;
 $skinTitleBarBorderColor: $skinMainSecondColor!default;
-$skinTitleBarBorderWidth: 3px!default;
-$skinTitleBarButtonPaddingY: 10px!default;          // action button vertical padding
-$skinTitleBarButtonPaddingX: 20px!default;          // action button horizontal padding
+$skinTitleBarBorderWidth: 0!default;
+$skinTitleBarButtonPaddingY: 6px!default;          // action button vertical padding
+$skinTitleBarButtonPaddingX: 10px!default;          // action button horizontal padding
+
+// Panel/section headers + tabs accent (the blue bar on panel headers and the
+// inactive tabs). $skinPanelHeaderColor is the base/light value;
+// $skinPanelHeaderColorDark lets a project use a different color in dark mode.
+$skinPanelHeaderColor: var(--aa-page-bg)!default;
+$skinPanelHeaderColorDark: var(--aa-page-bg)!default;
+// Panel/section header TEXT color (the label on the colored header bar), per mode.
+$skinPanelHeaderTextColor: var(--aa-inactive-tab-text)!default;
+$skinPanelHeaderTextColorDark: var(--aa-inactive-tab-text)!default;
+
+// Form label / legend text — a muted blue-grey in light; the regular text color
+// in dark (where the muted blue-grey would be too dim).
+$skinLabelColor: #8494a8!default;
+$skinLabelColorDark: $skinTextColorDark!default;
+
+// Buttons (form submit, title-bar action buttons, batch actions). Separate from
+// the accent so buttons can be a non-blue color, with a dark-mode override.
+// Darker than the accent because the label is white: the accent itself gives
+// 2.74:1, under the 4.5:1 small text needs. At -20% it is 5.35:1, and it is the
+// tone dark mode already used, so the button is now one colour in both modes.
+$skinButtonColor: darken($skinMainSecondColor, 20%)!default;
+// Label on those buttons. A project is invited above to pick a non-blue fill;
+// without this the label stays white and a light fill is unreadable.
+$skinButtonTextColor: #ffffff!default;
+$skinButtonTextColorDark: $skinButtonTextColor!default;
+$skinButtonColorDark: $skinButtonColor!default;
+
+// Vertical padding controlling the height of panel/section headers and tabs.
+$skinPanelHeaderPaddingY: 5px!default;   // panel + sidebar header height
+$skinTabPaddingY: 8px!default;          // tab height
+$skinTabPaddingX: 15px!default;          // tab label horizontal padding (text → border)
+// Height of every table-tools button (scopes, batch actions, view switcher,
+// custom tools) — matched to the panel-header height.
+$skinTableToolsHeight: 30px!default;
+// Horizontal text padding inside each table-tools button (controls button width).
+// Derived from the button height so the two scale together.
+$skinTableToolsPaddingX: $skinTableToolsHeight * 0.4 !default; // 12px at 30px
+// Per-group table-tools button fills. All default to the surface palette so the
+// whole row shares one neutral look; override any group independently (both modes).
+
+// Index-table column header text (both the sortable links and plain headers use
+// one color, configurable per mode).
+
+// Inactive tab background. Defaults to the panel-header color so tabs stay
+// consistent, but can be set separately (e.g. a more subdued tab bar).
+
+// Tab text colors — the active (selected) tab and the inactive tabs, per mode.
+
+// Content link color (generic links inside the admin content), per mode.
+// Focus ring / accent outline. Follows the theme accent, so a project that
+// rebrands $skinMainSecondColor does not keep a stray blue focus border.
+$skinAccentColor: $skinMainSecondColor!default;
+$skinAccentColorDark: $skinAccentColor!default;
+// Darker than the theme accent on purpose: the accent is a fill colour and
+// fails WCAG AA as body text — #5ea3d3 is 2.74 on white, where 4.5 is the bar
+// for text this size — and links also sit on zebra rows, table headers and
+// selected rows, so the worst of those is what has to clear it. #1f5f8d
+// keeps the hue and gives 5.28 against the darkest of them.
+$skinLinkColor: #38678b!default;
+$skinLinkColorDark: #7cc0ec!default;
+
+// Delete / destroy links. Light follows the regular link color (so action links
+// match); dark uses a lightened red, since the default red is too dark there.
+$skinDeleteLinkColor: $skinLinkColor!default;
+$skinDeleteLinkColorDark: #f49b9b!default;
+// Tabs: fill and label colours per mode. yeti-web sets all four to make the
+// inactive tabs recede to the page background and the active one read as raised.
+$skinTabInactiveColor: #f7f9fb!default;
+$skinTabInactiveColorDark: #161a1e!default;
+$skinActiveTabTextColor: $skinMainSecondColor!default;
+$skinActiveTabTextColorDark: #7cc0ec!default;
+$skinInactiveTabTextColor: #5e6469!default;
+$skinInactiveTabTextColorDark: #b0b8c2!default;
+// Index-table column header text, one colour for sortable and plain headers.
+$skinTableHeaderTextColor: #5e6469!default;
+$skinTableHeaderTextColorDark: #dde2e8!default;
+
+//DARK-MODE PALETTE---------------------------------------------------------------------------------------------------//
+// Semantic CSS custom properties for runtime light/dark switching. Light values
+// (= the existing look) live on :root; the dark values are applied either by the
+// OS preference (unless the user forced light) or by an explicit html[data-theme].
+// Phase 0: defined only — surfaces are repointed to these vars in later phases,
+// so there is no visual change yet.
+@mixin aa-dark-palette {
+  // Render native controls (checkboxes, radios, native selects, scrollbars) dark.
+  color-scheme: dark;
+  --aa-page-bg:       #{$skinPageBgColorDark};
+  --aa-surface:       #{$skinSurfaceColorDark};
+  --aa-surface-2:     #{$skinSurface2ColorDark};
+  // Not $skinSurface2ColorDark: that is the zebra fill, and feeding both from
+  // one variable left the header band and every other row byte-identical.
+  // Light mode never had that problem — $skinBorderWindowColor gives the
+  // header its own step there.
+  --aa-table-header:  #{$skinElevatedColorDark};
+  --aa-surface-hover: #{$skinSurfaceHoverColorDark};
+  --aa-selected:      #{$skinSelectedRowColorDark};
+  --aa-elevated:      #{$skinElevatedColorDark};
+  --aa-text:          #{$skinTextColorDark};
+  --aa-text-muted:    #{$skinTextMutedColorDark};
+  --aa-border:        #{$skinBorderColorDark};
+  --aa-link:          #{$skinLinkColorDark};
+  --aa-accent:        #{$skinAccentColorDark};
+  --aa-input-bg:      #{$skinInputBgColorDark};
+  --aa-input-border:  #{$skinInputBorderColorDark};
+  --aa-shadow:        rgba(0, 0, 0, 0.45);
+  --aa-panel-header:  #{$skinPanelHeaderColorDark};
+  --aa-panel-header-text: #{$skinPanelHeaderTextColorDark};
+  --aa-label-text:    #{$skinLabelColorDark};
+  --aa-button:        #{$skinButtonColorDark};
+  --aa-button-text:   #{$skinButtonTextColorDark};
+  --aa-button-hover:  #{darken($skinButtonColorDark, 8%)};
+  --aa-table-header-text: #{$skinTableHeaderTextColorDark};
+  --aa-tab-inactive:  #{$skinTabInactiveColorDark};
+  --aa-active-tab-text:   #{$skinActiveTabTextColorDark};
+  --aa-inactive-tab-text: #{$skinInactiveTabTextColorDark};
+  --aa-delete-link:   #{$skinDeleteLinkColorDark};
+}
+:root {
+  color-scheme: light;
+  --aa-page-bg:       #{$skinPageBgColor};
+  --aa-surface:       #{$skinSurfaceColor};
+  --aa-surface-2:     #{$skinSurface2Color};
+  // Index-table headers keep following $skinBorderWindowColor, the knob the
+  // README has documented for years, instead of the new surface scale.
+  --aa-table-header:  #{$skinBorderWindowColor};
+  --aa-surface-hover: #{$skinSurfaceHoverColor};
+  --aa-selected:      #{$skinSelectedRowColor};
+  --aa-elevated:      #{$skinElevatedColor};
+  --aa-text:          #{$skinTextColor};
+  --aa-text-muted:    #{$skinTextMutedColor};
+  --aa-border:        #{$skinBorderColor};
+  --aa-link:          #{$skinLinkColor};
+  --aa-accent:        #{$skinAccentColor};
+  --aa-input-bg:      #{$skinInputBgColor};
+  --aa-input-border:  #{$skinInputBorderColor};
+  --aa-shadow:        rgba(0, 0, 0, 0.08);
+  --aa-panel-header:  #{$skinPanelHeaderColor};
+  --aa-panel-header-text: #{$skinPanelHeaderTextColor};
+  --aa-label-text:    #{$skinLabelColor};
+  --aa-button:        #{$skinButtonColor};
+  --aa-button-text:   #{$skinButtonTextColor};
+  --aa-button-hover:  #{darken($skinButtonColor, 8%)};
+  --aa-table-header-text: #{$skinTableHeaderTextColor};
+  --aa-tab-inactive:  #{$skinTabInactiveColor};
+  --aa-active-tab-text:   #{$skinActiveTabTextColor};
+  --aa-inactive-tab-text: #{$skinInactiveTabTextColor};
+  --aa-delete-link:   #{$skinDeleteLinkColor};
+}
+// OS preference, unless the user explicitly chose light
+@media (prefers-color-scheme: dark) {
+  html:not([data-theme="light"]) { @include aa-dark-palette; }
+}
+// Explicit user choice always wins
+html[data-theme="dark"]  { @include aa-dark-palette; }
+
+// Public helper so a host app can scope its own (project-specific) overrides to
+// dark mode using the same triggers. Use at the top level and put full selectors
+// inside; the --aa-* custom properties are available:
+//   @include aa-dark { .my-widget { background: var(--aa-surface); } }
+@mixin aa-dark {
+  @media (prefers-color-scheme: dark) {
+    html:not([data-theme="light"]) { @content; }
+  }
+  html[data-theme="dark"] { @content; }
+}
+
+// Иконки переключателя тем. Инлайном, потому что гем не возит картинок, и
+// маской, а не цветным SVG: маска красится currentColor и сама идёт за
+// $skinMenuTextColor. Половинка круга — auto, солнце — light, месяц — dark.
+$theme-icon-auto: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ccircle cx='8' cy='8' r='6.6' fill='none' stroke='black' stroke-width='1.4'/%3E%3Cpath d='M8 2.6a5.4 5.4 0 0 1 0 10.8z'/%3E%3C/svg%3E")!default;
+$theme-icon-light: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='black' stroke-width='1.4' stroke-linecap='round'%3E%3Ccircle cx='8' cy='8' r='3.1'/%3E%3Cpath d='M8 .9v1.8M8 13.3v1.8M.9 8h1.8M13.3 8h1.8M2.9 2.9l1.3 1.3M11.8 11.8l1.3 1.3M13.1 2.9l-1.3 1.3M4.2 11.8l-1.3 1.3'/%3E%3C/svg%3E")!default;
+$theme-icon-dark: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M13.4 9.6A5.9 5.9 0 0 1 6.4 2.6a5.9 5.9 0 1 0 7 7z'/%3E%3C/svg%3E")!default;
 
 // A wrong-typed override is legal SassScript, so it compiles without a word and
 // emits CSS the browser drops — `border-bottom: none solid #5ea3d3`,
@@ -65,19 +258,84 @@ $skinTitleBarButtonPaddingX: 20px!default;          // action button horizontal 
   skinMenuItemHoverColor: $skinMenuItemHoverColor,
   skinMenuTextColor: $skinMenuTextColor,
   skinTitleBarColor: $skinTitleBarColor,
-  skinTitleBarBorderColor: $skinTitleBarBorderColor
+  skinTitleBarBorderColor: $skinTitleBarBorderColor,
+  skinSelectedRowColor: $skinSelectedRowColor,
+  skinSelectedRowColorDark: $skinSelectedRowColorDark,
+  skinAccentColor: $skinAccentColor,
+  skinAccentColorDark: $skinAccentColorDark,
+  skinButtonTextColor: $skinButtonTextColor,
+  skinButtonTextColorDark: $skinButtonTextColorDark,
+  skinPageBgColor: $skinPageBgColor,
+  skinPageBgColorDark: $skinPageBgColorDark,
+  skinSurfaceColor: $skinSurfaceColor,
+  skinSurfaceColorDark: $skinSurfaceColorDark,
+  skinSurface2Color: $skinSurface2Color,
+  skinSurface2ColorDark: $skinSurface2ColorDark,
+  skinSurfaceHoverColor: $skinSurfaceHoverColor,
+  skinSurfaceHoverColorDark: $skinSurfaceHoverColorDark,
+  skinElevatedColor: $skinElevatedColor,
+  skinElevatedColorDark: $skinElevatedColorDark,
+  skinTextColor: $skinTextColor,
+  skinTextColorDark: $skinTextColorDark,
+  skinTextMutedColor: $skinTextMutedColor,
+  skinTextMutedColorDark: $skinTextMutedColorDark,
+  skinBorderColor: $skinBorderColor,
+  skinBorderColorDark: $skinBorderColorDark,
+  skinInputBgColor: $skinInputBgColor,
+  skinInputBgColorDark: $skinInputBgColorDark,
+  skinInputBorderColor: $skinInputBorderColor,
+  skinInputBorderColorDark: $skinInputBorderColorDark,
+  skinMenuItemHoverTextColor: $skinMenuItemHoverTextColor,
+  skinLabelColor: $skinLabelColor,
+  skinLabelColorDark: $skinLabelColorDark,
+  skinButtonColor: $skinButtonColor,
+  skinButtonColorDark: $skinButtonColorDark,
+  skinLinkColor: $skinLinkColor,
+  skinLinkColorDark: $skinLinkColorDark,
+  skinDeleteLinkColor: $skinDeleteLinkColor,
+  skinDeleteLinkColorDark: $skinDeleteLinkColorDark,
+  skinTabInactiveColor: $skinTabInactiveColor,
+  skinTabInactiveColorDark: $skinTabInactiveColorDark,
+  skinActiveTabTextColor: $skinActiveTabTextColor,
+  skinActiveTabTextColorDark: $skinActiveTabTextColorDark,
+  skinInactiveTabTextColor: $skinInactiveTabTextColor,
+  skinInactiveTabTextColorDark: $skinInactiveTabTextColorDark,
+  skinTableHeaderTextColor: $skinTableHeaderTextColor,
+  skinTableHeaderTextColorDark: $skinTableHeaderTextColorDark
 ) {
   @if type-of($value) != color {
     @error "$#{$name} must be a color (use `transparent`, not `none`), got `#{$value}`.";
   }
 }
+// The panel header pair defaults to a custom property and is documented as
+// accepting one, so a plain `type-of != color` would reject the shipped value.
+@each $name, $value in (
+  skinPanelHeaderColor: $skinPanelHeaderColor,
+  skinPanelHeaderColorDark: $skinPanelHeaderColorDark,
+  skinPanelHeaderTextColor: $skinPanelHeaderTextColor,
+  skinPanelHeaderTextColorDark: $skinPanelHeaderTextColorDark
+) {
+  @if type-of($value) != color and str-index("#{$value}", "var(") != 1 {
+    @error "$#{$name} must be a color or a CSS custom property (e.g. var(--aa-page-bg)), got `#{$value}`.";
+  }
+}
+// Радиус внутреннего угла ячейки — на 1px меньше внешнего, чтобы не торчал
+// из-под рамки таблицы. Вычитать px напрямую нельзя: $skinBorderRadius задаёт
+// проект, и 0.25rem роняет всю компиляцию с «Incompatible units». calc()
+// откладывает вычитание до браузера, а безразмерный 0 обрабатываем отдельно —
+// calc(0 - 1px) невалиден.
+@function inner-radius($radius) {
+  @if unitless($radius) { @return 0; }
+  @return calc(#{$radius} - 1px);
+}
+
 //HTML----------------------------------------------------------------------------------------------------------------//
 
 html {
-  background: #f7f9fb;
+  background: var(--aa-page-bg);
 }
 body.active_admin {
-  background: #f7f9fb;
+  background: var(--aa-page-bg);
 }
 #wrapper {
   div.tabs {
@@ -87,11 +345,15 @@ body.active_admin {
       text-shadow: none;
       box-shadow: none;
       margin-bottom: 11px;
-      border: none;
-      background-color: $skinMainSecondColor;
-      color: #ffffff;
+      // Top/side outline only; no bottom outline (the content panel's own top
+      // border is the baseline, drawn over the tabs via z-index below).
+      border: 1px solid var(--aa-border);
+      border-bottom: 0;
+      vertical-align: top;
+      background-color: var(--aa-tab-inactive);
+      color: var(--aa-inactive-tab-text);
       margin-right: 5px;
-      padding: 10px 20px;
+      padding: $skinTabPaddingY $skinTabPaddingX;
 
       -webkit-border-top-left-radius: $skinBorderRadius;
       -webkit-border-top-right-radius: $skinBorderRadius;
@@ -108,17 +370,26 @@ body.active_admin {
       -moz-border-radius-bottomright: 0;
       border-bottom-right-radius: 0;
     }
+    // Active tab sits above the content panel (z-index: 2) and is filled with the
+    // content color, so it covers the panel's top border there and merges in.
     ul > li.ui-state-active > a {
-      background-color: #ffffff;
-      border: 1px solid $skinBorderWindowColor;
-      border-bottom: 0;
-      color: $skinMainSecondColor;
+      background-color: var(--aa-surface);
+      border: 1px solid var(--aa-border);
+      border-bottom-color: var(--aa-surface);
+      color: var(--aa-active-tab-text);
+      position: relative;
+      z-index: 2;
+      vertical-align: top;
     }
     div.tab-content {
-      background-color: #ffffff;
-      border: 1px solid $skinBorderWindowColor;
-      border-bottom: 2px solid $skinBorderWindowColor;
+      background-color: var(--aa-surface);
+      // Uniform 1px border (no thicker bottom) so the rounded corners are even.
+      border: 1px solid var(--aa-border);
       @include rounded($skinBorderRadius);
+      // Paint above the inactive tabs so the panel's own top border is the
+      // baseline drawn over them (the active tab paints above this, z-index: 2).
+      position: relative;
+      z-index: 1;
     }
   }
   #header {
@@ -148,6 +419,55 @@ body.active_admin {
     ul.tabs > li.current > a, ul.tabs > li:hover > a {
       background-color: $skinMenuPillColor;
       color: $skinMenuPillTextColor;
+    }
+    // ActiveAdmin swaps in its "dark" submenu arrow on the current/hovered item,
+    // which assumes the highlight is lighter than the bar. The default pill is
+    // not, so keep the light arrow there.
+    ul.tabs > li.has_nested.current > a, ul.tabs > li.has_nested:hover > a {
+      background-image: url($menu-arrow-light-icon-url);
+    }
+    // The utility nav (username, clock, theme switcher, logout) are not navigation
+    // tabs: drop the pill padding, and on hover highlight by text colour only — no
+    // background block. The clock has no click action, so it gets no hover at all.
+    #utility_nav {
+      > li > a { padding: 0 5px; }
+      > li:hover > a, > li.current > a { background-color: transparent; }
+      > li#servertime:hover > a { color: #ffffff; }
+
+      // The theme switch (app/assets/javascripts/wigu/theme_toggle.js). The
+      // script only writes data-mode; the glyph is drawn here, so a project can
+      // swap it for its own icon font without forking the script. Masked rather
+      // than embedded as a coloured SVG so it takes currentColor and follows
+      // $skinMenuTextColor like every other item in the bar.
+      // On the li, not only the anchor: font-size 0 collapses the anchor to the
+      // icon's own 16px, which then sits at the top of the item instead of on
+      // the line the rest of the bar shares.
+      > li#theme_toggle { display: flex; align-items: center; }
+      > li#theme_toggle > a {
+        display: flex;
+        align-items: center;
+        font-size: 0;
+        opacity: 0.75;
+
+        &:before {
+          content: "";
+          display: block;
+          width: 16px;
+          height: 16px;
+          background-color: currentColor;
+          -webkit-mask: #{$theme-icon-auto} center / contain no-repeat;
+          mask: #{$theme-icon-auto} center / contain no-repeat;
+        }
+        &:hover, &:focus { opacity: 1; }
+      }
+      > li#theme_toggle[data-mode="light"] > a:before {
+        -webkit-mask-image: $theme-icon-light;
+        mask-image: $theme-icon-light;
+      }
+      > li#theme_toggle[data-mode="dark"] > a:before {
+        -webkit-mask-image: $theme-icon-dark;
+        mask-image: $theme-icon-dark;
+      }
     }
     ul.tabs {
       li.has_nested {
@@ -180,6 +500,7 @@ body.active_admin {
           }
           li:hover > a, li.current > a, li > a:focus {
             background-color: $skinMenuItemHoverColor;
+            color: $skinMenuItemHoverTextColor;
           }
           li.current > a::before, li:hover > a::before, li > a:focus::before {
             content: '';
@@ -231,41 +552,55 @@ body.active_admin {
       }
     }
     #titlebar_right {
-      .action_item a {
+      // `> a` and `> .dropdown_menu > a`: an action item may hold a dropdown, and
+      // a descendant selector here paints its menu entries with the button fill
+      // too — with !important, so the entry rules below cannot undo it.
+      .action_item > a,
+      .action_item > .dropdown_menu > a {
         background-image: none;
         border: none;
         box-shadow: none;
         text-shadow: none;
         @include rounded($skinBorderRadius);
-        background-color: $skinMainSecondColor;
+        background-color: var(--aa-button);
         border: none;
         padding: $skinTitleBarButtonPaddingY $skinTitleBarButtonPaddingX;
-        color: #ffffff;
+        color: var(--aa-button-text);
         font-weight: 600;
         &:hover {
-          background-color: lighten( $skinMainSecondColor, 5% )!important;
+          background-color: var(--aa-button-hover)!important;
         }
       }
       div.dropdown_menu {
         div.dropdown_menu_list_wrapper {
-          background-color: $skinMainFirstColor;
-          border: none;
+          background-color: var(--aa-elevated);
+          border: 1px solid var(--aa-border);
           background-image: none;
-          border: none;
           box-shadow: none;
-          div.dropdown_menu_nipple, div.dropdown_menu_nipple:after, div.dropdown_menu_nipple:before {
-            border-color: $skinMainFirstColor transparent;
+          // ActiveAdmin draws the nipple as three stacked triangles: the element
+          // itself is the outline, :before the inner shadow, :after the fill.
+          // Painting all three the same colour collapses it into a solid arrow
+          // that is invisible whenever the panel fill is close to the page —
+          // which is exactly what a light surface is. Outline it like the panel.
+          div.dropdown_menu_nipple {
+            border-color: var(--aa-border) transparent;
+            &:before, &:after { border-color: var(--aa-elevated) transparent; }
           }
           ul.dropdown_menu_list {
             box-shadow: none;
             li {
               a {
-                background-color: #ffffff;
-                color: $skinMainFirstColor;
+                background-color: var(--aa-surface);
+                color: var(--aa-text);
                 border-radius: 0;
                 &:hover {
-                  background-color: $skinMainSecondColor;
-                  color: #ffffff;
+                  // background-image, not just background-color: ActiveAdmin
+                  // paints this hover with a linear-gradient, and a gradient
+                  // sits on top of the background colour — leaving it in place
+                  // made every colour set here invisible.
+                  background-image: none;
+                  background-color: var(--aa-selected);
+                  color: var(--aa-text);
                 }
               }
             }
@@ -296,32 +631,77 @@ body.active_admin {
   }
   #active_admin_content {
     span.blank_slate {
-      border: 2px solid lighten( $skinMainSecondColor, 30% );
-      color: #8494a8;
+      // Was a hardcoded lightened blue (too bright in dark mode); use the palette
+      // border + muted text so it adapts to light/dark.
+      border: 2px solid var(--aa-border);
+      color: var(--aa-text-muted);
       @include rounded($skinBorderRadius);
     }
     div.table_tools {
-      margin-bottom: 35px;
+      margin-bottom: 14px; // match the gap between sidebar sections
+      // The gem shrinks the scope / batch / tool buttons to 0.9em; reset to 1em so
+      // they match the surrounding base text — the same size the panel headers use.
+      .scopes a, a.table_tools_button, .dropdown_menu_button { font-size: 1em; }
+      // Contain the floated buttons so the margin sits below them. The collapsible-
+      // sidebar gem sets `.table_tools:after { clear: none; padding-bottom: 16px }`,
+      // which disables the float clearfix and otherwise leaves the box ~16px tall
+      // with the 29px buttons overflowing into the margin.
+      display: flow-root;
+      &::after { padding-bottom: 0; }
+      // Gap between the batch-actions button and the scopes — only rendered when
+      // the button is present, so scope-only pages stay flush with the table edge.
+      div.batch_actions_selector { margin-right: 10px; }
+      // Baseline for any table_tools button (the index-list view switcher, custom
+      // tools like "Visible columns", etc.). The base AA style is a light gradient;
+      // theme it via the --aa-* vars. Scopes override the fill + segmented-control
+      // geometry below (they reset border-radius and re-round only the ends).
+      // .dropdown_menu_button is the same control with a different class (the
+      // "Visible columns" style tools); without it here it keeps ActiveAdmin's
+      // white gradient pill at 22px next to the themed 30px buttons.
+      a.table_tools_button, a.dropdown_menu_button {
+        box-sizing: border-box;
+        height: $skinTableToolsHeight;
+        line-height: $skinTableToolsHeight; // = button height: nudges the text to the optical centre (the font otherwise sits high in the line box)
+        background: var(--aa-elevated);
+        background-image: none;
+        border: 1px solid var(--aa-border);
+        color: var(--aa-text);
+        @include rounded($skinBorderRadius);
+        padding: 0 $skinTableToolsPaddingX;
+        box-shadow: none;
+        text-shadow: none;
+        &:hover { background: var(--aa-surface-hover); }
+      }
       div.dropdown_menu {
         div.dropdown_menu_list_wrapper {
-          background-color: $skinMainFirstColor;
-          border: none;
+          background-color: var(--aa-elevated);
+          border: 1px solid var(--aa-border);
           background-image: none;
-          border: none;
           box-shadow: none;
-          div.dropdown_menu_nipple, div.dropdown_menu_nipple:after, div.dropdown_menu_nipple:before {
-            border-color: $skinMainFirstColor transparent;
+          // ActiveAdmin draws the nipple as three stacked triangles: the element
+          // itself is the outline, :before the inner shadow, :after the fill.
+          // Painting all three the same colour collapses it into a solid arrow
+          // that is invisible whenever the panel fill is close to the page —
+          // which is exactly what a light surface is. Outline it like the panel.
+          div.dropdown_menu_nipple {
+            border-color: var(--aa-border) transparent;
+            &:before, &:after { border-color: var(--aa-elevated) transparent; }
           }
           ul.dropdown_menu_list {
             box-shadow: none;
             li {
               a {
-                background-color: #ffffff;
-                color: $skinMainFirstColor;
+                background-color: var(--aa-surface);
+                color: var(--aa-text);
                 border-radius: 0;
                 &:hover {
-                  background-color: $skinMainSecondColor;
-                  color: #ffffff;
+                  // background-image, not just background-color: ActiveAdmin
+                  // paints this hover with a linear-gradient, and a gradient
+                  // sits on top of the background colour — leaving it in place
+                  // made every colour set here invisible.
+                  background-image: none;
+                  background-color: var(--aa-selected);
+                  color: var(--aa-text);
                 }
               }
             }
@@ -329,40 +709,53 @@ body.active_admin {
         }
       }
       div.batch_actions_selector {
-        a {
+        > a {
+          box-sizing: border-box;
+          height: $skinTableToolsHeight;
+          line-height: $skinTableToolsHeight;
           background-image: none;
-          border: none;
           box-shadow: none;
-          background-color: $skinMainSecondColor;
+          background-color: var(--aa-elevated);
           @include rounded($skinBorderRadius);
-          border: none;
-          padding: 10px 20px;
-          color: #ffffff;
+          border: 1px solid var(--aa-border);
+          padding: 0 $skinTableToolsPaddingX;
+          color: var(--aa-text);
           &:hover {
-            background-color: lighten( $skinMainSecondColor, 5% );
+            background-color: var(--aa-surface-hover);
           }
         }
       }
       div.dropdown_menu {
         div.dropdown_menu_list_wrapper {
-          background-color: $skinMainFirstColor;
-          border: none;
+          background-color: var(--aa-elevated);
+          border: 1px solid var(--aa-border);
           background-image: none;
-          div.dropdown_menu_nipple, div.dropdown_menu_nipple:after, div.dropdown_menu_nipple:before {
-            border-color: $skinMainFirstColor transparent;
+          // ActiveAdmin draws the nipple as three stacked triangles: the element
+          // itself is the outline, :before the inner shadow, :after the fill.
+          // Painting all three the same colour collapses it into a solid arrow
+          // that is invisible whenever the panel fill is close to the page —
+          // which is exactly what a light surface is. Outline it like the panel.
+          div.dropdown_menu_nipple {
+            border-color: var(--aa-border) transparent;
+            &:before, &:after { border-color: var(--aa-elevated) transparent; }
           }
           ul.dropdown_menu_list {
             box-shadow: none;
             li {
               a {
-                background-color: #ffffff;
+                background-color: var(--aa-surface);
                 box-shadow: none;
-                color: $skinMainFirstColor;
+                color: var(--aa-text);
                 border-radius: 0;
                 text-shadow: none;
                 &:hover {
-                  background-color: $skinMainSecondColor;
-                  color: #ffffff;
+                  // background-image, not just background-color: ActiveAdmin
+                  // paints this hover with a linear-gradient, and a gradient
+                  // sits on top of the background colour — leaving it in place
+                  // made every colour set here invisible.
+                  background-image: none;
+                  background-color: var(--aa-selected);
+                  color: var(--aa-text);
                 }
               }
             }
@@ -370,41 +763,61 @@ body.active_admin {
         }
       }
       div.batch_actions_selector {
-        a {
+        > a {
+          box-sizing: border-box;
+          height: $skinTableToolsHeight;
+          line-height: $skinTableToolsHeight;
           background-image: none;
-          background-color: $skinMainSecondColor;
+          background-color: var(--aa-elevated);
           @include rounded($skinBorderRadius);
-          border: none;
-          padding: 10px 20px;
-          color: #ffffff;
+          border: 1px solid var(--aa-border);
+          padding: 0 $skinTableToolsPaddingX;
+          color: var(--aa-text);
           text-shadow: none;
           box-shadow: none;
           &:hover {
-            background-color: lighten( $skinMainSecondColor, 5% );
+            background-color: var(--aa-surface-hover);
             box-shadow: none;
           }
         }
       }
-      ul.scopes, div.scopes > ul {
+      // ActiveAdmin renders the index view switcher with the same classes as
+      // the scope bar — ul.indexes.table_tools_segmented_control, anchors
+      // carrying .table_tools_button — so it needs the same segmented
+      // geometry. Without it the switcher keeps the generic button radius on
+      // every segment, the shared borders double up, and the selected view is
+      // indistinguishable from the others.
+      ul.scopes, div.scopes > ul, ul.indexes {
         li {
           a {
             background-image: none;
-            border: none;
+            // Reset the generic .table_tools_button radius — scopes are a segmented
+            // control, so only the first/last child are re-rounded (below).
+            @include rounded(0);
+            // Outline the segmented control with the border color (was a white
+            // right-divider, which is invisible when the scope bar matches the
+            // page background). Adjacent borders are collapsed below.
+            border: 1px solid var(--aa-border);
             box-shadow: none;
-            background-color: $skinMainSecondColor;
-            padding: 10px 20px;
-            color: #ffffff;
+            background-color: var(--aa-surface);
+            padding: 0 $skinTableToolsPaddingX;
+            color: var(--aa-text);
             text-shadow: none;
-            border-right: 1px solid #ffffff;
             span {
-              color: #ffffff;
+              color: var(--aa-text);
               font-size: 11px;
               font-weight: bold;
             }
           }
         }
+        li + li a { margin-left: -1px; } // collapse the shared border between scopes
         li:first-child {
           a {
+            // Override AA's base `.scopes li:first-child a { margin-left: 10px }`.
+            // That gap belongs on the batch-actions button (margin-right below), so
+            // the scope bar aligns with the table's left edge when there are no
+            // batch actions.
+            margin-left: 0;
             -webkit-border-top-left-radius: $skinBorderRadius;
             -webkit-border-bottom-left-radius: $skinBorderRadius;
             -moz-border-radius-topleft: $skinBorderRadius;
@@ -425,16 +838,24 @@ body.active_admin {
         }
         li.selected {
           a {
-            background-color: lighten( $skinMainSecondColor, 15% );
+            // Selected scope: a touch lighter than the neutral fill, plus an accent
+            // text colour so the active scope's label stands out.
+            background-color: var(--aa-surface-hover);
+            color: var(--aa-link);
+            span { color: var(--aa-link); }
           }
         }
       }
     }
   }
   table.index_table {
-    background-color: #ffffff;
-    border: 1px solid $skinBorderWindowColor;
-    border-bottom: 2px solid $skinBorderWindowColor;
+    background-color: var(--aa-surface);
+    // Uniform 1px border (no thicker bottom) so the rounded corners are even.
+    border: 1px solid var(--aa-border);
+    // The right edge is owned by the last-column cells (below) rather than the
+    // table itself, so a last-column cell's own border-right doesn't stack
+    // against the table border 1px further out (a doubled right line).
+    border-right: 0;
     @include rounded($skinBorderRadius);
     th {
       background-image: none;
@@ -445,15 +866,45 @@ body.active_admin {
       font-weight: bold;
       background-color: $skinBorderWindowColor;
       padding: $skinTablePadding 12px $skinTablePadding 12px;
-      border-bottom: 3px solid darken( $skinBorderWindowColor, 5% );
+      // 1px header underline (was 3px) so it matches the other 1px borders.
+      border-bottom: 1px solid darken( $skinBorderWindowColor, 5% );
       border-right: 1px solid darken( $skinBorderWindowColor, 5% );
       a {
         font-size: 1.0em;
         font-weight: bold!important;
       }
     }
+    // Right edge = a single 1px line on the last-column cells (header th, body
+    // td, footer cells) coloured like the table border, since the table itself
+    // no longer draws a right border.
+    thead th:last-child,
+    tbody td:last-child,
+    tfoot tr > :last-child {
+      border-right: 1px solid var(--aa-border);
+    }
+    // Drop the bottom row's cell border: with border-collapse: separate it sits
+    // just inside the table's own bottom border, so the two stack and the bottom
+    // edge looks thicker than the other sides. The bottom row is the footer's
+    // last row when there's a totals footer, otherwise the body's last row.
+    tfoot tr:last-child > td,
+    tfoot tr:last-child > th { border-bottom: 0; }
+    &:not(:has(tfoot)) tbody tr:last-child > td { border-bottom: 0; }
+    // Round the corner cells so their square backgrounds follow the table's
+    // rounded border instead of cutting square notches into it (separate borders
+    // don't round cell backgrounds). Nest 1px inside the table's outer radius.
+    thead th:first-child { border-top-left-radius: inner-radius($skinBorderRadius); }
+    thead th:last-child  { border-top-right-radius: inner-radius($skinBorderRadius); }
+    tfoot tr:last-child > :first-child { border-bottom-left-radius: inner-radius($skinBorderRadius); }
+    tfoot tr:last-child > :last-child  { border-bottom-right-radius: inner-radius($skinBorderRadius); }
+    &:not(:has(tfoot)) tbody tr:last-child > td:first-child { border-bottom-left-radius: inner-radius($skinBorderRadius); }
+    &:not(:has(tfoot)) tbody tr:last-child > td:last-child  { border-bottom-right-radius: inner-radius($skinBorderRadius); }
     th.col-selectable {
       width: 12px;
+    }
+    // Center the batch-actions checkboxes (header select-all + per-row): they are
+    // baseline-aligned and otherwise ride a few px high in the cell.
+    .col-selectable input[type="checkbox"] {
+      vertical-align: middle;
     }
     th.sorted-desc {
       background-color: $skinBorderWindowColor;
@@ -474,18 +925,19 @@ body.active_admin {
   .sidebar_section.panel {
     background-image: none;
     box-shadow: none;
-    background-color: #ffffff;
-    border: 1px solid $skinBorderWindowColor;
-    border-bottom: 2px solid $skinBorderWindowColor;
+    background-color: var(--aa-surface);
+    // Uniform 1px border (no thicker bottom) so the rounded corners are even.
+    border: 1px solid var(--aa-border);
     & > h3 {
       background-image: none;
       box-shadow: none;
       text-shadow: none;
-      background-color: $skinMainSecondColor;
-      color: #ffffff;
+      background-color: var(--aa-panel-header);
+      color: var(--aa-panel-header-text);
       border: none;
-      padding: 8px 15px;
-      font-weight: 400;
+      border-bottom: 1px solid var(--aa-border);
+      padding: $skinPanelHeaderPaddingY 15px;
+      font-weight: 700; // match the tab label weight
 
       -webkit-border-top-left-radius: $skinBorderRadius;
       -webkit-border-top-right-radius: $skinBorderRadius;
@@ -496,11 +948,11 @@ body.active_admin {
     }
     .filter_form_field {
       label {
-        color: #8494a8;
+        color: var(--aa-label-text);
       }
       input {
-        border: 1px solid #e6e9ee;
-        background-color: #fdfefe;
+        border: 1px solid var(--aa-input-border);
+        background-color: var(--aa-input-bg);
       }
       input:focus {
         border-color: lighten( $skinMainSecondColor, 20% ) ;
@@ -519,14 +971,14 @@ form input[type=submit], form input[type=button], form button, a.button, a:link.
   background-image: none;
   box-shadow: none;
   text-shadow: none;
-  background-color: $skinMainSecondColor;
+  background-color: var(--aa-button);
   @include rounded($skinBorderRadius);
   border: none;
   padding: 10px 20px;
-  color: #ffffff;
+  color: var(--aa-button-text);
   &:hover {
     background-image: none!important;
-    background-color: lighten( $skinMainSecondColor, 5% )!important;
+    background-color: var(--aa-button-hover)!important;
   }
 }
 form fieldset.buttons li.cancel a, form fieldset.actions li.cancel a, form.filter_form a.clear_filters_btn {
@@ -547,20 +999,21 @@ form fieldset.inputs {
   box-shadow: none;
   text-shadow: none;
   box-shadow: none;
-  background-color: #ffffff;
-  border: 1px solid #e6e9ee;
-  border-bottom: 2px solid #e6e9ee;
+  background-color: var(--aa-surface);
+  // Uniform 1px border (no thicker bottom) so the rounded corners stay even.
+  border: 1px solid var(--aa-input-border);
   legend {
     span {
       background-image: none;
       box-shadow: none;
       text-shadow: none;
       box-shadow: none;
-      background-color: $skinMainSecondColor;
-      color: #ffffff;
+      background-color: var(--aa-panel-header);
+      color: var(--aa-panel-header-text);
       border: none;
-      padding: 8px 15px;
-      font-weight: 400;
+      border-bottom: 1px solid var(--aa-border);
+      padding: $skinPanelHeaderPaddingY 15px;
+      font-weight: 700; // match the tab label weight
 
       -webkit-border-top-left-radius: $skinBorderRadius;
       -webkit-border-top-right-radius: $skinBorderRadius;
@@ -572,11 +1025,11 @@ form fieldset.inputs {
   }
   ol > li {
     label {
-      color: #8494a8;
+      color: var(--aa-label-text);
     }
     input, textarea {
-      border: 1px solid #e6e9ee;
-      background-color: #fdfefe;
+      border: 1px solid var(--aa-input-border);
+      background-color: var(--aa-input-bg);
     }
     input:focus, textarea:focus {
       border-color: lighten( $skinMainSecondColor, 20% ) ;
@@ -607,7 +1060,7 @@ form fieldset.inputs {
     border-bottom: 10px solid $skinMainSecondColor;
   }
   table.ui-datepicker-calendar {
-    background-color: #ffffff;
+    background-color: var(--aa-surface);
     border-color: $skinMainSecondColor;
     thead {
       tr {
@@ -637,20 +1090,24 @@ form fieldset.inputs {
   box-shadow: none;
   text-shadow: none;
   box-shadow: none;
-  background-color: #ffffff;
-  border: 1px solid $skinBorderWindowColor;
-  border-bottom: 2px solid $skinBorderWindowColor;
+  background-color: var(--aa-surface);
+  // Uniform border width on all sides: a thicker (2px) bottom border combined
+  // with border-radius renders a distorted, non-uniform bottom corner (the outer
+  // edge curves but the border's inner edge looks square). 1px all round keeps
+  // the rounded corners symmetric.
+  border: 1px solid var(--aa-border);
   > h3 {
      background-image: none;
      box-shadow: none;
      text-shadow: none;
      box-shadow: none;
-     background-color: $skinMainSecondColor;
-     color: #ffffff;
+     background-color: var(--aa-panel-header);
+     color: var(--aa-panel-header-text);
      border: none;
-     padding: 8px 15px;
+     border-bottom: 1px solid var(--aa-border);
+     padding: $skinPanelHeaderPaddingY 15px;
      margin-top: 0;
-     font-weight: 400;
+     font-weight: 700; // match the tab label weight
 
      -webkit-border-top-left-radius: $skinBorderRadius;
      -webkit-border-top-right-radius: $skinBorderRadius;
@@ -667,11 +1124,46 @@ form fieldset.inputs {
   padding: 10px 0;
 }
 .attributes_table table th {
-    color: #8494a8;
+    color: var(--aa-label-text);
+    // base AA gives attribute labels an emboss text-shadow, which reads as a
+    // blurry halo. Drop it (the index table headers are already shadow-free).
+    text-shadow: none;
 }
+// Index-table column headers: one color for both the sortable <a> links and the
+// plain headers (configurable via --aa-table-header-text). !important overrides
+// the dark-mode content-link recolor that would otherwise turn sortable headers
+// blue.
+table.index_table thead th,
+table.index_table thead th a {
+  color: var(--aa-table-header-text) !important;
+}
+
+// Form section header: a <legend> interrupts the fieldset's top border, so the
+// header bar has no border around it (unlike a panel header). Float the legend
+// so it flows as a normal block and the fieldset border wraps around it.
+// padding-top: 0 so the header sits flush against the top border (the fieldset's
+// 10px top padding would otherwise leave a gap above the floated legend).
+form fieldset.inputs { padding-top: 0; }
+form fieldset.inputs > legend { float: left; width: 100%; }
+form fieldset.inputs > ol { clear: both; }
 .comments form.active_admin_comment fieldset.inputs {
   border: none
 }
+// Comment meta column (author / date / "Delete Comment"). AA's base _comments.scss
+// caps it at 130px — too narrow for the timestamp (~99px) and the "Delete Comment"
+// link (~77px) to share a line, so the link wraps to its own row. Widen the column
+// so date + link sit together; keep the body/form offset (base = meta width + 20px)
+// in step.
+.comments .active_admin_comment {
+  .active_admin_comment_meta { width: 200px; }
+  .active_admin_comment_body { margin-left: 220px; }
+}
+.comments form.active_admin_comment { margin-left: 220px; }
+// AA base sets `.pagination_information b { color: #5c6469 }` globally (the
+// "Displaying 1 comment" line) — black-on-dark in dark mode. Re-point to the
+// themed text color so it reads in both modes.
+.pagination_information,
+.pagination_information b { color: var(--aa-text); }
 .pagination {
   span > a {
     background-image: none;
@@ -711,20 +1203,26 @@ body.logged_out #content_wrapper #active_admin_content {
   box-shadow: none;
   @include rounded($skinBorderRadius);
 
-  background-color: #ffffff;
-  border: 1px solid $skinBorderWindowColor;
-  border-bottom: 2px solid $skinBorderWindowColor;
+  // The login page uses #content_wrapper (not #wrapper), so the aa-content dark
+  // rules don't reach it — point the box at the palette vars directly so it
+  // follows light/dark like everything else.
+  background-color: var(--aa-surface);
+  color: var(--aa-text);
+  border: 1px solid var(--aa-border);
   #login {
     h2 {
       background-image: none;
       box-shadow: none;
       text-shadow: none;
       box-shadow: none;
-      background-color: $skinMainSecondColor;
-      color: #ffffff;
+      // Match the regular panel header: receding header color, header text color,
+      // bottom outline and header height — all from the same vars.
+      background-color: var(--aa-panel-header);
+      color: var(--aa-panel-header-text);
       border: none;
-      padding: 8px 15px;
-      font-weight: 400;
+      border-bottom: 1px solid var(--aa-border);
+      padding: $skinPanelHeaderPaddingY 15px;
+      font-weight: 700; // match the tab label weight
 
       -webkit-border-top-left-radius: $skinBorderRadius;
       -webkit-border-top-right-radius: $skinBorderRadius;
@@ -740,7 +1238,7 @@ body.logged_out #content_wrapper #active_admin_content {
         ol {
           li {
             label {
-              color: #8494a8;
+              color: var(--aa-label-text);
             }
           }
         }
@@ -749,8 +1247,22 @@ body.logged_out #content_wrapper #active_admin_content {
   }
 }
 form input[type=text], form input[type=password], form input[type=email], form input[type=number], form input[type=url], form input[type=tel], form textarea {
-  border: 1px solid #e6e9ee;
-  background-color: #fdfefe;
+  border: 1px solid var(--aa-input-border);
+  background-color: var(--aa-input-bg);
+  color: var(--aa-text);
+}
+// Flat form controls: strip the base ActiveAdmin emboss (white gradient fill,
+// white emboss text-shadow, inset light box-shadow) from text inputs, selects
+// and textareas in BOTH modes. Keeping this mode-agnostic means dark mode only
+// has to recolor the controls via the --aa-* vars (no extra dark-only resets).
+#active_admin_content {
+  input:not([type=checkbox]):not([type=radio]):not([type=submit]):not([type=button]):not([type=file]):not([type=image]),
+  textarea,
+  select {
+    background-image: none;
+    text-shadow: none;
+    box-shadow: none;
+  }
 }
 form fieldset > ol > li fieldset ol li {
   clear: both;
@@ -758,23 +1270,40 @@ form fieldset > ol > li fieldset ol li {
     margin-top: 6px
   }
 }
+// Dropdown (batch-actions / title-bar / table-tools) menu items: keep them on the
+// surface text colour, not the global link blue that otherwise leaks in.
+.dropdown_menu_list li a { color: var(--aa-text) !important; }
+// The list itself and its row dividers were never repainted — ActiveAdmin
+// leaves them #FFF and #ebebeb, which in dark mode is a white panel behind
+// the items and a bright hairline between every one of them. Same selector
+// depth as the base rules, so source order decides and this comes later.
+.dropdown_menu .dropdown_menu_list_wrapper .dropdown_menu_list {
+  background-color: var(--aa-elevated);
+  border-color: var(--aa-border);
+}
+.dropdown_menu .dropdown_menu_list_wrapper .dropdown_menu_list li {
+  border-bottom-color: var(--aa-border);
+}
+
 .ui-dialog {
   background-image: none;
   box-shadow: none;
   text-shadow: none;
-  box-shadow: none;
-  background-color: #ffffff;
-  border-bottom: 2px solid $skinBorderWindowColor;
+  background-color: var(--aa-surface);
+  color: var(--aa-text);
+  border-bottom: 1px solid var(--aa-border);
   .ui-dialog-titlebar {
     background-image: none;
     box-shadow: none;
     text-shadow: none;
     box-shadow: none;
-    background-color: $skinMainSecondColor;
-    color: #ffffff;
+    background-color: var(--aa-panel-header);
+    color: var(--aa-panel-header-text);
     border: none;
-    padding: 8px 15px;
-    font-weight: 400;
+    border-bottom: 1px solid var(--aa-border);
+    padding: $skinPanelHeaderPaddingY 15px;
+    font-weight: 700;
+    font-size: 1em;
 
     -webkit-border-top-left-radius: $skinBorderRadius;
     -webkit-border-top-right-radius: $skinBorderRadius;
@@ -782,6 +1311,15 @@ form fieldset > ol > li fieldset ol li {
     -moz-border-radius-topright: $skinBorderRadius;
     border-top-left-radius: $skinBorderRadius;
     border-top-right-radius: $skinBorderRadius;
+  }
+  // jQuery-UI close button: drop the default grey gradient pill so it blends into
+  // the accent titlebar.
+  .ui-dialog-titlebar-close {
+    background: transparent;
+    background-image: none;
+    border: none;
+    box-shadow: none;
+    color: var(--aa-panel-header-text);
   }
   form {
     ul {
@@ -792,8 +1330,8 @@ form fieldset > ol > li fieldset ol li {
         }
         input[type="text"], input[type="number"], input[type="datepicker"], textarea {
           padding: 8px 10px 7px;
-          border: 1px solid #e6e9ee;
-          background-color: #fdfefe;
+          border: 1px solid var(--aa-input-border);
+          background-color: var(--aa-input-bg);
           outline: none;
           @include rounded($skinBorderRadius);
           width: 247px;
@@ -813,28 +1351,28 @@ form fieldset > ol > li fieldset ol li {
         text-shadow: none;
         box-shadow: none;
         @include rounded($skinBorderRadius);
-        background-color: $skinMainSecondColor;
+        background-color: var(--aa-button);
         border: none;
-        color: #ffffff;
+        color: var(--aa-button-text);
         font-weight: 400;
         padding: 10px 20px;
         &:hover {
           background-image: none!important;
-          background-color: lighten( $skinMainSecondColor, 5% )!important;
+          background-color: var(--aa-button-hover)!important;
         }
       }
       button:last-child {
         background-image: none;
         box-shadow: none;
         text-shadow: none;
-        box-shadow: none;
-        background-color: #ffffff;
+        background-color: var(--aa-surface);
+        color: var(--aa-text);
         @include rounded($skinBorderRadius);
         padding: 9px 20px 9px 20px;
-        border-color: #E4E4E4;
+        border: 1px solid var(--aa-border);
         &:hover {
           background-image: none!important;
-          background-color: #F4F4F4!important;
+          background-color: var(--aa-surface-hover)!important;
         }
       }
     }
@@ -869,6 +1407,249 @@ input[type='radio'] {
   }
 }
 
-.attributes_table table td .status_tag.empty {
-  color: #ffffff;
+// Status tag: solid colour fill with a white label (high visibility), and an
+// outline a shade darker than the fill so the edge reads in the tag's own
+// colour. All colours are fixed, so a tag looks identical in light and dark.
+@mixin status-tag-colors($c) {
+  background: $c;
+  border-color: mix($c, #000000, 84%); // = darken($c) — outline in the fill colour
+  // Black, not white: the five fills below are mid-tone, and white lands
+  // between 2.35 and 3.78 against them — under the 4.5 WCAG AA asks for text
+  // this small. Black gives at least 5.56 on every one of them. #1a1d21 was
+  // the first thing tried and misses by 0.02 on the error red.
+  color: #000000;
 }
+
+//CONTENT (both modes)-----------------------------------------------------------//
+// Repaint ActiveAdmin's content onto the semantic palette. Included
+// unconditionally; the --aa-* custom properties carry the per-mode values (light
+// on :root, dark via aa-dark-palette), so this one rule set themes both modes.
+// Only the genuinely-dark overrides (see aa-dark-content, below) stay dark-scoped.
+@mixin aa-content {
+  body.active_admin { color: var(--aa-text); }
+
+  #wrapper #active_admin_content {
+    color: var(--aa-text);
+
+    // Status tags: solid colour fill + white label (high visibility), an
+    // in-colour outline, rounded corners and a centered label. Colours are
+    // mode-independent (same in light and dark). The base ActiveAdmin rule
+    // supplies uppercase + letter-spacing + font-size; text-indent offsets the
+    // trailing letter-spacing so the label is horizontally centered.
+    .status_tag {
+      display: inline-block;
+      line-height: 1;
+      // 4px (not 5px) horizontal padding so the added 1px border doesn't widen
+      // the tag past ActiveAdmin's original borderless 5px-padded width. 1px less
+      // bottom padding than top (like the stock AA tag) optically centers the
+      // uppercase label, which otherwise rides high (no descenders to fill the
+      // reserved space below the baseline).
+      padding: 3px 4px 2px;
+      text-indent: 0.15em;
+      border-radius: 2px;
+      border: 1px solid;
+
+      @include status-tag-colors(#8a909a); // neutral default (e.g. "No", protocol tags)
+      &.ok, &.published, &.complete, &.completed, &.green, &.yes { @include status-tag-colors(#8daa92); }
+      &.notice, &.blue { @include status-tag-colors(#6090db); }
+      &.warn, &.warning, &.orange { @include status-tag-colors(#e29b20); }
+      &.error, &.errored, &.red { @include status-tag-colors(#d45f53); }
+      &.empty, &.unknown, &.none {
+        background: none;
+        border: 0; // placeholder/empty tags stay unobtrusive (no outline)
+        color: var(--aa-text-muted);
+        font-weight: bold;
+        font-size: 0.8em;
+        text-indent: 0;
+      }
+    }
+
+    // Generic content links take the link color. Exclude UI "chrome" links that
+    // carry their own color — buttons, title-bar actions, scope/batch buttons
+    // (.table_tools_button), jQuery-UI tab anchors (.ui-tabs-anchor) — and delete
+    // links (handled by their own rule). Excluding them means those rules win on
+    // their own, with no need for !important.
+    // :where() wraps the exclusions so they filter without adding weight. Bare,
+    // the seven :not()s are worth seven class-level points, and that beat every
+    // component rule declared later — pagination links and the Clear Filters
+    // button came out --aa-link instead of --aa-text.
+    a:where(:not(.button):not(.action_item):not(.table_tools_button):not(.dropdown_menu_button):not(.ui-tabs-anchor):not(.delete_link):not([data-method="delete"])) { color: var(--aa-link); }
+    a[data-method="delete"], a.delete_link { color: var(--aa-delete-link); }
+
+    // Pagination — non-current page chips use a light-grey bg in the theme
+    .pagination span > a { background-color: var(--aa-surface-2); color: var(--aa-text); }
+    // The hovered page link keeps its accent fill, so the label has to be
+    // the colour that reads on the accent — not the link colour. The generic
+    // link rule above scores (2,6,1) thanks to its six :not() clauses and
+    // cannot be out-specified by anything sane here, which is why this needs
+    // !important, like the accent fill one line over in the base pagination
+    // block. Without it the digit renders at 1.00:1 on its own background.
+    .pagination span > a:hover { color: $skinMenuPillTextColor !important; }
+
+    // Batch-actions / table-tools dropdown menu items are white by default
+    .table_tools .dropdown_menu_list li a {
+      background-color: var(--aa-surface);
+      color: var(--aa-text);
+    }
+
+    // NB: do NOT give .panel_contents its own background — it's a square-cornered
+    // child that fills the panel, so a bg on it would paint over the panel's
+    // rounded inner border edge and make the corners look square. The parent
+    // .panel background shows through instead.
+    .panel,
+    .sidebar_section,
+    .dashboard_section,
+    fieldset.inputs {
+      background: var(--aa-surface);
+      border-color: var(--aa-border);
+      color: var(--aa-text);
+    }
+    // .index_content wraps the index table, which already paints its own
+    // (rounded) surface. Giving this square-cornered wrapper a surface bg makes
+    // it show through the table's rounded corners as white squares, so leave it
+    // transparent (same reasoning as .panel_contents above).
+    .index_content { color: var(--aa-text); }
+    // Blank-slate ("No records") container blends into the page background
+    // rather than reading as a panel surface.
+    .blank_slate_container {
+      background: var(--aa-page-bg);
+      color: var(--aa-text);
+    }
+    // Cancel / clear buttons are white in the theme (a light secondary button)
+    fieldset.buttons li.cancel a, fieldset.actions li.cancel a,
+    form.filter_form a.clear_filters_btn {
+      background-color: var(--aa-surface-2);
+      color: var(--aa-text);
+      border-color: var(--aa-input-border);
+    }
+    // (Tab styling — colors, the no-bottom-outline inactive tabs, and the z-index
+    // baseline — lives in the base #wrapper div.tabs block now, so it applies in
+    // both light and dark via the --aa-* vars.)
+
+    table.index_table,
+    .attributes_table table,
+    table {
+      background: var(--aa-surface);
+      color: var(--aa-text);
+      border-color: var(--aa-border);
+    }
+    // Column headers (index AND plain content tables, e.g. the CDR "Attempts"
+    // table) get a distinct header-row shade so they don't blend with the rows.
+    // Plain table headers are otherwise transparent and read like an odd row.
+    table thead th {
+      background: var(--aa-surface-2);
+    }
+    table.index_table thead th { background: var(--aa-table-header); }
+    table.index_table thead th,
+    .attributes_table th {
+      border-color: var(--aa-border);
+    }
+    table th, table td,
+    table.index_table td,
+    .attributes_table td {
+      border-color: var(--aa-border);
+      color: var(--aa-text);
+    }
+    // Attribute-table labels (the field-name column) use the muted label color;
+    // the more specific selector wins over the generic `table th` rule above.
+    .attributes_table th { color: var(--aa-label-text); }
+    table.index_table tbody tr:nth-child(even) > td,
+    table.index_table tbody tr.even > td { background: var(--aa-surface-2); }
+    table.index_table tbody tr:hover > td { background: var(--aa-surface-hover); }
+    // Checked rows: the zebra and hover rules above outrank ActiveAdmin's own
+    // `tr.selected td`, so without this a ticked row looks exactly like an
+    // unticked one. The :hover variant keeps the selection visible while the
+    // pointer is over the row.
+    table.index_table tbody tr.selected > td,
+    table.index_table tbody tr.selected:hover > td { background: var(--aa-selected); }
+    // Plain content tables (e.g. the CDR show "Attempts" table) are striped by the
+    // base CSS with light fills; map the odd/even rows onto the dark surfaces too.
+    table tbody tr.odd > td,  table tbody tr.odd > th  { background-color: var(--aa-surface); }
+    table tbody tr.even > td, table tbody tr.even > th { background-color: var(--aa-surface-2); }
+    // Plain table headers carry a white emboss text-shadow (subtle on a light bg,
+    // a blurry halo on dark). Drop it — index tables are already shadow-free.
+    table thead th, table thead td { text-shadow: none; }
+    // Footer / totals row (theme gives it a light grey bg, which on the dark
+    // panel reads as a light rectangle poking against the rounded panel border).
+    table.index_table tfoot tr,
+    table.index_table tfoot td,
+    table.index_table tfoot th {
+      background: var(--aa-surface-2);
+      color: var(--aa-text);
+    }
+
+    // Index footer (per-page selector, pagination, "displaying…" info, download
+    // links): lay them out in one left-packed, vertically-centred row. The gem
+    // floats them, so they sat top-aligned and, having different heights, looked
+    // misaligned. A slightly larger font than the gem default (0.85em) too.
+    #index_footer {
+      text-align: left;
+      font-size: 0.95em;
+      .pagination_per_page,
+      .pagination,
+      .pagination_information,
+      .download_links {
+        float: none;
+        display: inline-block;
+        vertical-align: middle;
+        margin: 0 8px 0 0;
+      }
+    }
+
+    // Forms & inputs
+    // :focus is nested rather than written out alongside: the six :not()s count
+    // as six class-level points, so a sibling `input:focus` (one) loses to the
+    // resting border every time and the focus indicator never appears at all.
+    input:not([type=checkbox]):not([type=radio]):not([type=submit]):not([type=button]):not([type=file]):not([type=image]),
+    textarea,
+    select {
+      background-color: var(--aa-input-bg);
+      border-color: var(--aa-input-border);
+      color: var(--aa-text);
+
+      &:focus { border-color: var(--aa-accent); }
+    }
+    input::placeholder, textarea::placeholder { color: var(--aa-text-muted); }
+    option, optgroup { background-color: var(--aa-input-bg); color: var(--aa-text); }
+    label, fieldset > legend, .fieldset > legend { color: var(--aa-label-text); }
+    .inline-hints, .inline_hints, p.inline-hints { color: var(--aa-text-muted); }
+  }
+
+  // jQuery UI datepicker (appended to <body>, so styled at the mixin level)
+  // #ui-datepicker-div, not .ui-datepicker.ui-widget: both ActiveAdmin and the
+  // block higher up this file address it by id, and an id beats any number of
+  // classes — the class-only form here never applied, leaving the calendar on
+  // its light fills with #666 day numbers on the dark surface (2.61:1).
+  #ui-datepicker-div.ui-datepicker {
+    background: var(--aa-surface);
+    border-color: var(--aa-border);
+    color: var(--aa-text);
+    // The header keeps the accent fill and its white label in both modes — the
+    // theme paints it that way above, and it reads on either background. Only
+    // the calendar body needs repointing; a blanket `a` here would turn the
+    // header's month arrows and title dark on the accent.
+    border-color: var(--aa-border);
+    table.ui-datepicker-calendar { background-color: var(--aa-surface); }
+    table.ui-datepicker-calendar thead th { background-color: var(--aa-surface-2); color: var(--aa-text-muted); }
+    table.ui-datepicker-calendar tbody td a { color: var(--aa-text); }
+    table.ui-datepicker-calendar tbody td span { color: var(--aa-text-muted); }
+    .ui-state-hover, .ui-state-active { background: var(--aa-surface-hover); }
+  }
+}
+
+// DARK-ONLY content overrides — genuinely dark-specific values with no light
+// equivalent (or that would be wrong on a light surface), so these stay scoped
+// to dark mode while everything in aa-content is mode-agnostic.
+@mixin aa-dark-content {
+  // (Currently empty — status tags now use mode-independent soft colours in
+  // aa-content, so no dark-only override is needed. Kept for future dark-only
+  // content rules.)
+}
+
+// Content styling applies in BOTH modes (aa-dark-palette supplies the per-mode
+// --aa-* values); only the genuinely-dark overrides are dark-scoped.
+@include aa-content;
+@media (prefers-color-scheme: dark) {
+  html:not([data-theme="light"]) { @include aa-dark-content; }
+}
+html[data-theme="dark"] { @include aa-dark-content; }

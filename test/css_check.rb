@@ -22,6 +22,12 @@ module CssCheck
                         $skinMenuPillColor: #f0f0f0; $skinMenuPillTextColor: #222222;',
     "dark menu"     => '$skinMenuPanelColor: #222222; $skinMenuItemHoverColor: #3a3a3a;',
     "roomy menu"    => '$skinMenuFontSize: 1.6em; $skinMenuItemPaddingY: 12px;',
+    "header padding shorthand" => '$skinHeaderPaddingY: 7px;',
+    # The panel header pair is documented as taking a custom property, so the
+    # colour guard has to let one through.
+    "panel header as a custom property" => '$skinPanelHeaderColor: var(--aa-surface);',
+    "repainted palette" => '$skinPageBgColor: #fafafa; $skinSurfaceColor: #ffffff;
+                            $skinTextColor: #202020; $skinLinkColor: #0b5;',
   }.freeze
 
   # Wrong-typed overrides. All of these are legal SassScript, so without the
@@ -35,7 +41,41 @@ module CssCheck
     "$skinMenuItemPaddingY without a unit" => '$skinMenuItemPaddingY: 8;',
     "$skinMenuItemHoverColor: none"       => '$skinMenuItemHoverColor: none;',
     "$skinTitleBarBorderWidth: none"      => '$skinTitleBarBorderWidth: none;',
+    "$skinPageBgColor as a length"        => '$skinPageBgColor: 10px;',
+    "$skinTextColor: none"                => '$skinTextColor: none;',
+    "$skinLinkColorDark: none"            => '$skinLinkColorDark: none;',
+    "$skinPanelHeaderColor as a length"   => '$skinPanelHeaderColor: 10px;',
   }.freeze
+
+  # The variables table in the README is the public contract people configure
+  # against, and it had drifted from the declarations in 30 of 52 rows after the
+  # defaults moved to yeti-web's configuration. Nothing noticed, because nothing
+  # was comparing them.
+  def self.readme_table_matches_declarations
+    scss = File.read(File.join(STYLESHEETS, "wigu/active_admin_theme.scss"))
+    declared = {}
+    scss.scan(/(\$skin[A-Za-z0-9]+)\s*:\s*(.+?)!default/) do |name, value|
+      # `if($x == null, 4.5px, $x)` documents as the fallback it falls back to.
+      declared[name] ||= value.strip.sub(/\Aif\(\$\w+ == null, (.+?), \$\w+\)\z/, '\\1')
+    end
+
+    readme = File.read(File.expand_path("../README.md", __dir__))
+    rows = readme.scan(/^\|\s*`(\$skin[A-Za-z0-9]+)`(?:\s*\/\s*`(\$skin[A-Za-z0-9]+)`)?\s*\|\s*([^|]*?)\s*\|/)
+
+    rows.flat_map do |light, dark, documented|
+      parts = documented.split("/").map { |part| part.strip.delete("`") }
+      pairs = [[light, parts[0]]]
+      pairs << [dark, parts[1]] if dark
+      pairs.filter_map do |name, value|
+        next if value.nil? || value.empty?
+        actual = declared[name]
+        next if actual && actual.casecmp?(value)
+        "#{name}: README says `#{value}`, the stylesheet declares `#{actual || "nothing"}`"
+      end
+    end
+  end
+
+  DECLARED_ROWS = 52
 
   def self.load_paths
     activeadmin = Gem::Specification.find_by_name("activeadmin").gem_dir
@@ -79,7 +119,14 @@ module CssCheck
     end
 
     if failures.empty?
-      puts "css_check: #{GOOD.size} overrides compile clean, #{BAD.size} bad ones rejected"
+      drift = readme_table_matches_declarations
+      unless drift.empty?
+        drift.each { |line| warn "css_check: #{line}" }
+        abort "css_check: the README variables table is out of sync in #{drift.size} place(s)"
+      end
+
+      puts "css_check: #{GOOD.size} overrides compile clean, #{BAD.size} bad ones rejected, " \
+           "README table matches #{DECLARED_ROWS} declarations"
     else
       failures.each { |failure| warn "css_check: #{failure}" }
       abort "css_check: #{failures.size} problem(s)"
