@@ -83,7 +83,10 @@ wait_for("#{BASE}/admin")
 
 # --- Browser -----------------------------------------------------------------
 
+# The defaults are tuned for a developer machine; a CI runner is slower and
+# times out mid-scenario, which costs the whole gallery for one slow page.
 browser = Ferrum::Browser.new(headless: true, window_size: options[:viewport],
+                              timeout: 30, process_timeout: 60,
                               browser_options: { "force-color-profile" => "srgb",
                                                  "hide-scrollbars" => nil })
 at_exit { browser.quit rescue nil }
@@ -187,4 +190,7 @@ end
 File.write(File.join(options[:out], "index.json"), JSON.pretty_generate(taken))
 failed = taken.count { |t| t[:error] }
 puts "shoot: #{taken.size - failed}/#{taken.size} scenarios"
-exit(1) if failed.positive?
+# A scenario that could not be shot is reported in the comment rather than
+# failing the job: losing the whole gallery because one page was slow is worse
+# than a gallery with a gap in it. Nothing at all is still a failure.
+exit(1) if failed == taken.size
