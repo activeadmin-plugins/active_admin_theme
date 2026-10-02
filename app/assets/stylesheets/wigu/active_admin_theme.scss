@@ -625,7 +625,13 @@ body.active_admin {
           }
         }
       }
-      ul.scopes, div.scopes > ul {
+      // ActiveAdmin renders the index view switcher with the same classes as
+      // the scope bar — ul.indexes.table_tools_segmented_control, anchors
+      // carrying .table_tools_button — so it needs the same segmented
+      // geometry. Without it the switcher keeps the generic button radius on
+      // every segment, the shared borders double up, and the selected view is
+      // indistinguishable from the others.
+      ul.scopes, div.scopes > ul, ul.indexes {
         li {
           a {
             background-image: none;
