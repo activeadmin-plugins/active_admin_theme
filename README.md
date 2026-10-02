@@ -35,7 +35,7 @@ Or add manually to `package.json`:
 
 ```
 "dependencies": {
-  "@activeadmin-plugins/active_admin_theme": "^2.0.0"
+  "@activeadmin-plugins/active_admin_theme": "^3.0.0"
 }
 ```
 and execute:
@@ -159,9 +159,9 @@ cannot show both.
 
 `auto` removes the attribute, so the media query decides and the page follows
 the operating system live; the other two pin the choice in `localStorage` under
-`aa-theme`. ActiveAdmin 4's own toggle writes `light` or `dark` on the first
-click and never writes `auto` back, so a user there cannot return to following
-the system without clearing storage by hand — hence the third state.
+`aa-theme`. The third state is there so that following the system stays
+reachable: a two-state toggle writes a preference on the first click and has no
+way back short of clearing storage by hand.
 
 The glyphs are inline SVG used as a CSS `mask`, so the gem still ships no image
 files, there is nothing for a host application's CSP to allow, and the icon
