@@ -12,6 +12,7 @@ require "digest"
 require "fileutils"
 require "optparse"
 require "net/http"
+require "tmpdir"
 require "sassc"
 require "ferrum"
 
@@ -20,7 +21,7 @@ require_relative "scenarios"
 options = {
   theme_root: "app/assets/stylesheets",
   out: "tmp/screens",
-  app: File.expand_path("tmp/screens-dummy", Dir.pwd),
+  app: File.join(Dir.tmpdir, "active-admin-theme-screens"),
   port: 3777,
   viewport: [1440, 900],
 }

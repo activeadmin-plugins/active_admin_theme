@@ -9,8 +9,13 @@
 #
 #   ruby test/screens/dummy.rb [path]     # default: tmp/screens-dummy
 require "fileutils"
+require "tmpdir"
 
-APP  = File.expand_path(ARGV[0] || "tmp/screens-dummy", Dir.pwd)
+# Outside the repository on purpose: ruby/setup-ruby writes a .bundle/config
+# into the working directory, and bundler walks up from wherever it is run, so
+# an app generated under tmp/ inherits a lockfile that does not describe it and
+# resolves in local mode.
+APP = File.expand_path(ARGV[0] || File.join(Dir.tmpdir, "active-admin-theme-screens"), Dir.pwd)
 
 # Every command runs with the parent's bundler environment cleared, so the
 # generated app resolves against its own Gemfile and not this gem's.

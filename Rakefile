@@ -1,4 +1,5 @@
 require "bundler/gem_tasks"
+require "tmpdir"
 
 desc "Compile the theme against ActiveAdmin and check the result"
 task :css do
@@ -10,7 +11,7 @@ task default: :css
 desc "Shoot the screen gallery for this branch and for its base"
 task :screens, [:base] do |_task, args|
   base = args[:base] || ENV.fetch("BASE_REF", "origin/master")
-  app  = ENV.fetch("DUMMY_APP", File.expand_path("tmp/screens-dummy"))
+  app  = ENV.fetch("DUMMY_APP", File.join(Dir.tmpdir, "active-admin-theme-screens"))
   out  = ENV.fetch("SCREENS_OUT", File.expand_path("tmp/screens"))
   theme = "app/assets/stylesheets/wigu/active_admin_theme.scss"
 
