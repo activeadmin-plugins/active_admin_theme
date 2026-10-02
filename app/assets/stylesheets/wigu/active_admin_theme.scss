@@ -10,10 +10,12 @@ $skinTablePadding: 10px!default;
 // overrides it still gets the menu following that accent. Every colour here has
 // a matching text colour, otherwise a light value would be unreadable.
 $skinMenuPillColor: $skinMainSecondColor!default;   // top-level current/hover pill
-$skinMenuPillTextColor: #ffffff!default;            // text on that pill
+$skinMenuTextColor: #ffffff!default;                // dropdown item text, hover/current included
+// Follows the dropdown text rather than defaulting to white on its own: a
+// project that light-themes the menu sets one variable, not two.
+$skinMenuPillTextColor: $skinMenuTextColor!default; // text on that pill
 $skinMenuPanelColor: $skinMainSecondColor!default;  // dropdown panel bg + hover "bridge" border
 $skinMenuItemHoverColor: transparent!default;       // dropdown item hover/current bg
-$skinMenuTextColor: #ffffff!default;                // dropdown item text, hover/current included
 
 // Header / menu sizing. NOTE: not a no-op refactor — dropdown item height and
 // dropdown width change for every project, configured or not. Header padding
