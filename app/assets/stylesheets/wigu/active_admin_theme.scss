@@ -43,12 +43,10 @@ $skinMenuItemPaddingY: 5px!default;                 // dropdown item top/bottom 
 $skinMenuPanelMaxWidth: 260px!default;              // dropdown panel ceiling; longer labels wrap instead of leaving the viewport
 $skinMenuItemLineHeight: 1.35!default;               // dropdown item line-height
 // Header padding. Set $skinHeaderPaddingY for the same value top and bottom,
-// or the two halves separately. The defaults are asymmetric because that is
-// what the theme has always rendered, and a symmetric value shifts every
-// element in the header.
+// or the two halves separately — the halves win, since they are read last.
 $skinHeaderPaddingY: null!default;
-$skinHeaderPaddingTop: 4.5px!default;
-$skinHeaderPaddingBottom: 4.5px!default;
+$skinHeaderPaddingTop: if($skinHeaderPaddingY == null, 4.5px, $skinHeaderPaddingY)!default;
+$skinHeaderPaddingBottom: if($skinHeaderPaddingY == null, 4.5px, $skinHeaderPaddingY)!default;
 $skinHeaderLogoMaxHeight: none!default;             // cap the site_title logo image height
 
 // Title bar
