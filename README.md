@@ -156,6 +156,7 @@ the light value keeps one consistent colour in both modes.
 | Variable | Default (light / dark) | |
 |---|---|---|
 | `$skinButtonColor` / `$skinButtonColorDark` | `$skinMainSecondColor` / `$skinButtonColor` |  |
+| `$skinButtonTextColor` / `$skinButtonTextColorDark` | `#ffffff` / `$skinButtonTextColor` | label on those buttons |
 | `$skinTableToolsHeight` | `30px` |  |
 | `$skinTableToolsPaddingX` | `$skinTableToolsHeight * 0.4` | 12px at 30px |
 | `$skinTableToolButtonColor` / `$skinTableToolButtonColorDark` | `$skinSurfaceColor` / `$skinSurfaceColorDark` |  |

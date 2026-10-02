@@ -66,6 +66,10 @@ $skinLabelColorDark: $skinTextColorDark!default;
 // Buttons (form submit, title-bar action buttons, batch actions). Separate from
 // the accent so buttons can be a non-blue color, with a dark-mode override.
 $skinButtonColor: $skinMainSecondColor!default;
+// Label on those buttons. A project is invited above to pick a non-blue fill;
+// without this the label stays white and a light fill is unreadable.
+$skinButtonTextColor: #ffffff!default;
+$skinButtonTextColorDark: $skinButtonTextColor!default;
 $skinButtonColorDark: $skinButtonColor!default;
 
 // Vertical padding controlling the height of panel/section headers and tabs.
@@ -139,6 +143,7 @@ $skinDeleteLinkColorDark: #e06c6c!default;
   --aa-panel-header-text: #{$skinPanelHeaderTextColorDark};
   --aa-label-text:    #{$skinLabelColorDark};
   --aa-button:        #{$skinButtonColorDark};
+  --aa-button-text:   #{$skinButtonTextColorDark};
   --aa-button-hover:  #{lighten($skinButtonColorDark, 5%)};
   --aa-table-tool-button:        #{$skinTableToolButtonColorDark};
   --aa-table-tool-scope:         #{$skinTableToolScopeColorDark};
@@ -168,6 +173,7 @@ $skinDeleteLinkColorDark: #e06c6c!default;
   --aa-panel-header-text: #{$skinPanelHeaderTextColor};
   --aa-label-text:    #{$skinLabelColor};
   --aa-button:        #{$skinButtonColor};
+  --aa-button-text:   #{$skinButtonTextColor};
   --aa-button-hover:  #{lighten($skinButtonColor, 5%)};
   --aa-table-tool-button:        #{$skinTableToolButtonColor};
   --aa-table-tool-scope:         #{$skinTableToolScopeColor};
@@ -230,7 +236,9 @@ html[data-theme="dark"]  { @include aa-dark-palette; }
   skinSelectedRowColor: $skinSelectedRowColor,
   skinSelectedRowColorDark: $skinSelectedRowColorDark,
   skinAccentColor: $skinAccentColor,
-  skinAccentColorDark: $skinAccentColorDark
+  skinAccentColorDark: $skinAccentColorDark,
+  skinButtonTextColor: $skinButtonTextColor,
+  skinButtonTextColorDark: $skinButtonTextColorDark
 ) {
   @if type-of($value) != color {
     @error "$#{$name} must be a color (use `transparent`, not `none`), got `#{$value}`.";
@@ -437,7 +445,7 @@ body.active_admin {
         background-color: var(--aa-button);
         border: none;
         padding: $skinTitleBarButtonPaddingY $skinTitleBarButtonPaddingX;
-        color: #ffffff;
+        color: var(--aa-button-text);
         font-weight: 600;
         &:hover {
           background-color: var(--aa-button-hover)!important;
@@ -805,7 +813,7 @@ form input[type=submit], form input[type=button], form button, a.button, a:link.
   @include rounded($skinBorderRadius);
   border: none;
   padding: 10px 20px;
-  color: #ffffff;
+  color: var(--aa-button-text);
   &:hover {
     background-image: none!important;
     background-color: var(--aa-button-hover)!important;
@@ -1172,7 +1180,7 @@ form fieldset > ol > li fieldset ol li {
         @include rounded($skinBorderRadius);
         background-color: var(--aa-button);
         border: none;
-        color: #ffffff;
+        color: var(--aa-button-text);
         font-weight: 400;
         padding: 10px 20px;
         &:hover {
