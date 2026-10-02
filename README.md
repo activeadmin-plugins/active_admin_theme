@@ -185,6 +185,11 @@ set variables:
   what lets them work in both modes. If you branded those panels through the
   two main colours, point `$skinSurfaceColor` and `$skinSurfaceHoverColor` at
   the same values.
+* The primary button fill is darker (`darken($skinMainSecondColor, 20%)` rather
+  than the accent itself). White on the accent is 2.74:1, under the 4.5:1 small
+  text needs, and dark mode was already using this tone — the button is now one
+  colour in both modes. Set `$skinButtonColor: $skinMainSecondColor;` for the
+  old look.
 * The default content link colour is darker (`#1f5f8d` rather than the accent).
   The accent is a fill colour and failed WCAG AA as body text. Set
   `$skinLinkColor` back to `$skinMainSecondColor` if you prefer the old look.
@@ -265,7 +270,7 @@ set variables:
 
 | Variable | Default (light / dark) | |
 |---|---|---|
-| `$skinButtonColor` / `$skinButtonColorDark` | `$skinMainSecondColor` / `darken($skinButtonColor, 20%)` | darker in dark mode so a white label clears 4.5:1 |
+| `$skinButtonColor` / `$skinButtonColorDark` | `darken($skinMainSecondColor, 20%)` / `$skinButtonColor` | one tone in both modes; white on it is 5.35:1 |
 | `$skinButtonTextColor` / `$skinButtonTextColorDark` | `#ffffff` / `$skinButtonTextColor` | label on those buttons |
 | `$skinTableToolsHeight` | `30px` |  |
 | `$skinTableToolsPaddingX` | `$skinTableToolsHeight * 0.4` | 12px at 30px |

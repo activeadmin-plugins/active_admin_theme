@@ -72,12 +72,15 @@ $skinLabelColorDark: $skinTextColorDark!default;
 
 // Buttons (form submit, title-bar action buttons, batch actions). Separate from
 // the accent so buttons can be a non-blue color, with a dark-mode override.
-$skinButtonColor: $skinMainSecondColor!default;
+// Darker than the accent because the label is white: the accent itself gives
+// 2.74:1, under the 4.5:1 small text needs. At -20% it is 5.35:1, and it is the
+// tone dark mode already used, so the button is now one colour in both modes.
+$skinButtonColor: darken($skinMainSecondColor, 20%)!default;
 // Label on those buttons. A project is invited above to pick a non-blue fill;
 // without this the label stays white and a light fill is unreadable.
 $skinButtonTextColor: #ffffff!default;
 $skinButtonTextColorDark: $skinButtonTextColor!default;
-$skinButtonColorDark: darken($skinButtonColor, 20%)!default;
+$skinButtonColorDark: $skinButtonColor!default;
 
 // Vertical padding controlling the height of panel/section headers and tabs.
 $skinPanelHeaderPaddingY: 5px!default;   // panel + sidebar header height
