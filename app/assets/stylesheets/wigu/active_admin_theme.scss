@@ -1015,7 +1015,7 @@ form fieldset.inputs > ol { clear: both; }
   .active_admin_comment_body { margin-left: 220px; }
 }
 .comments form.active_admin_comment { margin-left: 220px; }
-// AA base hardcodes `.comments .pagination_information { color: #000 }` (the
+// AA base sets `.pagination_information b { color: #5c6469 }` globally (the
 // "Displaying 1 comment" line) — black-on-dark in dark mode. Re-point to the
 // themed text color so it reads in both modes.
 .pagination_information,
