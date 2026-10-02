@@ -14,6 +14,7 @@ $skinPageBgColor:       #f7f9fb!default;  $skinPageBgColorDark:      #1a1d21!def
 $skinSurfaceColor:      #ffffff!default;  $skinSurfaceColorDark:     #24272c!default;  // panels / cards / content
 $skinSurface2Color:     #f0f2f5!default;  $skinSurface2ColorDark:    #2c3036!default;  // table headers / striping / subtle fills
 $skinSurfaceHoverColor: #f5f7fa!default;  $skinSurfaceHoverColorDark:#30353b!default;  // row / item hover
+$skinSelectedRowColor:  #d9e4ec!default;  $skinSelectedRowColorDark: #35414c!default;  // checked table row
 $skinTextColor:         #323537!default;  $skinTextColorDark:        #d7dbe0!default;  // body text
 $skinTextMutedColor:    #6b7177!default;  $skinTextMutedColorDark:   #9aa0a6!default;  // secondary text / axis labels
 $skinBorderColor:       #e0e4e9!default;  $skinBorderColorDark:      #3a3f45!default;  // borders / grid lines
@@ -121,6 +122,7 @@ $skinDeleteLinkColorDark: #e06c6c!default;
   --aa-surface:       #{$skinSurfaceColorDark};
   --aa-surface-2:     #{$skinSurface2ColorDark};
   --aa-surface-hover: #{$skinSurfaceHoverColorDark};
+  --aa-selected:      #{$skinSelectedRowColorDark};
   --aa-text:          #{$skinTextColorDark};
   --aa-text-muted:    #{$skinTextMutedColorDark};
   --aa-border:        #{$skinBorderColorDark};
@@ -149,6 +151,7 @@ $skinDeleteLinkColorDark: #e06c6c!default;
   --aa-surface:       #{$skinSurfaceColor};
   --aa-surface-2:     #{$skinSurface2Color};
   --aa-surface-hover: #{$skinSurfaceHoverColor};
+  --aa-selected:      #{$skinSelectedRowColor};
   --aa-text:          #{$skinTextColor};
   --aa-text-muted:    #{$skinTextMutedColor};
   --aa-border:        #{$skinBorderColor};
@@ -219,7 +222,9 @@ html[data-theme="dark"]  { @include aa-dark-palette; }
   skinMenuItemHoverColor: $skinMenuItemHoverColor,
   skinMenuTextColor: $skinMenuTextColor,
   skinTitleBarColor: $skinTitleBarColor,
-  skinTitleBarBorderColor: $skinTitleBarBorderColor
+  skinTitleBarBorderColor: $skinTitleBarBorderColor,
+  skinSelectedRowColor: $skinSelectedRowColor,
+  skinSelectedRowColorDark: $skinSelectedRowColorDark
 ) {
   @if type-of($value) != color {
     @error "$#{$name} must be a color (use `transparent`, not `none`), got `#{$value}`.";
@@ -1348,6 +1353,12 @@ input[type='radio'] {
     table.index_table tbody tr:nth-child(even) > td,
     table.index_table tbody tr.even > td { background: var(--aa-surface-2); }
     table.index_table tbody tr:hover > td { background: var(--aa-surface-hover); }
+    // Checked rows: the zebra and hover rules above outrank ActiveAdmin's own
+    // `tr.selected td`, so without this a ticked row looks exactly like an
+    // unticked one. The :hover variant keeps the selection visible while the
+    // pointer is over the row.
+    table.index_table tbody tr.selected > td,
+    table.index_table tbody tr.selected:hover > td { background: var(--aa-selected); }
     // Plain content tables (e.g. the CDR show "Attempts" table) are striped by the
     // base CSS with light fills; map the odd/even rows onto the dark surfaces too.
     table tbody tr.odd > td,  table tbody tr.odd > th  { background-color: var(--aa-surface); }
