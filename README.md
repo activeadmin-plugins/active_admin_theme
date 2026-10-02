@@ -139,6 +139,10 @@ config.namespace :admin do |admin|
 end
 ```
 
+[![Theme switch](./img/switch.png)](./img/switch.png)
+
+The same page one click apart — the label follows the state.
+
 It cycles **auto → light → dark → auto**. `auto` removes the attribute, so the
 media query decides and the page follows the operating system live; the other
 two pin the choice in `localStorage`. ActiveAdmin 4's own toggle writes
