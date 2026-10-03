@@ -441,8 +441,10 @@ body.active_admin {
       // $skinMenuTextColor like every other item in the bar.
       // On the li, not only the anchor: font-size 0 collapses the anchor to the
       // icon's own 16px, which then sits at the top of the item instead of on
-      // the line the rest of the bar shares.
-      > li#theme_toggle { display: flex; align-items: center; }
+      // the line the rest of the bar shares. inline-flex, not flex: ActiveAdmin
+      // lays the utility nav out as `li { display: inline }`, and a block-level
+      // item breaks the row, dropping the items after it onto new lines.
+      > li#theme_toggle { display: inline-flex; align-items: center; vertical-align: middle; }
       > li#theme_toggle > a {
         display: flex;
         align-items: center;

@@ -118,6 +118,16 @@ module CssCheck
                   "they out-specify $skinMenuTextColor and render invisible on a light panel"
     end
 
+    # ActiveAdmin keeps the utility nav on one line with `li { display: inline }`.
+    # A block-level item (flex, block, grid) breaks that row and stacks the
+    # username, theme switch and logout on top of each other.
+    utility = compile(GOOD["defaults"]).scan(/^[^{}]*#utility_nav\s*>\s*li[^{}\s,]*\s*\{[^}]*\}/m)
+    blocky = utility.select { |rule| rule =~ /^\s*display:\s*(?:flex|block|grid)\s*;/ }
+    unless blocky.empty?
+      failures << "utility nav: #{blocky.size} item rule(s) make the li block-level and break the inline row: " \
+                  "#{blocky.map { |rule| rule[/\A[^{]*/].strip }.join(", ")}"
+    end
+
     if failures.empty?
       drift = readme_table_matches_declarations
       unless drift.empty?
