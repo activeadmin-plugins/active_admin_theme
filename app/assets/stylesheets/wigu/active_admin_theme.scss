@@ -894,6 +894,38 @@ body.active_admin {
         font-weight: bold!important;
       }
     }
+    // ActiveAdmin puts the sort arrow inside the heading link, on the left, as a
+    // background image cleared with `padding-left: 13px`. That indents the label
+    // of every sortable column by 13px while the data below starts at the cell's
+    // own padding, so a heading never lines up with its column. The link is also
+    // `display: block`, so moving the image to the right edge would park the
+    // arrow at the far side of the column instead of beside the text.
+    //
+    // Drawn as a pseudo-element instead: it follows the label immediately, the
+    // link keeps its full width so the whole cell stays clickable, and the
+    // marker takes currentColor — the stock sprite is a fixed grey PNG that
+    // cannot follow the text into dark mode.
+    th.sortable a {
+      padding-left: 0;
+      background-image: none;
+
+      &:after {
+        content: "";
+        display: inline-block;
+        margin-left: 6px;
+        vertical-align: middle;
+        border: 4px solid transparent;
+        border-top-color: currentColor;
+        opacity: 0.4;
+      }
+    }
+    th.sorted-asc a:after {
+      border-top-color: transparent;
+      border-bottom-color: currentColor;
+      margin-bottom: 4px;
+      opacity: 1;
+    }
+    th.sorted-desc a:after { opacity: 1; }
     // Right edge = a single 1px line on the last-column cells (header th, body
     // td, footer cells) coloured like the table border, since the table itself
     // no longer draws a right border.
