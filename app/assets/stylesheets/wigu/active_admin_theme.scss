@@ -129,20 +129,19 @@ $skinActiveTabTextColorDark: #7cc0ec!default;
 $skinInactiveTabTextColor: #5e6469!default;
 $skinInactiveTabTextColorDark: #b0b8c2!default;
 // Index-table column header text, one colour for sortable and plain headers.
-// Status tags. White on a mid-tone fill lands between 2.35 and 3.78 against
-// these hues, under the 4.5 WCAG AA asks of text this small, so the fills are
-// darkened to carry a white label: every one is at least 4.53.
+$skinTableHeaderTextColor: $skinTextColor!default;
+$skinTableHeaderTextColorDark: #dde2e8!default;
+
+// Status tags. The label is the same on every filled tag in both modes. White
+// on a mid-tone fill lands between 2.35 and 3.78 against these hues, under the
+// 4.5 WCAG AA asks of text this small, so the fills are dark enough to carry
+// it: every one is at least 4.53.
 $skinStatusTagTextColor: #ffffff!default;
 $skinStatusTagNeutralColor: #707681!default;  // "No", protocol tags, anything unclassified
 $skinStatusTagOkColor: #5e7e63!default;       // ok / published / complete / green / yes
 $skinStatusTagNoticeColor: #3874d2!default;   // notice / blue
 $skinStatusTagWarnColor: #9e6c15!default;     // warn / warning / orange
 $skinStatusTagErrorColor: #ce483b!default;    // error / errored / red
-
-$skinTableHeaderTextColor: $skinTextColor!default;
-$skinTableHeaderTextColorDark: #dde2e8!default;
-// Status tag label, the same on every filled tag in both modes.
-$skinStatusTagTextColor: #ffffff!default;
 
 //DARK-MODE PALETTE---------------------------------------------------------------------------------------------------//
 // Semantic CSS custom properties for runtime light/dark switching. Light values

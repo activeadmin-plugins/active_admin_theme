@@ -58,31 +58,49 @@ module CssCheck
   def self.readme_table_matches_declarations
     scss = File.read(File.join(STYLESHEETS, "wigu/active_admin_theme.scss"))
     declared = {}
+    duplicates = []
     scss.scan(/(\$skin[A-Za-z0-9]+)\s*:\s*(.+?)!default/) do |name, value|
+      # Sass keeps the first !default and ignores the rest, so a second
+      # declaration is dead code that drifts from the live one in silence.
+      duplicates << name if declared.key?(name)
       # `if($x == null, 4.5px, $x)` documents as the fallback it falls back to.
       declared[name] ||= value.strip.sub(/\Aif\(\$\w+ == null, (.+?), \$\w+\)\z/, '\\1')
     end
 
     readme = File.read(File.expand_path("../README.md", __dir__))
     rows = readme.scan(/^\|\s*`(\$skin[A-Za-z0-9]+)`(?:\s*\/\s*`(\$skin[A-Za-z0-9]+)`)?\s*\|\s*([^|]*?)\s*\|/)
-    @readme_variable_rows = rows.sum { |light, dark, _| dark ? 2 : 1 }
 
-    rows.flat_map do |light, dark, documented|
-      parts = documented.split("/").map { |part| part.strip.delete("`") }
-      pairs = [[light, parts[0]]]
-      pairs << [dark, parts[1]] if dark
-      pairs.filter_map do |name, value|
-        next if value.nil? || value.empty?
-        actual = declared[name]
-        next if actual && actual.casecmp?(value)
-        "#{name}: README says `#{value}`, the stylesheet declares `#{actual || "nothing"}`"
-      end
+    documented = {}
+    rows.each do |light, dark, values|
+      parts = values.split("/").map { |part| part.strip.delete("`") }
+      documented[light] = parts[0]
+      documented[dark] = parts[1] if dark
     end
+    @readme_variable_rows = declared.size
+
+    mismatched = documented.filter_map do |name, value|
+      next if value.nil? || value.empty?
+      actual = declared[name]
+      next if actual && actual.casecmp?(value)
+      "#{name}: README says `#{value}`, the stylesheet declares `#{actual || "nothing"}`"
+    end
+
+    # Both directions: comparing only the documented names would let a new
+    # variable ship undocumented while the success line still claimed the table
+    # matched every declaration.
+    undocumented = (declared.keys - documented.keys).map do |name|
+      "#{name}: declared in the stylesheet, absent from the README table"
+    end
+    duplicated = duplicates.uniq.map do |name|
+      "#{name}: declared more than once; Sass keeps the first !default and drops the rest"
+    end
+
+    mismatched + undocumented + duplicated
   end
 
 
-  # Reported in the success line. Counted from what was actually compared, so
-  # it cannot drift from the table the way a hand-maintained constant does.
+  # Reported in the success line. Counted from the declarations themselves, so
+  # it cannot drift the way a hand-maintained constant does.
   def self.readme_variable_rows
     @readme_variable_rows || 0
   end
