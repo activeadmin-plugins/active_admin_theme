@@ -26,6 +26,7 @@ module CssCheck
     # The panel header pair is documented as taking a custom property, so the
     # colour guard has to let one through.
     "panel header as a custom property" => '$skinPanelHeaderColor: var(--aa-surface);',
+    "black status tag labels" => '$skinStatusTagTextColor: #000000;',
     "repainted palette" => '$skinPageBgColor: #fafafa; $skinSurfaceColor: #ffffff;
                             $skinTextColor: #202020; $skinLinkColor: #0b5;',
   }.freeze
@@ -45,6 +46,7 @@ module CssCheck
     "$skinTextColor: none"                => '$skinTextColor: none;',
     "$skinLinkColorDark: none"            => '$skinLinkColorDark: none;',
     "$skinPanelHeaderColor as a length"   => '$skinPanelHeaderColor: 10px;',
+    "$skinStatusTagTextColor: none"       => '$skinStatusTagTextColor: none;',
   }.freeze
 
   # The variables table in the README is the public contract people configure
@@ -75,7 +77,7 @@ module CssCheck
     end
   end
 
-  DECLARED_ROWS = 52
+  DECLARED_ROWS = 53
 
   def self.load_paths
     activeadmin = Gem::Specification.find_by_name("activeadmin").gem_dir
