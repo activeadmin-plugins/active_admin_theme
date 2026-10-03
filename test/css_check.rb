@@ -29,6 +29,7 @@ module CssCheck
     "black status tag labels" => '$skinStatusTagTextColor: #000000;',
     "repainted palette" => '$skinPageBgColor: #fafafa; $skinSurfaceColor: #ffffff;
                             $skinTextColor: #202020; $skinLinkColor: #0b5;',
+    "status tags recoloured" => '$skinStatusTagOkColor: #1f7a3a; $skinStatusTagTextColor: #f5f5f5;',
   }.freeze
 
   # Wrong-typed overrides. All of these are legal SassScript, so without the
@@ -47,6 +48,7 @@ module CssCheck
     "$skinLinkColorDark: none"            => '$skinLinkColorDark: none;',
     "$skinPanelHeaderColor as a length"   => '$skinPanelHeaderColor: 10px;',
     "$skinStatusTagTextColor: none"       => '$skinStatusTagTextColor: none;',
+    "$skinStatusTagOkColor: none"         => '$skinStatusTagOkColor: none;',
   }.freeze
 
   # The variables table in the README is the public contract people configure
@@ -63,6 +65,7 @@ module CssCheck
 
     readme = File.read(File.expand_path("../README.md", __dir__))
     rows = readme.scan(/^\|\s*`(\$skin[A-Za-z0-9]+)`(?:\s*\/\s*`(\$skin[A-Za-z0-9]+)`)?\s*\|\s*([^|]*?)\s*\|/)
+    @readme_variable_rows = rows.sum { |light, dark, _| dark ? 2 : 1 }
 
     rows.flat_map do |light, dark, documented|
       parts = documented.split("/").map { |part| part.strip.delete("`") }
@@ -77,7 +80,12 @@ module CssCheck
     end
   end
 
-  DECLARED_ROWS = 53
+
+  # Reported in the success line. Counted from what was actually compared, so
+  # it cannot drift from the table the way a hand-maintained constant does.
+  def self.readme_variable_rows
+    @readme_variable_rows || 0
+  end
 
   def self.load_paths
     activeadmin = Gem::Specification.find_by_name("activeadmin").gem_dir
@@ -124,7 +132,13 @@ module CssCheck
     # A block-level item (flex, block, grid) breaks that row and stacks the
     # username, theme switch and logout on top of each other.
     utility = compile(GOOD["defaults"]).scan(/^[^{}]*#utility_nav\s*>\s*li[^{}\s,]*\s*\{[^}]*\}/m)
-    blocky = utility.select { |rule| rule =~ /^\s*display:\s*(?:flex|block|grid)\s*;/ }
+    # The body, not the start of a line: sassc happens to put the first
+    # declaration on its own line, so matching from `^` only works while
+    # `display` is written first in the stylesheet. Reorder the two lines in the
+    # source and the guard goes blind.
+    blocky = utility.select do |rule|
+      rule[/\{(.*)\}/m, 1].to_s.split(";").any? { |d| d.strip =~ /\Adisplay:\s*(?:flex|block|grid)\z/ }
+    end
     unless blocky.empty?
       failures << "utility nav: #{blocky.size} item rule(s) make the li block-level and break the inline row: " \
                   "#{blocky.map { |rule| rule[/\A[^{]*/].strip }.join(", ")}"
@@ -138,7 +152,7 @@ module CssCheck
       end
 
       puts "css_check: #{GOOD.size} overrides compile clean, #{BAD.size} bad ones rejected, " \
-           "README table matches #{DECLARED_ROWS} declarations"
+           "README table matches #{readme_variable_rows} declarations"
     else
       failures.each { |failure| warn "css_check: #{failure}" }
       abort "css_check: #{failures.size} problem(s)"
