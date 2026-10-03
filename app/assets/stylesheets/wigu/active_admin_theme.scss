@@ -129,10 +129,19 @@ $skinActiveTabTextColorDark: #7cc0ec!default;
 $skinInactiveTabTextColor: #5e6469!default;
 $skinInactiveTabTextColorDark: #b0b8c2!default;
 // Index-table column header text, one colour for sortable and plain headers.
-$skinTableHeaderTextColor: #5e6469!default;
+$skinTableHeaderTextColor: $skinTextColor!default;
 $skinTableHeaderTextColorDark: #dde2e8!default;
-// Status tag label, the same on every filled tag in both modes.
+
+// Status tags. The label is the same on every filled tag in both modes. White
+// on a mid-tone fill lands between 2.35 and 3.78 against these hues, under the
+// 4.5 WCAG AA asks of text this small, so the fills are dark enough to carry
+// it: every one is at least 4.53.
 $skinStatusTagTextColor: #ffffff!default;
+$skinStatusTagNeutralColor: #707681!default;  // "No", protocol tags, anything unclassified
+$skinStatusTagOkColor: #5e7e63!default;       // ok / published / complete / green / yes
+$skinStatusTagNoticeColor: #3874d2!default;   // notice / blue
+$skinStatusTagWarnColor: #9e6c15!default;     // warn / warning / orange
+$skinStatusTagErrorColor: #ce483b!default;    // error / errored / red
 
 //DARK-MODE PALETTE---------------------------------------------------------------------------------------------------//
 // Semantic CSS custom properties for runtime light/dark switching. Light values
@@ -304,7 +313,12 @@ $theme-icon-dark: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/s
   skinInactiveTabTextColorDark: $skinInactiveTabTextColorDark,
   skinTableHeaderTextColor: $skinTableHeaderTextColor,
   skinTableHeaderTextColorDark: $skinTableHeaderTextColorDark,
-  skinStatusTagTextColor: $skinStatusTagTextColor
+  skinStatusTagTextColor: $skinStatusTagTextColor,
+  skinStatusTagNeutralColor: $skinStatusTagNeutralColor,
+  skinStatusTagOkColor: $skinStatusTagOkColor,
+  skinStatusTagNoticeColor: $skinStatusTagNoticeColor,
+  skinStatusTagWarnColor: $skinStatusTagWarnColor,
+  skinStatusTagErrorColor: $skinStatusTagErrorColor
 ) {
   @if type-of($value) != color {
     @error "$#{$name} must be a color (use `transparent`, not `none`), got `#{$value}`.";
@@ -879,6 +893,38 @@ body.active_admin {
         font-weight: bold!important;
       }
     }
+    // ActiveAdmin puts the sort arrow inside the heading link, on the left, as a
+    // background image cleared with `padding-left: 13px`. That indents the label
+    // of every sortable column by 13px while the data below starts at the cell's
+    // own padding, so a heading never lines up with its column. The link is also
+    // `display: block`, so moving the image to the right edge would park the
+    // arrow at the far side of the column instead of beside the text.
+    //
+    // Drawn as a pseudo-element instead: it follows the label immediately, the
+    // link keeps its full width so the whole cell stays clickable, and the
+    // marker takes currentColor — the stock sprite is a fixed grey PNG that
+    // cannot follow the text into dark mode.
+    th.sortable a {
+      padding-left: 0;
+      background-image: none;
+
+      &:after {
+        content: "";
+        display: inline-block;
+        margin-left: 6px;
+        vertical-align: middle;
+        border: 4px solid transparent;
+        border-top-color: currentColor;
+        opacity: 0.4;
+      }
+    }
+    th.sorted-asc a:after {
+      border-top-color: transparent;
+      border-bottom-color: currentColor;
+      margin-bottom: 4px;
+      opacity: 1;
+    }
+    th.sorted-desc a:after { opacity: 1; }
     // Right edge = a single 1px line on the last-column cells (header th, body
     // td, footer cells) coloured like the table border, since the table itself
     // no longer draws a right border.
@@ -1418,9 +1464,8 @@ input[type='radio'] {
 @mixin status-tag-colors($c) {
   background: $c;
   border-color: mix($c, #000000, 84%); // = darken($c) — outline in the fill colour
-  // The five fills below are mid-tone: white lands between 2.35 and 3.78
-  // against them, under the 4.5 WCAG AA asks for text this small. Set
-  // $skinStatusTagTextColor: #000000 for at least 5.56 on every one of them.
+  // The fills are dark enough to carry this label: every one of the five is at
+  // least 4.53 against white. Lighten one and the label needs to go with it.
   color: $skinStatusTagTextColor;
 }
 
@@ -1453,11 +1498,11 @@ input[type='radio'] {
       border-radius: 2px;
       border: 1px solid;
 
-      @include status-tag-colors(#8a909a); // neutral default (e.g. "No", protocol tags)
-      &.ok, &.published, &.complete, &.completed, &.green, &.yes { @include status-tag-colors(#8daa92); }
-      &.notice, &.blue { @include status-tag-colors(#6090db); }
-      &.warn, &.warning, &.orange { @include status-tag-colors(#e29b20); }
-      &.error, &.errored, &.red { @include status-tag-colors(#d45f53); }
+      @include status-tag-colors($skinStatusTagNeutralColor);
+      &.ok, &.published, &.complete, &.completed, &.green, &.yes { @include status-tag-colors($skinStatusTagOkColor); }
+      &.notice, &.blue { @include status-tag-colors($skinStatusTagNoticeColor); }
+      &.warn, &.warning, &.orange { @include status-tag-colors($skinStatusTagWarnColor); }
+      &.error, &.errored, &.red { @include status-tag-colors($skinStatusTagErrorColor); }
       &.empty, &.unknown, &.none {
         background: none;
         border: 0; // placeholder/empty tags stay unobtrusive (no outline)
