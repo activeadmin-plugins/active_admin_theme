@@ -131,6 +131,8 @@ $skinInactiveTabTextColorDark: #b0b8c2!default;
 // Index-table column header text, one colour for sortable and plain headers.
 $skinTableHeaderTextColor: #5e6469!default;
 $skinTableHeaderTextColorDark: #dde2e8!default;
+// Status tag label, the same on every filled tag in both modes.
+$skinStatusTagTextColor: #ffffff!default;
 
 //DARK-MODE PALETTE---------------------------------------------------------------------------------------------------//
 // Semantic CSS custom properties for runtime light/dark switching. Light values
@@ -301,7 +303,8 @@ $theme-icon-dark: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/s
   skinInactiveTabTextColor: $skinInactiveTabTextColor,
   skinInactiveTabTextColorDark: $skinInactiveTabTextColorDark,
   skinTableHeaderTextColor: $skinTableHeaderTextColor,
-  skinTableHeaderTextColorDark: $skinTableHeaderTextColorDark
+  skinTableHeaderTextColorDark: $skinTableHeaderTextColorDark,
+  skinStatusTagTextColor: $skinStatusTagTextColor
 ) {
   @if type-of($value) != color {
     @error "$#{$name} must be a color (use `transparent`, not `none`), got `#{$value}`.";
@@ -441,8 +444,10 @@ body.active_admin {
       // $skinMenuTextColor like every other item in the bar.
       // On the li, not only the anchor: font-size 0 collapses the anchor to the
       // icon's own 16px, which then sits at the top of the item instead of on
-      // the line the rest of the bar shares.
-      > li#theme_toggle { display: flex; align-items: center; }
+      // the line the rest of the bar shares. inline-flex, not flex: ActiveAdmin
+      // lays the utility nav out as `li { display: inline }`, and a block-level
+      // item breaks the row, dropping the items after it onto new lines.
+      > li#theme_toggle { display: inline-flex; align-items: center; vertical-align: middle; }
       > li#theme_toggle > a {
         display: flex;
         align-items: center;
@@ -1413,11 +1418,10 @@ input[type='radio'] {
 @mixin status-tag-colors($c) {
   background: $c;
   border-color: mix($c, #000000, 84%); // = darken($c) — outline in the fill colour
-  // Black, not white: the five fills below are mid-tone, and white lands
-  // between 2.35 and 3.78 against them — under the 4.5 WCAG AA asks for text
-  // this small. Black gives at least 5.56 on every one of them. #1a1d21 was
-  // the first thing tried and misses by 0.02 on the error red.
-  color: #000000;
+  // The five fills below are mid-tone: white lands between 2.35 and 3.78
+  // against them, under the 4.5 WCAG AA asks for text this small. Set
+  // $skinStatusTagTextColor: #000000 for at least 5.56 on every one of them.
+  color: $skinStatusTagTextColor;
 }
 
 //CONTENT (both modes)-----------------------------------------------------------//

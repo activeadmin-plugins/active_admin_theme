@@ -26,6 +26,7 @@ module CssCheck
     # The panel header pair is documented as taking a custom property, so the
     # colour guard has to let one through.
     "panel header as a custom property" => '$skinPanelHeaderColor: var(--aa-surface);',
+    "black status tag labels" => '$skinStatusTagTextColor: #000000;',
     "repainted palette" => '$skinPageBgColor: #fafafa; $skinSurfaceColor: #ffffff;
                             $skinTextColor: #202020; $skinLinkColor: #0b5;',
   }.freeze
@@ -45,6 +46,7 @@ module CssCheck
     "$skinTextColor: none"                => '$skinTextColor: none;',
     "$skinLinkColorDark: none"            => '$skinLinkColorDark: none;',
     "$skinPanelHeaderColor as a length"   => '$skinPanelHeaderColor: 10px;',
+    "$skinStatusTagTextColor: none"       => '$skinStatusTagTextColor: none;',
   }.freeze
 
   # The variables table in the README is the public contract people configure
@@ -75,7 +77,7 @@ module CssCheck
     end
   end
 
-  DECLARED_ROWS = 52
+  DECLARED_ROWS = 53
 
   def self.load_paths
     activeadmin = Gem::Specification.find_by_name("activeadmin").gem_dir
@@ -116,6 +118,16 @@ module CssCheck
     unless whites.empty?
       failures << "light menu: #{whites.size} hard-coded white colour(s) left in the header menu; " \
                   "they out-specify $skinMenuTextColor and render invisible on a light panel"
+    end
+
+    # ActiveAdmin keeps the utility nav on one line with `li { display: inline }`.
+    # A block-level item (flex, block, grid) breaks that row and stacks the
+    # username, theme switch and logout on top of each other.
+    utility = compile(GOOD["defaults"]).scan(/^[^{}]*#utility_nav\s*>\s*li[^{}\s,]*\s*\{[^}]*\}/m)
+    blocky = utility.select { |rule| rule =~ /^\s*display:\s*(?:flex|block|grid)\s*;/ }
+    unless blocky.empty?
+      failures << "utility nav: #{blocky.size} item rule(s) make the li block-level and break the inline row: " \
+                  "#{blocky.map { |rule| rule[/\A[^{]*/].strip }.join(", ")}"
     end
 
     if failures.empty?

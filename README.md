@@ -263,6 +263,7 @@ set variables:
 | `$skinActiveTabTextColor` / `$skinActiveTabTextColorDark` | `$skinMainSecondColor` / `#7cc0ec` | selected tab label |
 | `$skinInactiveTabTextColor` / `$skinInactiveTabTextColorDark` | `#5e6469` / `#b0b8c2` | inactive tab label |
 | `$skinTableHeaderTextColor` / `$skinTableHeaderTextColorDark` | `#5e6469` / `#dde2e8` | index-table column header text |
+| `$skinStatusTagTextColor` | `#ffffff` | status tag label; `#000000` passes WCAG AA on every fill |
 | `$skinTabPaddingY` | `8px` | tab height |
 | `$skinTabPaddingX` | `15px` | tab label horizontal padding (text → border) |
 
