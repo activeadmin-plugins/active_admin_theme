@@ -29,7 +29,14 @@ module CssCheck
     "black status tag labels" => '$skinStatusTagTextColor: #000000;',
     "repainted palette" => '$skinPageBgColor: #fafafa; $skinSurfaceColor: #ffffff;
                             $skinTextColor: #202020; $skinLinkColor: #0b5;',
-    "status tags recoloured" => '$skinStatusTagOkColor: #1f7a3a; $skinStatusTagTextColor: #f5f5f5;',
+    # Every colour here must clear LABEL_MINIMUM against the label, because the
+    # contrast guard measures the shipped palette: an example that fails the
+    # contract documents the wrong thing.
+    "status tags recoloured" => '$skinStatusTagOkColor: #1f7a3a;
+                                 $skinStatusTagNeutralColor: #55595f;
+                                 $skinStatusTagNoticeColor: #2f62b4;
+                                 $skinStatusTagWarnColor: #875c12;
+                                 $skinStatusTagErrorColor: #b03a2e;',
   }.freeze
 
   # Wrong-typed overrides. All of these are legal SassScript, so without the
@@ -49,6 +56,11 @@ module CssCheck
     "$skinPanelHeaderColor as a length"   => '$skinPanelHeaderColor: 10px;',
     "$skinStatusTagTextColor: none"       => '$skinStatusTagTextColor: none;',
     "$skinStatusTagOkColor: none"         => '$skinStatusTagOkColor: none;',
+    "$skinStatusTagNeutralColor: none"    => '$skinStatusTagNeutralColor: none;',
+    "$skinStatusTagNoticeColor: none"     => '$skinStatusTagNoticeColor: none;',
+    "$skinStatusTagWarnColor: none"       => '$skinStatusTagWarnColor: none;',
+    "$skinStatusTagErrorColor: none"      => '$skinStatusTagErrorColor: none;',
+    "$skinStatusTagTextColor as a length" => '$skinStatusTagTextColor: 10px;',
   }.freeze
 
   # The variables table in the README is the public contract people configure
@@ -56,7 +68,7 @@ module CssCheck
   # defaults moved to yeti-web's configuration. Nothing noticed, because nothing
   # was comparing them.
   def self.readme_table_matches_declarations
-    scss = File.read(File.join(STYLESHEETS, "wigu/active_admin_theme.scss"))
+    scss = strip_comments(File.read(File.join(STYLESHEETS, "wigu/active_admin_theme.scss")))
     declared = {}
     duplicates = []
     scss.scan(/(\$skin[A-Za-z0-9]+)\s*:\s*(.+?)!default/) do |name, value|
@@ -156,16 +168,29 @@ module CssCheck
   # every one; sassc normalises most of them to hex but emits names as names, so
   # a regex over the stylesheet silently skipped `darkseagreen` and crashed on a
   # four-digit hex. Asking Sass for the channels removes the question.
-  TAG_COLOURS = {
-    "neutral" => "$skinStatusTagNeutralColor",
-    "ok" => "$skinStatusTagOkColor",
-    "notice" => "$skinStatusTagNoticeColor",
-    "warn" => "$skinStatusTagWarnColor",
-    "error" => "$skinStatusTagErrorColor",
-  }.freeze
+  # Read from the stylesheet, not typed out here. A hand-kept list is the same
+  # drift this file removed when DECLARED_ROWS went: add a sixth tag colour and
+  # it would be silently exempt from the contrast check for ever.
+  # Sass ignores a commented-out declaration; this file used to count one, and
+  # with the duplicate and mismatch checks in place that turned a note like
+  # `// was: $skinStatusTagOkColor: #8daa92!default;` into a red build blaming
+  # the live declaration.
+  def self.strip_comments(scss)
+    scss.gsub(%r{/\*.*?\*/}m, "").gsub(%r{//[^\n]*}, "")
+  end
+
+  def self.tag_colours
+    @tag_colours ||= begin
+      scss = strip_comments(File.read(File.join(STYLESHEETS, "wigu/active_admin_theme.scss")))
+      names = scss.scan(/\$skinStatusTag([A-Za-z0-9]+)Color\s*:[^;]*!default/).flatten
+      names.reject! { |name| name == "Text" }
+      raise "css_check: no $skinStatusTag*Color declarations found" if names.empty?
+      names.uniq.to_h { |name| [name.downcase, "$skinStatusTag#{name}Color"] }
+    end
+  end
 
   def self.status_tag_palette
-    probe = TAG_COLOURS.merge("label" => "$skinStatusTagTextColor").map do |name, variable|
+    probe = tag_colours.merge("label" => "$skinStatusTagTextColor").map do |name, variable|
       ".css-check-#{name} { r: red(#{variable}); g: green(#{variable}); " \
         "b: blue(#{variable}); a: alpha(#{variable}); }"
     end
@@ -177,7 +202,7 @@ module CssCheck
     found = channels.to_h do |name, r, g, b, a|
       [name, { rgb: [r, g, b].map { |v| v.to_f.round }, alpha: a.to_f }]
     end
-    missing = (TAG_COLOURS.keys + ["label"]) - found.keys
+    missing = (tag_colours.keys + ["label"]) - found.keys
     raise "css_check: the status tag probe returned nothing for #{missing.join(", ")}" unless missing.empty?
     found
   end
@@ -191,20 +216,26 @@ module CssCheck
   def self.status_tag_labels_are_readable
     palette = status_tag_palette
     label = palette.fetch("label")
-    translucent = palette.select { |_, colour| colour[:alpha] < 1 }.keys
-    unless translucent.empty?
-      return translucent.map do |name|
-        "status tag #{name}: translucent, so the label ratio cannot be measured"
-      end
-    end
+    problems = []
 
-    TAG_COLOURS.keys.filter_map do |name|
-      fill = palette.fetch(name)[:rgb]
-      ratio = contrast(fill, label[:rgb])
+    # The label is not a tag, and reporting it as one sent a reader looking for
+    # a `label` status class that does not exist.
+    problems << "$skinStatusTagTextColor is translucent, so no tag ratio can be measured" if label[:alpha] < 1
+
+    tag_colours.each_key do |name|
+      fill = palette.fetch(name)
+      # Reported, not skipped, and without abandoning the other four: a single
+      # translucent fill used to return early and hide every failure behind it.
+      if fill[:alpha] < 1 || label[:alpha] < 1
+        problems << "status tag #{name}: translucent, so the label ratio cannot be measured"
+        next
+      end
+      ratio = contrast(fill[:rgb], label[:rgb])
       next if ratio >= LABEL_MINIMUM
-      "status tag #{name}: label #{hex(label[:rgb])} on #{hex(fill)} is " \
-        "#{format("%.2f", ratio)}:1, under #{LABEL_MINIMUM}"
+      problems << "status tag #{name}: label #{hex(label[:rgb])} on #{hex(fill[:rgb])} is " \
+                  "#{format("%.3f", ratio)}:1, under #{LABEL_MINIMUM}"
     end
+    problems
   end
 
   def self.hex(rgb)
@@ -239,8 +270,16 @@ module CssCheck
     BAD.each do |name, overrides|
       compile(overrides)
       failures << "#{name}: should be rejected with @error, but compiled silently"
-    rescue SassC::SyntaxError
-      # expected — the theme's type guards caught it
+    rescue SassC::SyntaxError => e
+      # Rejected is not enough: the point of the guards is that the message
+      # names the variable the host set. Without this, a fixture passes when
+      # the wrong value merely crashes something downstream — `none` reaching
+      # mix() inside the theme reads as a rejection while naming gem internals,
+      # and the guard it was written to prove can be deleted unnoticed.
+      variable = name[/\$skin[A-Za-z0-9]+/]
+      next if variable.nil? || e.message.include?(variable)
+      failures << "#{name}: rejected, but the message does not name #{variable} — " \
+                  "#{e.message.lines.first.to_s.strip}"
     end
 
     # The header menu's text colours must follow the variables. A hard-coded
@@ -269,25 +308,20 @@ module CssCheck
                   "#{blocky.map { |rule| rule[/\A[^{]*/].strip }.join(", ")}"
     end
 
-    if failures.empty?
-      unreadable = status_tag_labels_are_readable
-      unless unreadable.empty?
-        unreadable.each { |line| warn "css_check: #{line}" }
-        abort "css_check: #{unreadable.size} status tag(s) fail the label contrast minimum"
-      end
+    # One list, reported together. Behind `if failures.empty?` these two were
+    # invisible whenever anything else failed, and the first of them aborted
+    # before the second ran — so a run could report one problem while holding
+    # three, and each fix revealed the next.
+    failures.concat(status_tag_labels_are_readable)
+    failures.concat(readme_table_matches_declarations)
 
-      drift = readme_table_matches_declarations
-      unless drift.empty?
-        drift.each { |line| warn "css_check: #{line}" }
-        abort "css_check: the README variables table is out of sync in #{drift.size} place(s)"
-      end
-
-      puts "css_check: #{GOOD.size} overrides compile clean, #{BAD.size} bad ones rejected, " \
-           "README table matches #{compared_declarations} declarations"
-    else
+    unless failures.empty?
       failures.each { |failure| warn "css_check: #{failure}" }
       abort "css_check: #{failures.size} problem(s)"
     end
+
+    puts "css_check: #{GOOD.size} overrides compile clean, #{BAD.size} bad ones rejected, " \
+         "README table matches #{compared_declarations} declarations"
   end
 end
 

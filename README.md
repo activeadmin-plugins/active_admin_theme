@@ -35,7 +35,7 @@ Or add manually to `package.json`:
 
 ```
 "dependencies": {
-  "@activeadmin-plugins/active_admin_theme": "^3.1.0"
+  "@activeadmin-plugins/active_admin_theme": "^3.1.1"
 }
 ```
 and execute:
@@ -273,7 +273,7 @@ Three things changed shape and are worth knowing if you already set variables:
 | `$skinTabInactiveColor` / `$skinTabInactiveColorDark` | `#f7f9fb` / `#161a1e` | inactive tab fill |
 | `$skinActiveTabTextColor` / `$skinActiveTabTextColorDark` | `$skinMainSecondColor` / `#7cc0ec` | selected tab label |
 | `$skinInactiveTabTextColor` / `$skinInactiveTabTextColorDark` | `#5e6469` / `#b0b8c2` | inactive tab label |
-| `$skinTableHeaderTextColor` / `$skinTableHeaderTextColorDark` | `$skinTextColor` / `#dde2e8` | index-table column header text; the body text colour, so headings read as strongly as the rows |
+| `$skinTableHeaderTextColor` / `$skinTableHeaderTextColorDark` | `$skinTextColor` / `$skinTextColorDark` | index-table column header text; the body text colour, so headings read as strongly as the rows |
 | `$skinStatusTagTextColor` | `#ffffff` | label inside a filled status tag; `empty` / `unknown` / `none` have no fill and keep `$skinTextMutedColor` |
 | `$skinStatusTagNeutralColor` | `#707681` | unclassified tags: `No`, protocol tags |
 | `$skinStatusTagOkColor` | `#5e7e63` | `ok` `published` `complete` `completed` `green` `yes` |
