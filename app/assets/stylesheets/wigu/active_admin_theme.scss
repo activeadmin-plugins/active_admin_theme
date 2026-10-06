@@ -233,18 +233,18 @@ html[data-theme="dark"]  { @include aa-dark-palette; }
   html[data-theme="dark"] { @content; }
 }
 
-// Маркеры сортировки. Три разные формы, а не одна с разной прозрачностью:
-// у спрайта ActiveAdmin «не отсортировано» — двойная стрелка, и если заменить
-// её тем же треугольником, что у «по убыванию», состояния становятся
-// неразличимы на свежей странице. Маской, как иконки переключателя, — чтобы
-// красились currentColor и шли за цветом заголовка в обоих режимах.
+// Sort markers. Three shapes rather than one at two opacities: ActiveAdmin's
+// sprite draws a double arrow for sortable-but-unsorted, and reusing the
+// descending triangle for it leaves the two states indistinguishable on a
+// freshly loaded index. Masked, like the theme switch icons, so they take
+// currentColor and follow the heading into dark mode.
 $sort-icon-none: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 9 12'%3E%3Cpath d='M4.5 0 9 5H0z'/%3E%3Cpath d='M4.5 12 0 7h9z'/%3E%3C/svg%3E")!default;
 $sort-icon-asc: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 9 12'%3E%3Cpath d='M4.5 2 9 8H0z'/%3E%3C/svg%3E")!default;
 $sort-icon-desc: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 9 12'%3E%3Cpath d='M4.5 10 0 4h9z'/%3E%3C/svg%3E")!default;
 
-// Иконки переключателя тем. Инлайном, потому что гем не возит картинок, и
-// маской, а не цветным SVG: маска красится currentColor и сама идёт за
-// $skinMenuTextColor. Половинка круга — auto, солнце — light, месяц — dark.
+// Theme switch icons. Inline, because the gem ships no image files, and as a
+// mask rather than a coloured SVG: a mask takes currentColor and so follows
+// $skinMenuTextColor on its own. Half circle = auto, sun = light, moon = dark.
 $theme-icon-auto: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ccircle cx='8' cy='8' r='6.6' fill='none' stroke='black' stroke-width='1.4'/%3E%3Cpath d='M8 2.6a5.4 5.4 0 0 1 0 10.8z'/%3E%3C/svg%3E")!default;
 $theme-icon-light: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='black' stroke-width='1.4' stroke-linecap='round'%3E%3Ccircle cx='8' cy='8' r='3.1'/%3E%3Cpath d='M8 .9v1.8M8 13.3v1.8M.9 8h1.8M13.3 8h1.8M2.9 2.9l1.3 1.3M11.8 11.8l1.3 1.3M13.1 2.9l-1.3 1.3M4.2 11.8l-1.3 1.3'/%3E%3C/svg%3E")!default;
 $theme-icon-dark: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M13.4 9.6A5.9 5.9 0 0 1 6.4 2.6a5.9 5.9 0 1 0 7 7z'/%3E%3C/svg%3E")!default;
@@ -346,11 +346,11 @@ $theme-icon-dark: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/s
     @error "$#{$name} must be a color or a CSS custom property (e.g. var(--aa-page-bg)), got `#{$value}`.";
   }
 }
-// Радиус внутреннего угла ячейки — на 1px меньше внешнего, чтобы не торчал
-// из-под рамки таблицы. Вычитать px напрямую нельзя: $skinBorderRadius задаёт
-// проект, и 0.25rem роняет всю компиляцию с «Incompatible units». calc()
-// откладывает вычитание до браузера, а безразмерный 0 обрабатываем отдельно —
-// calc(0 - 1px) невалиден.
+// A cell's inner corner is 1px tighter than the outer one, so it does not
+// show from under the table border. Subtracting px directly will not do: the
+// radius is a project's to set, and 0.25rem fails the whole compile with
+// "Incompatible units". calc() defers the subtraction to the browser, and a
+// unitless 0 is handled separately because calc(0 - 1px) is invalid.
 @function inner-radius($radius) {
   @if unitless($radius) { @return 0; }
   @return calc(#{$radius} - 1px);
