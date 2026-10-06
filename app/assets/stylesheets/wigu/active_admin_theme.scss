@@ -130,7 +130,7 @@ $skinInactiveTabTextColor: #5e6469!default;
 $skinInactiveTabTextColorDark: #b0b8c2!default;
 // Index-table column header text, one colour for sortable and plain headers.
 $skinTableHeaderTextColor: $skinTextColor!default;
-$skinTableHeaderTextColorDark: #dde2e8!default;
+$skinTableHeaderTextColorDark: $skinTextColorDark!default;
 
 // Status tags. The label is the same on every filled tag in both modes. The
 // fills below are dark enough to carry a white one: every one of the five is
@@ -232,6 +232,15 @@ html[data-theme="dark"]  { @include aa-dark-palette; }
   }
   html[data-theme="dark"] { @content; }
 }
+
+// Маркеры сортировки. Три разные формы, а не одна с разной прозрачностью:
+// у спрайта ActiveAdmin «не отсортировано» — двойная стрелка, и если заменить
+// её тем же треугольником, что у «по убыванию», состояния становятся
+// неразличимы на свежей странице. Маской, как иконки переключателя, — чтобы
+// красились currentColor и шли за цветом заголовка в обоих режимах.
+$sort-icon-none: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 9 12'%3E%3Cpath d='M4.5 0 9 5H0z'/%3E%3Cpath d='M4.5 12 0 7h9z'/%3E%3C/svg%3E")!default;
+$sort-icon-asc: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 9 12'%3E%3Cpath d='M4.5 2 9 8H0z'/%3E%3C/svg%3E")!default;
+$sort-icon-desc: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 9 12'%3E%3Cpath d='M4.5 10 0 4h9z'/%3E%3C/svg%3E")!default;
 
 // Иконки переключателя тем. Инлайном, потому что гем не возит картинок, и
 // маской, а не цветным SVG: маска красится currentColor и сама идёт за
@@ -905,27 +914,27 @@ body.active_admin {
     // link keeps its full width so the whole cell stays clickable, and the
     // marker takes currentColor — the stock sprite is a fixed grey PNG that
     // cannot follow the text into dark mode.
-    // `a[href*="order="]`, not every anchor in the header: an application can
-    // put its own link in there — yeti-web adds a persistent-sort toggle — and
-    // it would otherwise get a sort marker of its own. ActiveAdmin's heading
-    // link always carries the order parameter.
-    th.sortable > a[href*="order="] {
+    // The sprite goes from every anchor in a sortable heading, because
+    // ActiveAdmin sets it on every one — an application link in there would
+    // otherwise keep the low-res PNG and the 13px indent it needs.
+    th.sortable a {
       padding-left: 0;
       background-image: none;
+    }
+    // The marker, though, only on ActiveAdmin's own heading link, which always
+    // carries the order parameter: an application's link is its own business.
+    th.sortable > a[href*="order="] {
 
       &:after {
         content: "";
         display: inline-block;
+        width: 9px;
+        height: 12px;
         margin-left: 6px;
         vertical-align: middle;
-        // The unused side has no width rather than a transparent one, so the
-        // box is exactly as tall as the triangle in it. Keeping all four sides
-        // and nudging with a margin instead puts the two states at different
-        // heights, because `vertical-align: middle` centres the box and the
-        // visible half then sits off-centre within it.
-        border: 4px solid transparent;
-        border-bottom-width: 0;
-        border-top-color: currentColor;
+        background-color: currentColor;
+        -webkit-mask: #{$sort-icon-none} center / contain no-repeat;
+        mask: #{$sort-icon-none} center / contain no-repeat;
         // 0.6, not lower: the marker is the only thing separating a sortable
         // heading from a plain one, so WCAG 1.4.11 asks 3:1 of it. Against the
         // header fill it gives 3.40 light and 4.22 dark; at 0.4 it was 2.13
@@ -934,13 +943,15 @@ body.active_admin {
       }
     }
     th.sorted-asc > a[href*="order="]:after {
-      border-top-width: 0;
-      border-bottom-width: 4px;
-      border-top-color: transparent;
-      border-bottom-color: currentColor;
+      -webkit-mask-image: $sort-icon-asc;
+      mask-image: $sort-icon-asc;
       opacity: 1;
     }
-    th.sorted-desc > a[href*="order="]:after { opacity: 1; }
+    th.sorted-desc > a[href*="order="]:after {
+      -webkit-mask-image: $sort-icon-desc;
+      mask-image: $sort-icon-desc;
+      opacity: 1;
+    }
     // Right edge = a single 1px line on the last-column cells (header th, body
     // td, footer cells) coloured like the table border, since the table itself
     // no longer draws a right border.

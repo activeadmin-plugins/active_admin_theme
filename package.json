@@ -1,6 +1,6 @@
 {
   "name": "@activeadmin-plugins/active_admin_theme",
-  "version": "3.1.0",
+  "version": "3.1.1",
   "description": "Flat design for ActiveAdmin",
   "main": "src/active_admin_theme.scss",
   "author": "Igor Fedoronchuk <igor.f@didww.com>",
