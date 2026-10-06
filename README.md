@@ -35,7 +35,7 @@ Or add manually to `package.json`:
 
 ```
 "dependencies": {
-  "@activeadmin-plugins/active_admin_theme": "^3.0.0"
+  "@activeadmin-plugins/active_admin_theme": "^3.1.0"
 }
 ```
 and execute:
@@ -176,8 +176,19 @@ applies it in the others.
 
 ### Upgrading
 
-Two things changed shape in this release and are worth knowing if you already
-set variables:
+#### 3.1.0
+
+* Status tag fills are darker, so the label can be white and still clear 4.5:1 —
+  it was black on mid-tone fills before. Each fill is a variable now
+  (`$skinStatusTagOkColor` and the four beside it), and
+  `$skinStatusTagTextColor: #000000;` restores the old label with the fills
+  you choose.
+* Index-table column headings take `$skinTextColor` rather than a muted grey,
+  so a heading reads as strongly as the column under it.
+
+#### 3.0.0
+
+Three things changed shape and are worth knowing if you already set variables:
 
 * Dropdown panels — the title-bar menu, the batch-actions menu and the
   table-tools menus — now follow the surface palette (`$skinSurfaceColor` and
