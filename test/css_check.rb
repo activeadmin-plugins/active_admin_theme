@@ -86,7 +86,11 @@ module CssCheck
     listed_twice = []
     blank = []
     rows.each do |light, dark, values|
-      parts = values.split("/").map { |part| part.strip.delete("`") }
+      # Drop any inline swatch images (`![#hex](…/get/hex/16x16)`) the README
+      # adds next to each value, then read the backticked hex(es). Without this
+      # the image URL's slashes break the light/dark split below.
+      cleaned = values.gsub(/!\[[^\]]*\]\([^)]*\)/, "")
+      parts = cleaned.split("/").map { |part| part.strip.delete("`") }.reject(&:empty?)
       [[light, parts[0]], [dark, parts[1]]].each do |name, value|
         next if name.nil?
         # Every row counts towards duplicate detection, blank or not. Skipping
