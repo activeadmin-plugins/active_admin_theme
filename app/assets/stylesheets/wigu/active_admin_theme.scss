@@ -365,6 +365,19 @@ body.active_admin {
   background: var(--aa-page-bg);
 }
 #wrapper {
+  // ActiveAdmin lays #wrapper out as `display: table` (#main_content_wrapper +
+  // #sidebar as table-cells). Left unpinned, that table sizes to its content,
+  // so a wide index table grows the whole page: it overflows horizontally, the
+  // header stretches with it and the utility nav + theme toggle get pushed off
+  // the right edge (reachable only by scrolling), while a narrow table on a wide
+  // screen leaves the header not spanning the full width. Pin the layout table
+  // to the viewport and let the content cell scroll its own wide table instead.
+  width: 100%;
+  table-layout: fixed;
+
+  #main_content_wrapper { min-width: 0; }
+  #main_content { overflow-x: auto; }
+
   div.tabs {
     > ul > li > a {
       background-image: none;
