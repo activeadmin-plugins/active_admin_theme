@@ -1711,6 +1711,71 @@ input[type='radio'] {
     table.ui-datepicker-calendar tbody td span { color: var(--aa-text-muted); }
     .ui-state-hover, .ui-state-active { background: var(--aa-surface-hover); }
   }
+
+  // select2 (used by most ActiveAdmin apps). It ships its own light chrome and
+  // appends the dropdown to <body>, so it is styled here at the mixin level
+  // like the datepicker. Drive the control, the dropdown panel, the results
+  // list and the search field from the --aa-* tokens so it follows both modes;
+  // without this the dropdown stays a white panel with white/near-invisible
+  // text in dark mode. !important is required because select2's own stylesheet
+  // sets these to white with equal specificity and loads after this in the
+  // bundle — same reason the datetime picker overrides use it.
+  .select2-container--default {
+    .select2-selection--single,
+    .select2-selection--multiple {
+      background-color: var(--aa-input-bg) !important;
+      border-color: var(--aa-input-border) !important;
+      color: var(--aa-text);
+    }
+    .select2-selection__rendered { color: var(--aa-text) !important; }
+    .select2-selection__placeholder { color: var(--aa-text-muted) !important; }
+    .select2-selection--multiple .select2-selection__choice {
+      background-color: var(--aa-surface-2) !important;
+      border-color: var(--aa-border) !important;
+      color: var(--aa-text) !important;
+    }
+    .select2-search__field { color: var(--aa-text) !important; }
+  }
+  .select2-dropdown {
+    background-color: var(--aa-surface) !important;
+    border-color: var(--aa-border) !important;
+    color: var(--aa-text);
+  }
+  .select2-results__option { color: var(--aa-text) !important; }
+  .select2-results__option--highlighted[aria-selected] {
+    background-color: var(--aa-surface-hover) !important;
+    color: var(--aa-text) !important;
+  }
+  .select2-results__option[aria-selected="true"] {
+    background-color: var(--aa-selected) !important;
+    color: var(--aa-text) !important;
+  }
+
+  // tom-select (used by e.g. yeti). Same situation as select2: its own light
+  // chrome, dropdown rendered in place; recolor from the --aa-* tokens.
+  .ts-wrapper {
+    .ts-control {
+      background: var(--aa-input-bg) !important;
+      border-color: var(--aa-input-border) !important;
+      color: var(--aa-text);
+      input, input::placeholder { color: var(--aa-text) !important; }
+      .item {
+        background: var(--aa-surface-2) !important;
+        border-color: var(--aa-border) !important;
+        color: var(--aa-text) !important;
+      }
+    }
+  }
+  .ts-dropdown {
+    background: var(--aa-surface) !important;
+    border-color: var(--aa-border) !important;
+    color: var(--aa-text);
+    .optgroup-header { background: var(--aa-surface-2) !important; color: var(--aa-text-muted) !important; }
+    .option { color: var(--aa-text) !important; }
+    .option.active,
+    .active { background: var(--aa-surface-hover) !important; color: var(--aa-text) !important; }
+    .option[aria-selected="true"] { background: var(--aa-selected) !important; color: var(--aa-text) !important; }
+  }
 }
 
 // DARK-ONLY content overrides — genuinely dark-specific values with no light
