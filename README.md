@@ -211,38 +211,38 @@ Three things changed shape and are worth knowing if you already set variables:
 
 | Variable | Default (light / dark) | |
 |---|---|---|
-| `$skinMainFirstColor` | `#23282f` |  |
-| `$skinMainSecondColor` | `#5ea3d3` |  |
+| `$skinMainFirstColor` | ![#23282f](https://singlecolorimage.com/get/23282f/16x16) `#23282f` |  |
+| `$skinMainSecondColor` | ![#5ea3d3](https://singlecolorimage.com/get/5ea3d3/16x16) `#5ea3d3` |  |
 | `$skinBorderRadius` | `4px` |  |
-| `$skinBorderWindowColor` | `#e6e9ee` |  |
+| `$skinBorderWindowColor` | ![#e6e9ee](https://singlecolorimage.com/get/e6e9ee/16x16) `#e6e9ee` |  |
 | `$skinTablePadding` | `10px` |  |
 
 #### Surfaces, text and borders
 
 | Variable | Default (light / dark) | |
 |---|---|---|
-| `$skinPageBgColor` / `$skinPageBgColorDark` | `#f7f9fb` / `#161a1e` | page background |
-| `$skinSurfaceColor` / `$skinSurfaceColorDark` | `#ffffff` / `#25292f` | panels / cards / content |
-| `$skinSurface2Color` / `$skinSurface2ColorDark` | `#f0f2f5` / `#2c3137` | table headers / striping / subtle fills |
-| `$skinSurfaceHoverColor` / `$skinSurfaceHoverColorDark` | `#f5f7fa` / `#3f454d` | row / item hover |
-| `$skinSelectedRowColor` / `$skinSelectedRowColorDark` | `#d9e4ec` / `#304457` | checked table row |
-| `$skinElevatedColor` / `$skinElevatedColorDark` | `$skinSurfaceColor` / `#363c43` | tool buttons and dropdown panels floating above the page |
-| `$skinTextColor` / `$skinTextColorDark` | `#323537` / `#dde2e8` | body text |
-| `$skinTextMutedColor` / `$skinTextMutedColorDark` | `#6b7177` / `#b0b8c2` | secondary text / axis labels |
-| `$skinBorderColor` / `$skinBorderColorDark` | `#e0e4e9` / `#404750` | borders / grid lines |
-| `$skinInputBgColor` / `$skinInputBgColorDark` | `#ffffff` / `#1e2227` | form control background |
-| `$skinInputBorderColor` / `$skinInputBorderColorDark` | `#c9ced4` / `#4d555f` | form control border |
+| `$skinPageBgColor` / `$skinPageBgColorDark` | ![#f7f9fb](https://singlecolorimage.com/get/f7f9fb/16x16) `#f7f9fb` / ![#161a1e](https://singlecolorimage.com/get/161a1e/16x16) `#161a1e` | page background |
+| `$skinSurfaceColor` / `$skinSurfaceColorDark` | ![#ffffff](https://singlecolorimage.com/get/ffffff/16x16) `#ffffff` / ![#25292f](https://singlecolorimage.com/get/25292f/16x16) `#25292f` | panels / cards / content |
+| `$skinSurface2Color` / `$skinSurface2ColorDark` | ![#f0f2f5](https://singlecolorimage.com/get/f0f2f5/16x16) `#f0f2f5` / ![#2c3137](https://singlecolorimage.com/get/2c3137/16x16) `#2c3137` | table headers / striping / subtle fills |
+| `$skinSurfaceHoverColor` / `$skinSurfaceHoverColorDark` | ![#f5f7fa](https://singlecolorimage.com/get/f5f7fa/16x16) `#f5f7fa` / ![#3f454d](https://singlecolorimage.com/get/3f454d/16x16) `#3f454d` | row / item hover |
+| `$skinSelectedRowColor` / `$skinSelectedRowColorDark` | ![#d9e4ec](https://singlecolorimage.com/get/d9e4ec/16x16) `#d9e4ec` / ![#304457](https://singlecolorimage.com/get/304457/16x16) `#304457` | checked table row |
+| `$skinElevatedColor` / `$skinElevatedColorDark` | `$skinSurfaceColor` / ![#363c43](https://singlecolorimage.com/get/363c43/16x16) `#363c43` | tool buttons and dropdown panels floating above the page |
+| `$skinTextColor` / `$skinTextColorDark` | ![#323537](https://singlecolorimage.com/get/323537/16x16) `#323537` / ![#dde2e8](https://singlecolorimage.com/get/dde2e8/16x16) `#dde2e8` | body text |
+| `$skinTextMutedColor` / `$skinTextMutedColorDark` | ![#6b7177](https://singlecolorimage.com/get/6b7177/16x16) `#6b7177` / ![#b0b8c2](https://singlecolorimage.com/get/b0b8c2/16x16) `#b0b8c2` | secondary text / axis labels |
+| `$skinBorderColor` / `$skinBorderColorDark` | ![#e0e4e9](https://singlecolorimage.com/get/e0e4e9/16x16) `#e0e4e9` / ![#404750](https://singlecolorimage.com/get/404750/16x16) `#404750` | borders / grid lines |
+| `$skinInputBgColor` / `$skinInputBgColorDark` | ![#ffffff](https://singlecolorimage.com/get/ffffff/16x16) `#ffffff` / ![#1e2227](https://singlecolorimage.com/get/1e2227/16x16) `#1e2227` | form control background |
+| `$skinInputBorderColor` / `$skinInputBorderColorDark` | ![#c9ced4](https://singlecolorimage.com/get/c9ced4/16x16) `#c9ced4` / ![#4d555f](https://singlecolorimage.com/get/4d555f/16x16) `#4d555f` | form control border |
 
 #### Header menu
 
 | Variable | Default (light / dark) | |
 |---|---|---|
-| `$skinMenuPillColor` | `#2e3236` | top-level current/hover pill |
-| `$skinMenuPillTextColor` | `#6cb0de` | text on that pill; follows the dropdown text so a |
-| `$skinMenuPanelColor` | `#2e3236` | dropdown panel bg + hover "bridge" border |
-| `$skinMenuTextColor` | `#dfe2e6` | dropdown item text (was: inherited #fff) |
-| `$skinMenuItemHoverColor` | `#3f454c` | dropdown item hover/current bg (was: none) |
-| `$skinMenuItemHoverTextColor` | `#6cb0de` | hover/current dropdown item text, same reason |
+| `$skinMenuPillColor` | ![#2e3236](https://singlecolorimage.com/get/2e3236/16x16) `#2e3236` | top-level current/hover pill |
+| `$skinMenuPillTextColor` | ![#6cb0de](https://singlecolorimage.com/get/6cb0de/16x16) `#6cb0de` | text on that pill; follows the dropdown text so a |
+| `$skinMenuPanelColor` | ![#2e3236](https://singlecolorimage.com/get/2e3236/16x16) `#2e3236` | dropdown panel bg + hover "bridge" border |
+| `$skinMenuTextColor` | ![#dfe2e6](https://singlecolorimage.com/get/dfe2e6/16x16) `#dfe2e6` | dropdown item text (was: inherited #fff) |
+| `$skinMenuItemHoverColor` | ![#3f454c](https://singlecolorimage.com/get/3f454c/16x16) `#3f454c` | dropdown item hover/current bg (was: none) |
+| `$skinMenuItemHoverTextColor` | ![#6cb0de](https://singlecolorimage.com/get/6cb0de/16x16) `#6cb0de` | hover/current dropdown item text, same reason |
 | `$skinMenuFontSize` | `13px` | header menu text size |
 | `$skinMenuItemPaddingY` | `5px` | dropdown item top/bottom padding (was 6px/4px + a 7px border) |
 | `$skinMenuItemLineHeight` | `1.35` | dropdown item line-height |
@@ -256,7 +256,7 @@ Three things changed shape and are worth knowing if you already set variables:
 
 | Variable | Default (light / dark) | |
 |---|---|---|
-| `$skinTitleBarColor` | `#343c46` |  |
+| `$skinTitleBarColor` | ![#343c46](https://singlecolorimage.com/get/343c46/16x16) `#343c46` |  |
 | `$skinTitleBarBorderColor` | `$skinMainSecondColor` |  |
 | `$skinTitleBarBorderWidth` | `0` |  |
 | `$skinTitleBarButtonPaddingY` | `6px` | action button vertical padding |
@@ -269,17 +269,17 @@ Three things changed shape and are worth knowing if you already set variables:
 | `$skinPanelHeaderColor` / `$skinPanelHeaderColorDark` | `var(--aa-page-bg)` / `var(--aa-page-bg)` |  |
 | `$skinPanelHeaderTextColor` / `$skinPanelHeaderTextColorDark` | `var(--aa-inactive-tab-text)` / `var(--aa-inactive-tab-text)` |  |
 | `$skinPanelHeaderPaddingY` | `5px` | panel + sidebar header height |
-| `$skinLabelColor` / `$skinLabelColorDark` | `#8494a8` / `$skinTextColorDark` |  |
-| `$skinTabInactiveColor` / `$skinTabInactiveColorDark` | `#f7f9fb` / `#161a1e` | inactive tab fill |
-| `$skinActiveTabTextColor` / `$skinActiveTabTextColorDark` | `$skinMainSecondColor` / `#7cc0ec` | selected tab label |
-| `$skinInactiveTabTextColor` / `$skinInactiveTabTextColorDark` | `#5e6469` / `#b0b8c2` | inactive tab label |
+| `$skinLabelColor` / `$skinLabelColorDark` | ![#8494a8](https://singlecolorimage.com/get/8494a8/16x16) `#8494a8` / `$skinTextColorDark` |  |
+| `$skinTabInactiveColor` / `$skinTabInactiveColorDark` | ![#f7f9fb](https://singlecolorimage.com/get/f7f9fb/16x16) `#f7f9fb` / ![#161a1e](https://singlecolorimage.com/get/161a1e/16x16) `#161a1e` | inactive tab fill |
+| `$skinActiveTabTextColor` / `$skinActiveTabTextColorDark` | `$skinMainSecondColor` / ![#7cc0ec](https://singlecolorimage.com/get/7cc0ec/16x16) `#7cc0ec` | selected tab label |
+| `$skinInactiveTabTextColor` / `$skinInactiveTabTextColorDark` | ![#5e6469](https://singlecolorimage.com/get/5e6469/16x16) `#5e6469` / ![#b0b8c2](https://singlecolorimage.com/get/b0b8c2/16x16) `#b0b8c2` | inactive tab label |
 | `$skinTableHeaderTextColor` / `$skinTableHeaderTextColorDark` | `$skinTextColor` / `$skinTextColorDark` | index-table column header text; the body text colour, so headings read as strongly as the rows |
-| `$skinStatusTagTextColor` | `#ffffff` | label inside a filled status tag; `empty` / `unknown` / `none` have no fill and keep `$skinTextMutedColor` |
-| `$skinStatusTagNeutralColor` | `#707681` | unclassified tags: `No`, protocol tags |
-| `$skinStatusTagOkColor` | `#5e7e63` | `ok` `published` `complete` `completed` `green` `yes` |
-| `$skinStatusTagNoticeColor` | `#3874d2` | `notice` `blue` |
-| `$skinStatusTagWarnColor` | `#9e6c15` | `warn` `warning` `orange` |
-| `$skinStatusTagErrorColor` | `#ce483b` | `error` `errored` `red` |
+| `$skinStatusTagTextColor` | ![#ffffff](https://singlecolorimage.com/get/ffffff/16x16) `#ffffff` | label inside a filled status tag; `empty` / `unknown` / `none` have no fill and keep `$skinTextMutedColor` |
+| `$skinStatusTagNeutralColor` | ![#707681](https://singlecolorimage.com/get/707681/16x16) `#707681` | unclassified tags: `No`, protocol tags |
+| `$skinStatusTagOkColor` | ![#5e7e63](https://singlecolorimage.com/get/5e7e63/16x16) `#5e7e63` | `ok` `published` `complete` `completed` `green` `yes` |
+| `$skinStatusTagNoticeColor` | ![#3874d2](https://singlecolorimage.com/get/3874d2/16x16) `#3874d2` | `notice` `blue` |
+| `$skinStatusTagWarnColor` | ![#9e6c15](https://singlecolorimage.com/get/9e6c15/16x16) `#9e6c15` | `warn` `warning` `orange` |
+| `$skinStatusTagErrorColor` | ![#ce483b](https://singlecolorimage.com/get/ce483b/16x16) `#ce483b` | `error` `errored` `red` |
 | `$skinTabPaddingY` | `8px` | tab height |
 | `$skinTabPaddingX` | `15px` | tab label horizontal padding (text → border) |
 
@@ -288,7 +288,7 @@ Three things changed shape and are worth knowing if you already set variables:
 | Variable | Default (light / dark) | |
 |---|---|---|
 | `$skinButtonColor` / `$skinButtonColorDark` | `darken($skinMainSecondColor, 20%)` / `$skinButtonColor` | one tone in both modes; white on it is 5.35:1 |
-| `$skinButtonTextColor` / `$skinButtonTextColorDark` | `#ffffff` / `$skinButtonTextColor` | label on those buttons |
+| `$skinButtonTextColor` / `$skinButtonTextColorDark` | ![#ffffff](https://singlecolorimage.com/get/ffffff/16x16) `#ffffff` / `$skinButtonTextColor` | label on those buttons |
 | `$skinTableToolsHeight` | `30px` |  |
 | `$skinTableToolsPaddingX` | `$skinTableToolsHeight * 0.4` | 12px at 30px |
 
@@ -297,8 +297,8 @@ Three things changed shape and are worth knowing if you already set variables:
 | Variable | Default (light / dark) | |
 |---|---|---|
 | `$skinAccentColor` / `$skinAccentColorDark` | `$skinMainSecondColor` / `$skinAccentColor` | focus ring / accent outline |
-| `$skinLinkColor` / `$skinLinkColorDark` | `#38678b` / `#7cc0ec` |  |
-| `$skinDeleteLinkColor` / `$skinDeleteLinkColorDark` | `$skinLinkColor` / `#f49b9b` |  |
+| `$skinLinkColor` / `$skinLinkColorDark` | ![#38678b](https://singlecolorimage.com/get/38678b/16x16) `#38678b` / ![#7cc0ec](https://singlecolorimage.com/get/7cc0ec/16x16) `#7cc0ec` |  |
+| `$skinDeleteLinkColor` / `$skinDeleteLinkColorDark` | `$skinLinkColor` / ![#f49b9b](https://singlecolorimage.com/get/f49b9b/16x16) `#f49b9b` |  |
 
 ## Screen
 
