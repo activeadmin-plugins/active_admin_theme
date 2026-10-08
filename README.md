@@ -211,38 +211,38 @@ Three things changed shape and are worth knowing if you already set variables:
 
 | Variable | Default (light / dark) | |
 |---|---|---|
-| `$skinMainFirstColor` | `#23282f` |  |
-| `$skinMainSecondColor` | `#5ea3d3` |  |
+| `$skinMainFirstColor` | ![#23282f](docs/swatches/23282f.svg) `#23282f` |  |
+| `$skinMainSecondColor` | ![#5ea3d3](docs/swatches/5ea3d3.svg) `#5ea3d3` |  |
 | `$skinBorderRadius` | `4px` |  |
-| `$skinBorderWindowColor` | `#e6e9ee` |  |
+| `$skinBorderWindowColor` | ![#e6e9ee](docs/swatches/e6e9ee.svg) `#e6e9ee` |  |
 | `$skinTablePadding` | `10px` |  |
 
 #### Surfaces, text and borders
 
 | Variable | Default (light / dark) | |
 |---|---|---|
-| `$skinPageBgColor` / `$skinPageBgColorDark` | `#f7f9fb` / `#161a1e` | page background |
-| `$skinSurfaceColor` / `$skinSurfaceColorDark` | `#ffffff` / `#25292f` | panels / cards / content |
-| `$skinSurface2Color` / `$skinSurface2ColorDark` | `#f0f2f5` / `#2c3137` | table headers / striping / subtle fills |
-| `$skinSurfaceHoverColor` / `$skinSurfaceHoverColorDark` | `#f5f7fa` / `#3f454d` | row / item hover |
-| `$skinSelectedRowColor` / `$skinSelectedRowColorDark` | `#d9e4ec` / `#304457` | checked table row |
-| `$skinElevatedColor` / `$skinElevatedColorDark` | `$skinSurfaceColor` / `#363c43` | tool buttons and dropdown panels floating above the page |
-| `$skinTextColor` / `$skinTextColorDark` | `#323537` / `#dde2e8` | body text |
-| `$skinTextMutedColor` / `$skinTextMutedColorDark` | `#6b7177` / `#b0b8c2` | secondary text / axis labels |
-| `$skinBorderColor` / `$skinBorderColorDark` | `#e0e4e9` / `#404750` | borders / grid lines |
-| `$skinInputBgColor` / `$skinInputBgColorDark` | `#ffffff` / `#1e2227` | form control background |
-| `$skinInputBorderColor` / `$skinInputBorderColorDark` | `#c9ced4` / `#4d555f` | form control border |
+| `$skinPageBgColor` / `$skinPageBgColorDark` | ![#f7f9fb](docs/swatches/f7f9fb.svg) `#f7f9fb` / ![#161a1e](docs/swatches/161a1e.svg) `#161a1e` | page background |
+| `$skinSurfaceColor` / `$skinSurfaceColorDark` | ![#ffffff](docs/swatches/ffffff.svg) `#ffffff` / ![#25292f](docs/swatches/25292f.svg) `#25292f` | panels / cards / content |
+| `$skinSurface2Color` / `$skinSurface2ColorDark` | ![#f0f2f5](docs/swatches/f0f2f5.svg) `#f0f2f5` / ![#2c3137](docs/swatches/2c3137.svg) `#2c3137` | table headers / striping / subtle fills |
+| `$skinSurfaceHoverColor` / `$skinSurfaceHoverColorDark` | ![#f5f7fa](docs/swatches/f5f7fa.svg) `#f5f7fa` / ![#3f454d](docs/swatches/3f454d.svg) `#3f454d` | row / item hover |
+| `$skinSelectedRowColor` / `$skinSelectedRowColorDark` | ![#d9e4ec](docs/swatches/d9e4ec.svg) `#d9e4ec` / ![#304457](docs/swatches/304457.svg) `#304457` | checked table row |
+| `$skinElevatedColor` / `$skinElevatedColorDark` | `$skinSurfaceColor` / ![#363c43](docs/swatches/363c43.svg) `#363c43` | tool buttons and dropdown panels floating above the page |
+| `$skinTextColor` / `$skinTextColorDark` | ![#323537](docs/swatches/323537.svg) `#323537` / ![#dde2e8](docs/swatches/dde2e8.svg) `#dde2e8` | body text |
+| `$skinTextMutedColor` / `$skinTextMutedColorDark` | ![#6b7177](docs/swatches/6b7177.svg) `#6b7177` / ![#b0b8c2](docs/swatches/b0b8c2.svg) `#b0b8c2` | secondary text / axis labels |
+| `$skinBorderColor` / `$skinBorderColorDark` | ![#e0e4e9](docs/swatches/e0e4e9.svg) `#e0e4e9` / ![#404750](docs/swatches/404750.svg) `#404750` | borders / grid lines |
+| `$skinInputBgColor` / `$skinInputBgColorDark` | ![#ffffff](docs/swatches/ffffff.svg) `#ffffff` / ![#1e2227](docs/swatches/1e2227.svg) `#1e2227` | form control background |
+| `$skinInputBorderColor` / `$skinInputBorderColorDark` | ![#c9ced4](docs/swatches/c9ced4.svg) `#c9ced4` / ![#4d555f](docs/swatches/4d555f.svg) `#4d555f` | form control border |
 
 #### Header menu
 
 | Variable | Default (light / dark) | |
 |---|---|---|
-| `$skinMenuPillColor` | `#2e3236` | top-level current/hover pill |
-| `$skinMenuPillTextColor` | `#6cb0de` | text on that pill; follows the dropdown text so a |
-| `$skinMenuPanelColor` | `#2e3236` | dropdown panel bg + hover "bridge" border |
-| `$skinMenuTextColor` | `#dfe2e6` | dropdown item text (was: inherited #fff) |
-| `$skinMenuItemHoverColor` | `#3f454c` | dropdown item hover/current bg (was: none) |
-| `$skinMenuItemHoverTextColor` | `#6cb0de` | hover/current dropdown item text, same reason |
+| `$skinMenuPillColor` | ![#2e3236](docs/swatches/2e3236.svg) `#2e3236` | top-level current/hover pill |
+| `$skinMenuPillTextColor` | ![#6cb0de](docs/swatches/6cb0de.svg) `#6cb0de` | text on that pill; follows the dropdown text so a |
+| `$skinMenuPanelColor` | ![#2e3236](docs/swatches/2e3236.svg) `#2e3236` | dropdown panel bg + hover "bridge" border |
+| `$skinMenuTextColor` | ![#dfe2e6](docs/swatches/dfe2e6.svg) `#dfe2e6` | dropdown item text (was: inherited #fff) |
+| `$skinMenuItemHoverColor` | ![#3f454c](docs/swatches/3f454c.svg) `#3f454c` | dropdown item hover/current bg (was: none) |
+| `$skinMenuItemHoverTextColor` | ![#6cb0de](docs/swatches/6cb0de.svg) `#6cb0de` | hover/current dropdown item text, same reason |
 | `$skinMenuFontSize` | `13px` | header menu text size |
 | `$skinMenuItemPaddingY` | `5px` | dropdown item top/bottom padding (was 6px/4px + a 7px border) |
 | `$skinMenuItemLineHeight` | `1.35` | dropdown item line-height |
@@ -256,7 +256,7 @@ Three things changed shape and are worth knowing if you already set variables:
 
 | Variable | Default (light / dark) | |
 |---|---|---|
-| `$skinTitleBarColor` | `#343c46` |  |
+| `$skinTitleBarColor` | ![#343c46](docs/swatches/343c46.svg) `#343c46` |  |
 | `$skinTitleBarBorderColor` | `$skinMainSecondColor` |  |
 | `$skinTitleBarBorderWidth` | `0` |  |
 | `$skinTitleBarButtonPaddingY` | `6px` | action button vertical padding |
@@ -269,17 +269,17 @@ Three things changed shape and are worth knowing if you already set variables:
 | `$skinPanelHeaderColor` / `$skinPanelHeaderColorDark` | `var(--aa-page-bg)` / `var(--aa-page-bg)` |  |
 | `$skinPanelHeaderTextColor` / `$skinPanelHeaderTextColorDark` | `var(--aa-inactive-tab-text)` / `var(--aa-inactive-tab-text)` |  |
 | `$skinPanelHeaderPaddingY` | `5px` | panel + sidebar header height |
-| `$skinLabelColor` / `$skinLabelColorDark` | `#8494a8` / `$skinTextColorDark` |  |
-| `$skinTabInactiveColor` / `$skinTabInactiveColorDark` | `#f7f9fb` / `#161a1e` | inactive tab fill |
-| `$skinActiveTabTextColor` / `$skinActiveTabTextColorDark` | `$skinMainSecondColor` / `#7cc0ec` | selected tab label |
-| `$skinInactiveTabTextColor` / `$skinInactiveTabTextColorDark` | `#5e6469` / `#b0b8c2` | inactive tab label |
+| `$skinLabelColor` / `$skinLabelColorDark` | ![#8494a8](docs/swatches/8494a8.svg) `#8494a8` / `$skinTextColorDark` |  |
+| `$skinTabInactiveColor` / `$skinTabInactiveColorDark` | ![#f7f9fb](docs/swatches/f7f9fb.svg) `#f7f9fb` / ![#161a1e](docs/swatches/161a1e.svg) `#161a1e` | inactive tab fill |
+| `$skinActiveTabTextColor` / `$skinActiveTabTextColorDark` | `$skinMainSecondColor` / ![#7cc0ec](docs/swatches/7cc0ec.svg) `#7cc0ec` | selected tab label |
+| `$skinInactiveTabTextColor` / `$skinInactiveTabTextColorDark` | ![#5e6469](docs/swatches/5e6469.svg) `#5e6469` / ![#b0b8c2](docs/swatches/b0b8c2.svg) `#b0b8c2` | inactive tab label |
 | `$skinTableHeaderTextColor` / `$skinTableHeaderTextColorDark` | `$skinTextColor` / `$skinTextColorDark` | index-table column header text; the body text colour, so headings read as strongly as the rows |
-| `$skinStatusTagTextColor` | `#ffffff` | label inside a filled status tag; `empty` / `unknown` / `none` have no fill and keep `$skinTextMutedColor` |
-| `$skinStatusTagNeutralColor` | `#707681` | unclassified tags: `No`, protocol tags |
-| `$skinStatusTagOkColor` | `#5e7e63` | `ok` `published` `complete` `completed` `green` `yes` |
-| `$skinStatusTagNoticeColor` | `#3874d2` | `notice` `blue` |
-| `$skinStatusTagWarnColor` | `#9e6c15` | `warn` `warning` `orange` |
-| `$skinStatusTagErrorColor` | `#ce483b` | `error` `errored` `red` |
+| `$skinStatusTagTextColor` | ![#ffffff](docs/swatches/ffffff.svg) `#ffffff` | label inside a filled status tag; `empty` / `unknown` / `none` have no fill and keep `$skinTextMutedColor` |
+| `$skinStatusTagNeutralColor` | ![#707681](docs/swatches/707681.svg) `#707681` | unclassified tags: `No`, protocol tags |
+| `$skinStatusTagOkColor` | ![#5e7e63](docs/swatches/5e7e63.svg) `#5e7e63` | `ok` `published` `complete` `completed` `green` `yes` |
+| `$skinStatusTagNoticeColor` | ![#3874d2](docs/swatches/3874d2.svg) `#3874d2` | `notice` `blue` |
+| `$skinStatusTagWarnColor` | ![#9e6c15](docs/swatches/9e6c15.svg) `#9e6c15` | `warn` `warning` `orange` |
+| `$skinStatusTagErrorColor` | ![#ce483b](docs/swatches/ce483b.svg) `#ce483b` | `error` `errored` `red` |
 | `$skinTabPaddingY` | `8px` | tab height |
 | `$skinTabPaddingX` | `15px` | tab label horizontal padding (text → border) |
 
@@ -288,7 +288,7 @@ Three things changed shape and are worth knowing if you already set variables:
 | Variable | Default (light / dark) | |
 |---|---|---|
 | `$skinButtonColor` / `$skinButtonColorDark` | `darken($skinMainSecondColor, 20%)` / `$skinButtonColor` | one tone in both modes; white on it is 5.35:1 |
-| `$skinButtonTextColor` / `$skinButtonTextColorDark` | `#ffffff` / `$skinButtonTextColor` | label on those buttons |
+| `$skinButtonTextColor` / `$skinButtonTextColorDark` | ![#ffffff](docs/swatches/ffffff.svg) `#ffffff` / `$skinButtonTextColor` | label on those buttons |
 | `$skinTableToolsHeight` | `30px` |  |
 | `$skinTableToolsPaddingX` | `$skinTableToolsHeight * 0.4` | 12px at 30px |
 
@@ -297,8 +297,8 @@ Three things changed shape and are worth knowing if you already set variables:
 | Variable | Default (light / dark) | |
 |---|---|---|
 | `$skinAccentColor` / `$skinAccentColorDark` | `$skinMainSecondColor` / `$skinAccentColor` | focus ring / accent outline |
-| `$skinLinkColor` / `$skinLinkColorDark` | `#38678b` / `#7cc0ec` |  |
-| `$skinDeleteLinkColor` / `$skinDeleteLinkColorDark` | `$skinLinkColor` / `#f49b9b` |  |
+| `$skinLinkColor` / `$skinLinkColorDark` | ![#38678b](docs/swatches/38678b.svg) `#38678b` / ![#7cc0ec](docs/swatches/7cc0ec.svg) `#7cc0ec` |  |
+| `$skinDeleteLinkColor` / `$skinDeleteLinkColorDark` | `$skinLinkColor` / ![#f49b9b](docs/swatches/f49b9b.svg) `#f49b9b` |  |
 
 ## Screen
 
