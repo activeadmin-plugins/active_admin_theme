@@ -365,18 +365,13 @@ body.active_admin {
   background: var(--aa-page-bg);
 }
 #wrapper {
-  // ActiveAdmin lays #wrapper out as `display: table` (#main_content_wrapper +
-  // #sidebar as table-cells). Left unpinned, that table sizes to its content,
-  // so a wide index table grows the whole page: it overflows horizontally, the
-  // header stretches with it and the utility nav + theme toggle get pushed off
-  // the right edge (reachable only by scrolling), while a narrow table on a wide
-  // screen leaves the header not spanning the full width. Pin the layout table
-  // to the viewport and let the content cell scroll its own wide table instead.
-  width: 100%;
-  table-layout: fixed;
-
-  #main_content_wrapper { min-width: 0; }
-  #main_content { overflow-x: auto; }
+  // ActiveAdmin lays #wrapper out as `display: table`, which sizes to its
+  // content: a wide index table therefore scrolls the WHOLE page horizontally
+  // (the master / pre-theme behaviour admins are used to). Only guarantee the
+  // layout fills the viewport when the content is narrow. The utility nav
+  // (clock / theme toggle / logout) is pinned `sticky` (see #utility_nav below)
+  // so it stays reachable while the page scrolls sideways.
+  min-width: 100%;
 
   div.tabs {
     > ul > li > a {
@@ -470,6 +465,12 @@ body.active_admin {
     // tabs: drop the pill padding, and on hover highlight by text colour only — no
     // background block. The clock has no click action, so it gets no hover at all.
     #utility_nav {
+      // Pin to the viewport's right edge so the clock / theme toggle / logout
+      // stay reachable while a wide table scrolls the page sideways.
+      position: sticky;
+      right: 0;
+      z-index: 2;
+
       > li > a { padding: 0 5px; }
       > li:hover > a, > li.current > a { background-color: transparent; }
       > li#servertime:hover > a { color: #ffffff; }
@@ -1373,7 +1374,47 @@ form fieldset > ol > li fieldset ol li {
   border-color: var(--aa-border);
 }
 .dropdown_menu .dropdown_menu_list_wrapper .dropdown_menu_list li {
-  border-bottom-color: var(--aa-border);
+  // Was repainted to --aa-border, but a hairline under every row makes the
+  // flyout read as a table of cells rather than a menu. Drop it — the hover
+  // highlight is enough separation. (Same depth as the base rule, later wins.)
+  border-bottom: none;
+}
+
+// Dropdown-button caret. ActiveAdmin draws it with two stacked triangles on the
+// button: :before is a #FFF "shadow", :after the #777 arrow — both hard-coded.
+// On the themed blue title-bar action button and on the dark elevated
+// table-tools buttons the #777 arrow is ~invisible. Recolor it to the button's
+// own text colour and hide the light shadow into the fill.
+#titlebar_right .dropdown_menu .dropdown_menu_button {
+  &:before { border-top-color: var(--aa-button); }
+  &:after  { border-top-color: var(--aa-button-text); }
+}
+.table_tools .dropdown_menu .dropdown_menu_button,
+.batch_actions_selector .dropdown_menu_button {
+  &:before { border-top-color: var(--aa-elevated); }
+  &:after  { border-top-color: var(--aa-text); }
+}
+
+// Disabled form controls. The theme recolors inputs/selects via --aa-*, but a
+// disabled one looked identical to an enabled one (especially in dark). Mute
+// the fill, text and cursor so "disabled" reads in both modes. select2 sets its
+// control bg with !important, so the disabled override needs it too.
+#active_admin_content {
+  input:disabled, textarea:disabled, select:disabled {
+    background-color: var(--aa-surface-2) !important;
+    color: var(--aa-text-muted) !important;
+    opacity: 0.6;
+    cursor: not-allowed !important;
+  }
+}
+// Both container classes (--default --disabled) so this out-specifies the
+// enabled control rule's `--default` fill (which is !important) regardless of
+// source order.
+.select2-container--default.select2-container--disabled .select2-selection {
+  background-color: var(--aa-surface-2) !important;
+  opacity: 0.6;
+  cursor: not-allowed !important;
+  .select2-selection__rendered { color: var(--aa-text-muted) !important; }
 }
 
 .ui-dialog {
@@ -1383,6 +1424,11 @@ form fieldset > ol > li fieldset ol li {
   background-color: var(--aa-surface);
   color: var(--aa-text);
   border-bottom: 1px solid var(--aa-border);
+  // jQuery-UI's default `minHeight: 150` option is applied inline to the content
+  // box (min-height:~54px), so a one-line confirm leaves a big empty area
+  // between the message and the buttons. Let the content size to its text
+  // (the inline min-height needs !important to beat).
+  .ui-dialog-content { min-height: 0 !important; }
   .ui-dialog-titlebar {
     background-image: none;
     box-shadow: none;
@@ -1573,7 +1619,10 @@ input[type='radio'] {
     // cannot be out-specified by anything sane here, which is why this needs
     // !important, like the accent fill one line over in the base pagination
     // block. Without it the digit renders at 1.00:1 on its own background.
-    .pagination span > a:hover { color: $skinMenuPillTextColor !important; }
+    // The hover fill is the accent ($skinMainSecondColor); $skinMenuPillTextColor
+    // is a light blue that sits on it at ~1.16:1 (invisible). White reads on the
+    // accent (matches the base pagination block's own hover colour one file over).
+    .pagination span > a:hover { color: #fff !important; }
 
     // Batch-actions / table-tools dropdown menu items are white by default
     .table_tools .dropdown_menu_list li a {
@@ -1672,6 +1721,12 @@ input[type='radio'] {
     // floats them, so they sat top-aligned and, having different heights, looked
     // misaligned. A slightly larger font than the gem default (0.85em) too.
     #index_footer {
+      // ActiveAdmin floats .pagination_top and .paginated_collection_contents
+      // left; the footer has no clear, so it rode up beside them and rendered
+      // ABOVE the table (per-page + page numbers + "Displaying…" duplicated on
+      // top, nothing below). Clear the floats so it sits under the table — one
+      // pagination on top, one on the bottom, like master.
+      clear: both;
       text-align: left;
       font-size: 0.95em;
       .pagination_per_page,
@@ -1742,6 +1797,18 @@ input[type='radio'] {
     }
     .select2-selection__rendered { color: var(--aa-text) !important; }
     .select2-selection__placeholder { color: var(--aa-text-muted) !important; }
+    // Clear "×": keep it a small, muted inline glyph that brightens on hover.
+    // select2 4.1 renders it as a <button> that takes a large square hover fill
+    // (the "big blue square"); neutralize that and the 4.0 span the same way so
+    // the affordance is just the colour change, correctly aligned.
+    .select2-selection__clear {
+      color: var(--aa-text-muted) !important;
+      background: transparent !important;
+      border: none !important;
+      box-shadow: none !important;
+      padding: 0 4px !important;
+      &:hover, &:focus { color: var(--aa-text) !important; background: transparent !important; }
+    }
     .select2-selection--multiple .select2-selection__choice {
       background-color: var(--aa-surface-2) !important;
       border-color: var(--aa-border) !important;
