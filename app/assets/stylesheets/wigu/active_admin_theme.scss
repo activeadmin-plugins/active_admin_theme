@@ -1774,11 +1774,22 @@ input[type='radio'] {
     // Selected cells: the zebra and hover rules above outrank ActiveAdmin's own
     // `tr.selected td` / `td.selected`, so without this a ticked row (batch
     // actions) or a click-highlighted row + column (crisscross) looks unselected.
-    // The :hover variants keep the selection visible under the pointer.
+    // The `tr >` in the td.selected selector is load-bearing: the even-stripe
+    // rule is `...tbody tr:nth-child(even) > td` (specificity 0,0,2,4); a plain
+    // `tbody td.selected` is only (0,0,2,3) and loses on even rows, breaking the
+    // cross every other row. Matching the `tr >` ties the specificity, so source
+    // order wins. The :hover variants keep the selection visible under the pointer.
     table.index_table tbody tr.selected > td,
     table.index_table tbody tr.selected:hover > td,
-    table.index_table tbody td.selected,
+    table.index_table tbody tr > td.selected,
     table.index_table tbody tr:hover > td.selected { background: var(--aa-selected); }
+    // The clicked cell sits at the centre of the cross; an accent outline marks
+    // it apart from the row/column tint without a competing fill (outset inward
+    // so it adds no layout shift).
+    table.index_table tbody tr > td.selected-cell {
+      outline: 2px solid var(--aa-accent);
+      outline-offset: -2px;
+    }
     // Plain content tables (e.g. the CDR show "Attempts" table) are striped by the
     // base CSS with light fills; map the odd/even rows onto the dark surfaces too.
     table tbody tr.odd > td,  table tbody tr.odd > th  { background-color: var(--aa-surface); }
