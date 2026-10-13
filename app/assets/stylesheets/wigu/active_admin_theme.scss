@@ -1601,6 +1601,28 @@ form.filter_form .filter_form_field.filter_date_range .seperator {
   width: 10px;
 }
 
+// Date-only range filters (jQuery-UI datepicker, input.datepicker) get no width
+// from the base, so the two inputs fall back to their size="12" intrinsic width
+// and line up side by side only by luck; the label's float:right "Set range"
+// link then leaks into the input band on a longer label and bumps the "To"
+// input onto a second line. Lay the field out with flexbox: the label takes a
+// full row, the two inputs share the next, immune to the float.
+form.filter_form .filter_form_field.filter_date_range {
+  display: flex;
+  flex-wrap: wrap;
+
+  > label { flex: 0 0 100%; }
+
+  input.datepicker {
+    box-sizing: border-box;
+    flex: 1 1 0;
+    min-width: 0;
+    margin: 0;
+
+    & + input.datepicker { margin-left: 6px; }
+  }
+}
+
 //filter select box border radius
 .filter_form_field select {
   border-radius: 3px;
