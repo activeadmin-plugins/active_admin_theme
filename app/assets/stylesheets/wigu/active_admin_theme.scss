@@ -1771,12 +1771,14 @@ input[type='radio'] {
     table.index_table tbody tr:nth-child(even) > td,
     table.index_table tbody tr.even > td { background: var(--aa-surface-2); }
     table.index_table tbody tr:hover > td { background: var(--aa-surface-hover); }
-    // Checked rows: the zebra and hover rules above outrank ActiveAdmin's own
-    // `tr.selected td`, so without this a ticked row looks exactly like an
-    // unticked one. The :hover variant keeps the selection visible while the
-    // pointer is over the row.
+    // Selected cells: the zebra and hover rules above outrank ActiveAdmin's own
+    // `tr.selected td` / `td.selected`, so without this a ticked row (batch
+    // actions) or a click-highlighted row + column (crisscross) looks unselected.
+    // The :hover variants keep the selection visible under the pointer.
     table.index_table tbody tr.selected > td,
-    table.index_table tbody tr.selected:hover > td { background: var(--aa-selected); }
+    table.index_table tbody tr.selected:hover > td,
+    table.index_table tbody td.selected,
+    table.index_table tbody tr:hover > td.selected { background: var(--aa-selected); }
     // Plain content tables (e.g. the CDR show "Attempts" table) are striped by the
     // base CSS with light fills; map the odd/even rows onto the dark surfaces too.
     table tbody tr.odd > td,  table tbody tr.odd > th  { background-color: var(--aa-surface); }
