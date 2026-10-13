@@ -28,6 +28,14 @@ module Dummy
     config.logger = Logger.new($stdout)
     config.log_level = :warn
 
+    # action_text-trix ships trix.js / trix.css but doesn't add them to the
+    # Sprockets load path on its own, so `//= require trix` / `@import "trix"`
+    # (in active_admin.js / active_admin.scss) can't find them. Add its asset
+    # dirs so the demo editor page gets Trix's base JS + CSS.
+    trix_root = Gem::Specification.find_by_name("action_text-trix").gem_dir
+    config.assets.paths << File.join(trix_root, "app/assets/javascripts")
+    config.assets.paths << File.join(trix_root, "app/assets/stylesheets")
+
     # Sprockets: compile on the fly, no digests — simplest thing that serves
     # active_admin.css / active_admin.js in dev/test.
     config.assets.compile = true

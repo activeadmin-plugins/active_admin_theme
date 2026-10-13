@@ -1970,3 +1970,58 @@ input[type='radio'] {
   html:not([data-theme="light"]) { @include aa-dark-content; }
 }
 html[data-theme="dark"] { @include aa-dark-content; }
+
+// Trix / ActionText editor. Trix ships with ActionText (a Rails built-in), so
+// its chrome is themed here for every consumer; the app still imports Trix's
+// own base CSS (trix/dist/trix). All rules key off the --aa-* tokens, so they
+// follow the active palette in both light and dark, and are inert when no
+// editor is on the page.
+trix-toolbar {
+  .trix-button-group { border-color: var(--aa-border); }
+  .trix-button {
+    background: var(--aa-surface);
+    color: var(--aa-text);
+    border-bottom-color: var(--aa-border);
+    &:not(:first-child) { border-left-color: var(--aa-border); }
+    &:not(:disabled):hover { background: var(--aa-surface-hover); }
+    &.trix-active { background: var(--aa-selected); }
+  }
+  // Trix dims idle icons to opacity 0.6 and disabled ones to 0.125 — both read
+  // as faint in either palette, the 0.125 so faint the block-format buttons
+  // (disabled until the editor is focused) look broken. Lift idle to 0.8 and
+  // disabled to 0.4: still clearly dimmer than idle, but legible. Trix keeps the
+  // active icon at 1 via a higher-specificity rule.
+  .trix-button--icon::before { opacity: 0.8; }
+  .trix-button--icon:disabled::before { opacity: 0.4; }
+}
+
+trix-editor {
+  background: var(--aa-input-bg);
+  border-color: var(--aa-input-border);
+  color: var(--aa-text);
+  &:empty:not(:focus)::before { color: var(--aa-text-muted); } // placeholder
+}
+
+.trix-content {
+  pre { background: var(--aa-surface-2); }
+  blockquote { border-left: 0.3em solid var(--aa-border); }
+}
+
+.trix-dialog {
+  background: var(--aa-surface);
+  color: var(--aa-text);
+  box-shadow: 0 2px 8px var(--aa-shadow);
+  input[type="text"], input[type="url"] {
+    background: var(--aa-input-bg);
+    border-color: var(--aa-input-border);
+    color: var(--aa-text);
+  }
+  .trix-button { background: var(--aa-accent); color: #fff; }
+}
+
+// Trix bakes its toolbar icons into the base CSS as black SVG background images
+// on ::before; invert them in dark mode so they read on the dark toolbar (the
+// idle/disabled opacity lift above applies in both modes).
+@include aa-dark {
+  trix-toolbar .trix-button--icon::before { filter: invert(1); }
+}
