@@ -174,6 +174,52 @@ The control is a link with no destination, so <kbd>Tab</kbd> reaches it and
 <kbd>Enter</kbd> and <kbd>Space</kbd> operate it. Changing the theme in one tab
 applies it in the others.
 
+### Disabling dark mode
+
+To ship light-only, two manual steps (there is no build flag):
+
+- Don't include `wigu/theme_toggle` in your JS manifest. That removes the switch
+  and the automatic `data-theme` switching it drives.
+- Pin the document to light: add `data-theme="light"` to the `<html>` element
+  (e.g. by overriding the ActiveAdmin layout), so the
+  `@media (prefers-color-scheme: dark)` styles never apply.
+
+### Server clock
+
+The `#utility_nav` now carries a ticking server clock — two lines, time + zone
+over the date — rendered by the theme's `server_clock.js` and injected per
+namespace by its Ruby backend (`ActiveAdminTheme.install!`), with the logout
+button beside it.
+
+The backend injects only the markup; load the script the same way as the
+theme switch, or the nav shows a static one-line label and never ticks:
+
+```js
+// app/assets/javascripts/active_admin.js
+//= require wigu/server_clock
+
+// or, as an npm module
+import "@activeadmin-plugins/active_admin_theme/src/server_clock";
+```
+
+[![Two-line server clock in the utility nav](./img/clock.png)](./img/clock.png)
+
+The theme also keeps a logout item in the nav. If your app has no logout route
+(custom auth) or you deliberately run a logout-free nav, use ActiveAdmin's own
+per-namespace switch — the theme honours it:
+
+```ruby
+# config/initializers/active_admin.rb
+config.logout_link_path = nil
+```
+
+The restored current-user item has a theme switch (ActiveAdmin offers none
+short of unsetting `current_user_method`, which breaks authorization):
+
+```ruby
+ActiveAdminTheme.add_current_user = false
+```
+
 ### Upgrading
 
 #### 3.1.0
