@@ -1,0 +1,11 @@
+# In-memory SQLite for every env — there is no schema to persist.
+default: &default
+  adapter: sqlite3
+  database: ":memory:"
+
+development:
+  <<: *default
+test:
+  <<: *default
+production:
+  <<: *default

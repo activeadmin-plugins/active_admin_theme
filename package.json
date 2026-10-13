@@ -23,6 +23,6 @@
     "src/**/*"
   ],
   "scripts": {
-    "prepublishOnly": "rm -rf src && cp -R app/assets/stylesheets/wigu/ src && cp app/assets/javascripts/wigu/theme_toggle.js src/"
+    "prepare": "node -e \"const fs=require('fs');fs.rmSync('src',{recursive:true,force:true});fs.cpSync('app/assets/stylesheets/wigu','src',{recursive:true});for(const f of fs.readdirSync('app/assets/javascripts/wigu'))fs.copyFileSync('app/assets/javascripts/wigu/'+f,'src/'+f)\""
   }
 }
