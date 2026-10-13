@@ -214,6 +214,20 @@ $skinStatusTagErrorColor: #ce483b!default;    // error / errored / red
   --aa-active-tab-text:   #{$skinActiveTabTextColor};
   --aa-inactive-tab-text: #{$skinInactiveTabTextColor};
   --aa-delete-link:   #{$skinDeleteLinkColor};
+
+  // Bridge for the companion active_admin_datetimepicker plugin: feed its
+  // --aa-datetimepicker-* inputs from this theme's palette, so the xdsoft picker
+  // is themed (light + dark) automatically with no per-app override. These point
+  // at the --aa-* vars, which are themselves redefined per mode, so a single set
+  // here covers both. Harmless no-op when the plugin isn't installed (nothing
+  // reads these). A host can still override any of them downstream.
+  --aa-datetimepicker-accent:     var(--aa-accent);
+  --aa-datetimepicker-surface:    var(--aa-surface);
+  --aa-datetimepicker-surface-2:  var(--aa-surface-2);
+  --aa-datetimepicker-text:       var(--aa-text);
+  --aa-datetimepicker-text-muted: var(--aa-text-muted);
+  --aa-datetimepicker-border:     var(--aa-border);
+  --aa-datetimepicker-hover:      var(--aa-surface-hover);
 }
 // OS preference, unless the user explicitly chose light
 @media (prefers-color-scheme: dark) {
