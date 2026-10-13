@@ -220,6 +220,42 @@ short of unsetting `current_user_method`, which breaks authorization):
 ActiveAdminTheme.add_current_user = false
 ```
 
+### Crisscross table highlighting
+
+Clicking a cell in an index table highlights its whole row and column — the
+cells get class `selected`, which the theme paints with `--aa-selected`, so the
+clicked value sits at the centre of a cross, with an accent outline on the cell
+itself. Handy for tracing a value to its row and column in a wide table.
+
+The `selected` fill is always in the theme (it also covers ActiveAdmin's own
+batch-action row selection); the click behaviour is opt-in — load the script to
+enable it, leave it out to keep tables static:
+
+```js
+// app/assets/javascripts/active_admin.js
+//= require wigu/table_crisscross
+
+// or, as an npm module
+import "@activeadmin-plugins/active_admin_theme/src/table_crisscross";
+```
+
+It uses jQuery, which ActiveAdmin already loads.
+
+[![Crisscross cell highlighting](./img/crisscross-light.png)](./img/crisscross-light.png)
+
+### Trix / ActionText editor
+
+Trix ships with ActionText (a Rails built-in), so any ActiveAdmin app can have a
+rich-text field. The theme styles the editor chrome — toolbar, editor surface,
+link dialog, content `pre`/`blockquote` — off the theme variables in both light
+and dark, and inverts Trix's black toolbar icons in dark mode so they stay
+legible. Nothing to opt into: your app still imports Trix's own base CSS
+(`trix/dist/trix`), the theme only restyles it, and the rules are inert when no
+editor is on the page.
+
+[![Trix editor, light](./img/trix-light.png)](./img/trix-light.png)
+[![Trix editor, dark](./img/trix-dark.png)](./img/trix-dark.png)
+
 ### Upgrading
 
 #### 3.1.0
