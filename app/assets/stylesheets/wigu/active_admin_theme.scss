@@ -466,9 +466,11 @@ body.active_admin {
     // Viewport width minus the vertical scrollbar (JS-set --scrollbar-width var,
     // 0 when absent — load wigu/scrollbar_width), capped to the content width.
     // Plain 100vw includes the scrollbar gutter, which shifts this left-pinned
-    // bar at the far-right scroll position; subtracting it keeps it put. unquote
-    // so Sass emits the min() literally (it can't mix % + vw).
-    width: unquote("min(calc(100vw - var(--scrollbar-width, 0px)), 100%)");
+    // bar at the far-right scroll position; subtracting it keeps it put. The cap
+    // is a plain max-width, not min(…, 100%): sassc/libsass (sprockets consumers)
+    // evaluates the Sass min() function and rejects calc() as a non-number.
+    width: calc(100vw - var(--scrollbar-width, 0px));
+    max-width: 100%;
     box-sizing: border-box;
     h1.site_title {
       color: $skinMainSecondColor;
@@ -666,12 +668,14 @@ body.active_admin {
     // action buttons stay visible while a wide index table scrolls the page
     // sideways. width = the viewport (minus the vertical scrollbar via the
     // JS-set --scrollbar-width var, 0 when absent — load wigu/scrollbar_width to
-    // populate it), capped to the content width so 100vw's scrollbar allowance
-    // can't add a stray horizontal scrollbar. No `top`, so it still scrolls
-    // vertically. unquote so Sass emits the min() literally (it can't mix % + vw).
+    // populate it), capped to the content width with a plain max-width so 100vw's
+    // scrollbar allowance can't add a stray horizontal scrollbar. No `top`, so it
+    // still scrolls vertically. The cap is max-width, not min(…, 100%): sassc/
+    // libsass (sprockets consumers) evaluates the Sass min() and rejects calc().
     position: sticky;
     left: 0;
-    width: unquote("min(calc(100vw - var(--scrollbar-width, 0px)), 100%)");
+    width: calc(100vw - var(--scrollbar-width, 0px));
+    max-width: 100%;
     box-sizing: border-box;
     // Lay the title (left) and action items (right) on one compact row. Without
     // this, resetting #titlebar_right to static (below) stacks it under the
