@@ -380,6 +380,23 @@ $logout-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' 
 html {
   background: var(--aa-page-bg);
 }
+
+// Pin a bar (#header, #title_bar) to the viewport's left edge at the visible
+// viewport width while a wide index table scrolls the whole page sideways
+// (#wrapper is display:table, min-width:100%). width = 100vw minus the vertical
+// scrollbar — the JS-set --scrollbar-width var (0 when wigu/scrollbar_width is
+// absent, and then max-width:100% keeps 100vw's scrollbar allowance from adding a
+// stray horizontal scrollbar). It's a plain max-width, not min(…, 100%):
+// sassc/libsass evaluates the Sass min() function and rejects calc() as a
+// non-number. No `top`, so the bar still scrolls vertically.
+@mixin viewport-pinned-bar {
+  position: sticky;
+  left: 0;
+  width: calc(100vw - var(--scrollbar-width, 0px));
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
 body.active_admin {
   background: var(--aa-page-bg);
 }
@@ -455,23 +472,11 @@ body.active_admin {
     text-shadow: none;
     background-image: none;
 
-    // A wide index table scrolls the WHOLE page sideways (#wrapper is
-    // display:table, min-width:100%). Keep the header pinned on screen and at the
-    // viewport width while that happens, so it doesn't stretch to the table's
-    // width (which spread the menu out under the utility nav and overlapped it).
-    // The header keeps ActiveAdmin's natural layout, so it still grows to fit a
-    // wrapped menu.
-    position: sticky;
-    left: 0;
-    // Viewport width minus the vertical scrollbar (JS-set --scrollbar-width var,
-    // 0 when absent — load wigu/scrollbar_width), capped to the content width.
-    // Plain 100vw includes the scrollbar gutter, which shifts this left-pinned
-    // bar at the far-right scroll position; subtracting it keeps it put. The cap
-    // is a plain max-width, not min(…, 100%): sassc/libsass (sprockets consumers)
-    // evaluates the Sass min() function and rejects calc() as a non-number.
-    width: calc(100vw - var(--scrollbar-width, 0px));
-    max-width: 100%;
-    box-sizing: border-box;
+    // A wide index table scrolls the WHOLE page sideways. Pin the header on
+    // screen at the viewport width so it doesn't stretch to the table's width
+    // (which spread the menu out under the utility nav and overlapped it); it
+    // still grows to fit a wrapped menu, ActiveAdmin's natural layout.
+    @include viewport-pinned-bar;
     h1.site_title {
       color: $skinMainSecondColor;
       font-size: 16px;
@@ -664,19 +669,9 @@ body.active_admin {
     background-color: $skinTitleBarColor;
     border: none;
     border-bottom: $skinTitleBarBorderWidth solid $skinTitleBarBorderColor;
-    // Pin the whole bar to the viewport like #header, so the title AND the
-    // action buttons stay visible while a wide index table scrolls the page
-    // sideways. width = the viewport (minus the vertical scrollbar via the
-    // JS-set --scrollbar-width var, 0 when absent — load wigu/scrollbar_width to
-    // populate it), capped to the content width with a plain max-width so 100vw's
-    // scrollbar allowance can't add a stray horizontal scrollbar. No `top`, so it
-    // still scrolls vertically. The cap is max-width, not min(…, 100%): sassc/
-    // libsass (sprockets consumers) evaluates the Sass min() and rejects calc().
-    position: sticky;
-    left: 0;
-    width: calc(100vw - var(--scrollbar-width, 0px));
-    max-width: 100%;
-    box-sizing: border-box;
+    // Pin the whole bar to the viewport like #header, so the title AND the action
+    // buttons stay visible while a wide index table scrolls the page sideways.
+    @include viewport-pinned-bar;
     // Lay the title (left) and action items (right) on one compact row. Without
     // this, resetting #titlebar_right to static (below) stacks it under the
     // title and the bar grows tall. Fixed height so pages with a breadcrumb
@@ -698,7 +693,7 @@ body.active_admin {
         float: none;
         margin-bottom: 0;
         a, span {
-          color: lighten( $skinMainFirstColor, 30% )!important; ;
+          color: lighten( $skinMainFirstColor, 30% )!important;
         }
       }
       h2 {
