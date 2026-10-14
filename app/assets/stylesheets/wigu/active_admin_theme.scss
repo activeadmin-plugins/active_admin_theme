@@ -716,9 +716,14 @@ body.active_admin {
         font-size: 16px;
         margin: 0;
         min-width: 0;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
+        // Screen only: AA registers the stylesheet with media "all", and paper
+        // has no horizontal scroll — a nowrap/ellipsis title would print
+        // truncated at the page edge where it used to wrap.
+        @media screen {
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
       }
     }
     #titlebar_right {
