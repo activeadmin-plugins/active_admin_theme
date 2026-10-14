@@ -463,7 +463,12 @@ body.active_admin {
     // wrapped menu.
     position: sticky;
     left: 0;
-    width: 100vw;
+    // Viewport width minus the vertical scrollbar (JS-set --scrollbar-width var,
+    // 0 when absent — load wigu/scrollbar_width), capped to the content width.
+    // Plain 100vw includes the scrollbar gutter, which shifts this left-pinned
+    // bar at the far-right scroll position; subtracting it keeps it put. unquote
+    // so Sass emits the min() literally (it can't mix % + vw).
+    width: unquote("min(calc(100vw - var(--scrollbar-width, 0px)), 100%)");
     box-sizing: border-box;
     h1.site_title {
       color: $skinMainSecondColor;
@@ -657,11 +662,37 @@ body.active_admin {
     background-color: $skinTitleBarColor;
     border: none;
     border-bottom: $skinTitleBarBorderWidth solid $skinTitleBarBorderColor;
+    // Pin the whole bar to the viewport like #header, so the title AND the
+    // action buttons stay visible while a wide index table scrolls the page
+    // sideways. width = the viewport (minus the vertical scrollbar via the
+    // JS-set --scrollbar-width var, 0 when absent — load wigu/scrollbar_width to
+    // populate it), capped to the content width so 100vw's scrollbar allowance
+    // can't add a stray horizontal scrollbar. No `top`, so it still scrolls
+    // vertically. unquote so Sass emits the min() literally (it can't mix % + vw).
+    position: sticky;
+    left: 0;
+    width: unquote("min(calc(100vw - var(--scrollbar-width, 0px)), 100%)");
+    box-sizing: border-box;
+    // Lay the title (left) and action items (right) on one compact row. Without
+    // this, resetting #titlebar_right to static (below) stacks it under the
+    // title and the bar grows tall. Fixed height so pages with a breadcrumb
+    // (detail pages) match plain index pages. Drop the base clearfix — in a flex
+    // container it becomes a stray third item that space-between strands right.
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 37px;
+    &::after { display: none; }
     #titlebar_left {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      height: auto;
       span.breadcrumb {
         font-size: 12px;
         text-shadow: none;
-        margin-bottom: 8px;
+        float: none;
+        margin-bottom: 0;
         a, span {
           color: lighten( $skinMainFirstColor, 30% )!important; ;
         }
@@ -672,6 +703,16 @@ body.active_admin {
       }
     }
     #titlebar_right {
+      // Horizontal pinning is handled by #title_bar (sticky + viewport width),
+      // so the action items just sit at the right of the bar. Reset any
+      // consumer `position: absolute/sticky` (each app used to pin the buttons
+      // itself via a local scroll_buttons_init.scss / title_bar override).
+      position: static;
+      right: auto;
+      top: auto;
+      // Shrink to the action-items height (some apps/base leave it ~50px, taller
+      // than the 37px bar, so centering pushed it over the top edge).
+      height: auto;
       // `> a` and `> .dropdown_menu > a`: an action item may hold a dropdown, and
       // a descendant selector here paints its menu entries with the button fill
       // too — with !important, so the entry rules below cannot undo it.
