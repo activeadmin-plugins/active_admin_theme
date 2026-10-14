@@ -696,9 +696,16 @@ body.active_admin {
           color: lighten( $skinMainFirstColor, 30% )!important;
         }
       }
+      // Own a sensible title size so consumer apps don't each shrink AA's large
+      // default (which towered over the breadcrumb). margin:0 + the flex parent
+      // centre it on the breadcrumb's line; nowrap keeps a long record title
+      // (show pages) from wrapping the bar.
       h2 {
         color: #ffffff;
         text-shadow: none;
+        font-size: 16px;
+        margin: 0;
+        white-space: nowrap;
       }
     }
     #titlebar_right {
@@ -712,6 +719,9 @@ body.active_admin {
       // Shrink to the action-items height (some apps/base leave it ~50px, taller
       // than the 37px bar, so centering pushed it over the top edge).
       height: auto;
+      // Space multiple action items apart (e.g. a Menu dropdown next to a New
+      // button); the base leaves them flush on this side.
+      .action_items > .action_item:not(:last-child):not(:empty) { margin-right: 10px; }
       // `> a` and `> .dropdown_menu > a`: an action item may hold a dropdown, and
       // a descendant selector here paints its menu entries with the button fill
       // too — with !important, so the entry rules below cannot undo it.
@@ -1760,8 +1770,10 @@ input[type='radio'] {
     // the seven :not()s are worth seven class-level points, and that beat every
     // component rule declared later — pagination links and the Clear Filters
     // button came out --aa-link instead of --aa-text.
-    a:where(:not(.button):not(.action_item):not(.table_tools_button):not(.dropdown_menu_button):not(.ui-tabs-anchor):not(.delete_link):not([data-method="delete"])) { color: var(--aa-link); }
-    a[data-method="delete"], a.delete_link { color: var(--aa-delete-link); }
+    a:where(:not(.button):not(.action_item):not(.table_tools_button):not(.dropdown_menu_button):not(.ui-tabs-anchor):not(.delete_link):not(.delete-link):not([data-method="delete"])) { color: var(--aa-link); }
+    // `.delete-link` (hyphen) as well as AA's own `.delete_link`: some apps name
+    // their soft-delete links with the hyphen.
+    a[data-method="delete"], a.delete_link, a.delete-link { color: var(--aa-delete-link); }
 
     // Pagination — non-current page chips use a light-grey bg in the theme
     .pagination span > a { background-color: var(--aa-surface-2); color: var(--aa-text); }
