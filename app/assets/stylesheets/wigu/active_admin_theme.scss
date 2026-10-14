@@ -745,6 +745,10 @@ body.active_admin {
       // `> a` and `> .dropdown_menu > a`: an action item may hold a dropdown, and
       // a descendant selector here paints its menu entries with the button fill
       // too — with !important, so the entry rules below cannot undo it.
+      // A button_to action item renders as a block <form>; inline-block
+      // keeps it on the bar's single row (consumers used to float it, which
+      // collapsed the flex bar's height instead).
+      .action_item > form { display: inline-block; }
       .action_item > a,
       .action_item > .dropdown_menu > a,
       .action_item > form > input[type="submit"],
