@@ -343,6 +343,7 @@ Three things changed shape and are worth knowing if you already set variables:
 | `$skinTitleBarBorderWidth` | `0` |  |
 | `$skinTitleBarButtonPaddingY` | `6px` | action button vertical padding |
 | `$skinTitleBarButtonPaddingX` | `10px` | action button horizontal padding |
+| `$skinTitleBarHeight` | `37px` | minimum bar height; grows to fit content |
 
 #### Panels, tabs and labels
 

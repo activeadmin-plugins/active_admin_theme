@@ -55,6 +55,9 @@ $skinTitleBarBorderColor: $skinMainSecondColor!default;
 $skinTitleBarBorderWidth: 0!default;
 $skinTitleBarButtonPaddingY: 6px!default;          // action button vertical padding
 $skinTitleBarButtonPaddingX: 10px!default;          // action button horizontal padding
+// Minimum bar height — raise it alongside the button paddings above if your
+// buttons outgrow the default band (the bar still grows to fit its content).
+$skinTitleBarHeight: 37px!default;
 
 // Panel/section headers + tabs accent (the blue bar on panel headers and the
 // inactive tabs). $skinPanelHeaderColor is the base/light value;
@@ -683,7 +686,7 @@ body.active_admin {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    min-height: 37px;
+    min-height: $skinTitleBarHeight;
     &::after { display: none; }
     #titlebar_left {
       display: flex;
