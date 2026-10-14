@@ -7,6 +7,13 @@
 // scroll position. Subtracting this variable (0 when there is no scrollbar) sizes
 // them to the visible viewport instead, so they stay put. Optional: the CSS falls
 // back to `var(--scrollbar-width, 0px)` = plain 100vw when this script is absent.
+//
+// The property name is deliberately the bare --scrollbar-width, not --aa-*:
+// consumer apps that already set the same variable with the same semantics from
+// their own legacy script keep working before their manifest is updated, and
+// the theme's CSS picks up either writer. The trade-off is a shared name — an
+// app using --scrollbar-width for something else will collide with this
+// script's inline writes on <html>; load one writer, not both.
 (function () {
   var last;
   function update() {
