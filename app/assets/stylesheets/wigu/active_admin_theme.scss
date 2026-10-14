@@ -796,6 +796,12 @@ body.active_admin {
     }
   }
   .flashes {
+    // Pin like #header/#title_bar: this is the one full-width bar between the
+    // two pinned ones, and on a wide page scrolled right its left-aligned text
+    // would leave the viewport, leaving an unreadable colored stripe. AA puts
+    // all padding/background on the inner .flash, so the always-rendered empty
+    // wrapper stays zero-height and inert on flash-less pages.
+    @include viewport-pinned-bar;
     .flash {
       color: #ffffff;
       background-image: none;
