@@ -21,7 +21,7 @@ ActiveAdmin.register_page "Wide table" do
       }</style>
     HTML
     panel "A table wider than the viewport" do
-      head = "<thead><tr>" + cols.map { |c| "<th>#{c}</th>" }.join + "</tr></thead>"
+      head = "<thead><tr>" + cols.map { |c| "<th>#{ERB::Util.html_escape(c)}</th>" }.join + "</tr></thead>"
       body = rows.map do |row|
         "<tr>" + row.map { |cell| "<td>#{ERB::Util.html_escape(cell)}</td>" }.join + "</tr>"
       end.join
