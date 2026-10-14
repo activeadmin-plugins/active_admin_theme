@@ -674,19 +674,26 @@ body.active_admin {
     @include viewport-pinned-bar;
     // Lay the title (left) and action items (right) on one compact row. Without
     // this, resetting #titlebar_right to static (below) stacks it under the
-    // title and the bar grows tall. Fixed height so pages with a breadcrumb
-    // (detail pages) match plain index pages. Drop the base clearfix — in a flex
-    // container it becomes a stray third item that space-between strands right.
+    // title and the bar grows tall. min-height, NOT height: with a fixed height
+    // the bar cannot contain its content — action items that wrap on a narrow
+    // window would overflow it and paint over the page — while min-height still
+    // makes breadcrumb (detail) pages match plain index pages. Drop the base
+    // clearfix — in a flex container it becomes a stray third item that
+    // space-between strands right.
     display: flex;
     align-items: center;
     justify-content: space-between;
-    height: 37px;
+    min-height: 37px;
     &::after { display: none; }
     #titlebar_left {
       display: flex;
       align-items: center;
       gap: 6px;
       height: auto;
+      // Let the title shrink below its min-content width: flex items refuse to
+      // otherwise, and a long nowrap record title would push the action items
+      // out of the pinned bar — unreachable past the viewport on wide pages.
+      min-width: 0;
       span.breadcrumb {
         font-size: 12px;
         text-shadow: none;
@@ -698,14 +705,18 @@ body.active_admin {
       }
       // Own a sensible title size so consumer apps don't each shrink AA's large
       // default (which towered over the breadcrumb). margin:0 + the flex parent
-      // centre it on the breadcrumb's line; nowrap keeps a long record title
-      // (show pages) from wrapping the bar.
+      // centre it on the breadcrumb's line; nowrap + ellipsis keep a long
+      // record title (show pages) on one line without pushing the action
+      // items out of the bar — min-width: 0 lets it actually shrink.
       h2 {
         color: #ffffff;
         text-shadow: none;
         font-size: 16px;
         margin: 0;
+        min-width: 0;
         white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
     }
     #titlebar_right {
