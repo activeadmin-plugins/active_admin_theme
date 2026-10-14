@@ -13,11 +13,14 @@
     document.documentElement.style.setProperty("--scrollbar-width", (w > 0 ? w : 0) + "px");
   }
   window.addEventListener("resize", update);
-  document.addEventListener("DOMContentLoaded", function () {
-    update();
-    // The presence of a vertical scrollbar can change after load (content grows/
-    // shrinks) without firing resize — watch the body's box too.
-    if (window.ResizeObserver) { new ResizeObserver(update).observe(document.body); }
-  });
+  // The presence of a vertical scrollbar can change after load (content grows/
+  // shrinks) without firing resize. Observe the root element, not <body>:
+  // documentElement exists at parse time (no DOMContentLoaded gate, so
+  // deferred/async loading works) and survives Turbo/Turbolinks body swaps,
+  // where a body observer would keep watching a detached node. Content growth
+  // resizes the root's client box too — exactly when the scrollbar toggles.
+  if (window.ResizeObserver) {
+    new ResizeObserver(update).observe(document.documentElement);
+  }
   update();
 })();
