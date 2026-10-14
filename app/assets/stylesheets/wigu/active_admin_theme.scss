@@ -1352,6 +1352,19 @@ table.index_table thead th a {
   color: var(--aa-table-header-text) !important;
 }
 
+// Sticky table headers: keep the column labels visible while a long index table
+// scrolls vertically. The header/title bar pin only horizontally (no `top`), so
+// they scroll away on vertical scroll and this thead pins to the viewport top —
+// no overlap. Scoped to .paginated_collection so it only hits real AA index
+// listings, not custom report/dashboard tables. Opt a listing out with
+// .skip-sticky-headers; opt a non-index table_for in with .with-sticky-headers.
+.paginated_collection table.index_table:not(.skip-sticky-headers) thead tr th,
+table.with-sticky-headers thead tr th {
+  position: sticky;
+  top: -1px;
+  z-index: 98;
+}
+
 // Form section header: a <legend> interrupts the fieldset's top border, so the
 // header bar has no border around it (unlike a panel header). Float the legend
 // so it flows as a normal block and the fieldset border wraps around it.
