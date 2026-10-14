@@ -1391,8 +1391,12 @@ table.index_table thead th a {
 // with one CSS line in your own stylesheet:
 //   .paginated_collection table.index_table thead tr th { position: static; }
 // Opt a hand-built table IN with .with-sticky-headers.
-.paginated_collection table.index_table:not(.skip-sticky-headers) thead tr th,
-table.with-sticky-headers thead tr th {
+// tr:first-child only: with a multi-row thead (group header over column
+// header) every row would stick at the same offset and paint over each other —
+// per-row offsets need measurements CSS alone can't express. The first row
+// pins; any further header rows scroll away normally.
+.paginated_collection table.index_table:not(.skip-sticky-headers) thead tr:first-child th,
+table.with-sticky-headers thead tr:first-child th {
   position: sticky;
   top: -1px;
   z-index: 98;
@@ -1402,10 +1406,10 @@ table.with-sticky-headers thead tr th {
 // rows scrolling beneath flicker through the ~3px notches. At rest the square
 // background overpaints the border's rounding by the same ~3px — the lesser,
 // static artifact (CSS cannot tell "stuck" from "at rest").
-.paginated_collection table.index_table:not(.skip-sticky-headers) thead tr th:first-child,
-table.with-sticky-headers thead tr th:first-child { border-top-left-radius: 0; }
-.paginated_collection table.index_table:not(.skip-sticky-headers) thead tr th:last-child,
-table.with-sticky-headers thead tr th:last-child { border-top-right-radius: 0; }
+.paginated_collection table.index_table:not(.skip-sticky-headers) thead tr:first-child th:first-child,
+table.with-sticky-headers thead tr:first-child th:first-child { border-top-left-radius: 0; }
+.paginated_collection table.index_table:not(.skip-sticky-headers) thead tr:first-child th:last-child,
+table.with-sticky-headers thead tr:first-child th:last-child { border-top-right-radius: 0; }
 
 // Form section header: a <legend> interrupts the fieldset's top border, so the
 // header bar has no border around it (unlike a panel header). Float the legend
