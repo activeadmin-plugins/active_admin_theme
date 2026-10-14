@@ -261,9 +261,7 @@ import "@activeadmin-plugins/active_admin_theme/src/scrollbar_width";
 ```
 
 Without the script the CSS falls back to plain `100vw` — nothing breaks, you
-just keep the small far-right shift. If your app already sets a
-`--scrollbar-width` variable from its own script, the theme picks it up; load
-one writer, not both.
+just keep the small far-right shift.
 
 Index-table column headers also stick to the viewport top while a long listing
 scrolls vertically. This is on by default for ActiveAdmin index tables. AA 3.x
@@ -277,6 +275,9 @@ app-wide with one line in your stylesheet:
 For tables whose markup you render yourself, `skip-sticky-headers` on an
 `index_table` opts out, and `with-sticky-headers` opts any hand-built table in
 (single-row theads: only the first header row pins).
+
+`//= require wigu/all` pulls all four shipped scripts at once; each stays
+individually requirable.
 
 ### Trix / ActionText editor
 
