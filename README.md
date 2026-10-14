@@ -243,6 +243,41 @@ It uses jQuery, which ActiveAdmin already loads.
 
 [![Crisscross cell highlighting](./img/crisscross-light.png)](./img/crisscross-light.png)
 
+### Pinned bars and sticky table headers
+
+On pages with a table wider than the viewport the whole page scrolls sideways;
+the theme pins `#header`, `#title_bar` (title and action buttons) and the flash
+bar to the visible viewport so they stay put. The bars are sized with `100vw`,
+which includes the vertical scrollbar gutter — load the shipped
+`scrollbar_width.js` to subtract it, or the bars sit ~15px past the visible
+viewport at the far-right scroll position:
+
+```js
+// app/assets/javascripts/active_admin.js
+//= require wigu/scrollbar_width
+
+// or, as an npm module
+import "@activeadmin-plugins/active_admin_theme/src/scrollbar_width";
+```
+
+Without the script the CSS falls back to plain `100vw` — nothing breaks, you
+just keep the small far-right shift. If your app already sets a
+`--scrollbar-width` variable from its own script, the theme picks it up; load
+one writer, not both.
+
+Index-table column headers also stick to the viewport top while a long listing
+scrolls vertically. This is on by default for ActiveAdmin index tables. AA 3.x
+hardcodes the index table's classes (`index class:` is ignored), so opt out
+app-wide with one line in your stylesheet:
+
+```scss
+.paginated_collection table.index_table thead tr th { position: static; }
+```
+
+For tables whose markup you render yourself, `skip-sticky-headers` on an
+`index_table` opts out, and `with-sticky-headers` opts any hand-built table in
+(single-row theads: only the first header row pins).
+
 ### Trix / ActionText editor
 
 Trix ships with ActionText (a Rails built-in), so any ActiveAdmin app can have a
@@ -343,6 +378,7 @@ Three things changed shape and are worth knowing if you already set variables:
 | `$skinTitleBarBorderWidth` | `0` |  |
 | `$skinTitleBarButtonPaddingY` | `6px` | action button vertical padding |
 | `$skinTitleBarButtonPaddingX` | `10px` | action button horizontal padding |
+| `$skinTitleBarHeight` | `37px` | minimum bar height; grows to fit content |
 
 #### Panels, tabs and labels
 

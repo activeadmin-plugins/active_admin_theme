@@ -55,6 +55,9 @@ $skinTitleBarBorderColor: $skinMainSecondColor!default;
 $skinTitleBarBorderWidth: 0!default;
 $skinTitleBarButtonPaddingY: 6px!default;          // action button vertical padding
 $skinTitleBarButtonPaddingX: 10px!default;          // action button horizontal padding
+// Minimum bar height — raise it alongside the button paddings above if your
+// buttons outgrow the default band (the bar still grows to fit its content).
+$skinTitleBarHeight: 37px!default;
 
 // Panel/section headers + tabs accent (the blue bar on panel headers and the
 // inactive tabs). $skinPanelHeaderColor is the base/light value;
@@ -380,6 +383,23 @@ $logout-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' 
 html {
   background: var(--aa-page-bg);
 }
+
+// Pin a bar (#header, #title_bar) to the viewport's left edge at the visible
+// viewport width while a wide index table scrolls the whole page sideways
+// (#wrapper is display:table, min-width:100%). width = 100vw minus the vertical
+// scrollbar — the JS-set --scrollbar-width var (0 when wigu/scrollbar_width is
+// absent, and then max-width:100% keeps 100vw's scrollbar allowance from adding a
+// stray horizontal scrollbar). It's a plain max-width, not min(…, 100%):
+// sassc/libsass evaluates the Sass min() function and rejects calc() as a
+// non-number. No `top`, so the bar still scrolls vertically.
+@mixin viewport-pinned-bar {
+  position: sticky;
+  left: 0;
+  width: calc(100vw - var(--scrollbar-width, 0px));
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
 body.active_admin {
   background: var(--aa-page-bg);
 }
@@ -455,16 +475,11 @@ body.active_admin {
     text-shadow: none;
     background-image: none;
 
-    // A wide index table scrolls the WHOLE page sideways (#wrapper is
-    // display:table, min-width:100%). Keep the header pinned on screen and at the
-    // viewport width while that happens, so it doesn't stretch to the table's
-    // width (which spread the menu out under the utility nav and overlapped it).
-    // The header keeps ActiveAdmin's natural layout, so it still grows to fit a
-    // wrapped menu.
-    position: sticky;
-    left: 0;
-    width: 100vw;
-    box-sizing: border-box;
+    // A wide index table scrolls the WHOLE page sideways. Pin the header on
+    // screen at the viewport width so it doesn't stretch to the table's width
+    // (which spread the menu out under the utility nav and overlapped it); it
+    // still grows to fit a wrapped menu, ActiveAdmin's natural layout.
+    @include viewport-pinned-bar;
     h1.site_title {
       color: $skinMainSecondColor;
       font-size: 16px;
@@ -657,21 +672,72 @@ body.active_admin {
     background-color: $skinTitleBarColor;
     border: none;
     border-bottom: $skinTitleBarBorderWidth solid $skinTitleBarBorderColor;
+    // Pin the whole bar to the viewport like #header, so the title AND the action
+    // buttons stay visible while a wide index table scrolls the page sideways.
+    @include viewport-pinned-bar;
+    // Lay the title (left) and action items (right) on one compact row. Without
+    // this, resetting #titlebar_right to static (below) stacks it under the
+    // title and the bar grows tall. min-height, NOT height: with a fixed height
+    // the bar cannot contain its content — action items that wrap on a narrow
+    // window would overflow it and paint over the page — while min-height still
+    // makes breadcrumb (detail) pages match plain index pages. Drop the base
+    // clearfix — in a flex container it becomes a stray third item that
+    // space-between strands right.
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: $skinTitleBarHeight;
+    &::after { display: none; }
     #titlebar_left {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      height: auto;
+      // Let the title shrink below its min-content width: flex items refuse to
+      // otherwise, and a long nowrap record title would push the action items
+      // out of the pinned bar — unreachable past the viewport on wide pages.
+      min-width: 0;
       span.breadcrumb {
         font-size: 12px;
         text-shadow: none;
-        margin-bottom: 8px;
+        margin-bottom: 0;
         a, span {
-          color: lighten( $skinMainFirstColor, 30% )!important; ;
+          color: lighten( $skinMainFirstColor, 30% )!important;
         }
       }
+      // Own a sensible title size so consumer apps don't each shrink AA's large
+      // default (which towered over the breadcrumb). margin:0 + the flex parent
+      // centre it on the breadcrumb's line; nowrap + ellipsis keep a long
+      // record title (show pages) on one line without pushing the action
+      // items out of the bar — min-width: 0 lets it actually shrink.
       h2 {
         color: #ffffff;
         text-shadow: none;
+        font-size: 16px;
+        margin: 0;
+        min-width: 0;
+        // Screen only: AA registers the stylesheet with media "all", and paper
+        // has no horizontal scroll — a nowrap/ellipsis title would print
+        // truncated at the page edge where it used to wrap.
+        @media screen {
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
       }
     }
     #titlebar_right {
+      // Horizontal pinning is handled by #title_bar (sticky + viewport width),
+      // so the action items just sit at the right of the bar. Reset any
+      // consumer `position: absolute/sticky` (each app used to pin the buttons
+      // itself via local stylesheet overrides).
+      position: static;
+      // Shrink to the action-items height (some apps/base leave it ~50px, taller
+      // than the 37px bar, so centering pushed it over the top edge).
+      height: auto;
+      // Space multiple action items apart (e.g. a Menu dropdown next to a New
+      // button); the base leaves them flush on this side.
+      .action_items > .action_item:not(:last-child):not(:empty) { margin-right: 10px; }
       // `> a` and `> .dropdown_menu > a`: an action item may hold a dropdown, and
       // a descendant selector here paints its menu entries with the button fill
       // too — with !important, so the entry rules below cannot undo it.
@@ -730,6 +796,12 @@ body.active_admin {
     }
   }
   .flashes {
+    // Pin like #header/#title_bar: this is the one full-width bar between the
+    // two pinned ones, and on a wide page scrolled right its left-aligned text
+    // would leave the viewport, leaving an unreadable colored stripe. AA puts
+    // all padding/background on the inner .flash, so the always-rendered empty
+    // wrapper stays zero-height and inert on flash-less pages.
+    @include viewport-pinned-bar;
     .flash {
       color: #ffffff;
       background-image: none;
@@ -1307,6 +1379,38 @@ table.index_table thead th a {
   color: var(--aa-table-header-text) !important;
 }
 
+// Sticky table headers: keep the column labels visible while a long index table
+// scrolls vertically. The header/title bar pin only horizontally (no `top`), so
+// they scroll away on vertical scroll and this thead pins to the viewport top —
+// no overlap. Scoped to .paginated_collection so it only hits real AA index
+// listings, not custom report/dashboard tables.
+//
+// Opting out: AA 3.x hardcodes the index table's class attribute and ignores
+// `index class:` options, so .skip-sticky-headers is reachable only on tables
+// whose markup you render yourself. For real AA listings, opt out app-wide
+// with one CSS line in your own stylesheet:
+//   .paginated_collection table.index_table thead tr th { position: static; }
+// Opt a hand-built table IN with .with-sticky-headers.
+// tr:first-child only: with a multi-row thead (group header over column
+// header) every row would stick at the same offset and paint over each other —
+// per-row offsets need measurements CSS alone can't express. The first row
+// pins; any further header rows scroll away normally.
+.paginated_collection table.index_table:not(.skip-sticky-headers) thead tr:first-child th,
+table.with-sticky-headers thead tr:first-child th {
+  position: sticky;
+  top: -1px;
+  z-index: 98;
+}
+// Square the corner cells of sticky theads: their inner-radius top corners are
+// transparent, so once the header detaches from the table's rounded border the
+// rows scrolling beneath flicker through the ~3px notches. At rest the square
+// background overpaints the border's rounding by the same ~3px — the lesser,
+// static artifact (CSS cannot tell "stuck" from "at rest").
+.paginated_collection table.index_table:not(.skip-sticky-headers) thead tr:first-child th:first-child,
+table.with-sticky-headers thead tr:first-child th:first-child { border-top-left-radius: 0; }
+.paginated_collection table.index_table:not(.skip-sticky-headers) thead tr:first-child th:last-child,
+table.with-sticky-headers thead tr:first-child th:last-child { border-top-right-radius: 0; }
+
 // Form section header: a <legend> interrupts the fieldset's top border, so the
 // header bar has no border around it (unlike a panel header). Float the legend
 // so it flows as a normal block and the fieldset border wraps around it.
@@ -1707,8 +1811,10 @@ input[type='radio'] {
     // the seven :not()s are worth seven class-level points, and that beat every
     // component rule declared later — pagination links and the Clear Filters
     // button came out --aa-link instead of --aa-text.
-    a:where(:not(.button):not(.action_item):not(.table_tools_button):not(.dropdown_menu_button):not(.ui-tabs-anchor):not(.delete_link):not([data-method="delete"])) { color: var(--aa-link); }
-    a[data-method="delete"], a.delete_link { color: var(--aa-delete-link); }
+    a:where(:not(.button):not(.action_item):not(.table_tools_button):not(.dropdown_menu_button):not(.ui-tabs-anchor):not(.delete_link):not(.delete-link):not([data-method="delete"])) { color: var(--aa-link); }
+    // `.delete-link` (hyphen) as well as AA's own `.delete_link`: some apps name
+    // their soft-delete links with the hyphen.
+    a[data-method="delete"], a.delete_link, a.delete-link { color: var(--aa-delete-link); }
 
     // Pagination — non-current page chips use a light-grey bg in the theme
     .pagination span > a { background-color: var(--aa-surface-2); color: var(--aa-text); }
