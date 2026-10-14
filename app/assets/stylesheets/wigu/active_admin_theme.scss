@@ -730,7 +730,7 @@ body.active_admin {
       // Horizontal pinning is handled by #title_bar (sticky + viewport width),
       // so the action items just sit at the right of the bar. Reset any
       // consumer `position: absolute/sticky` (each app used to pin the buttons
-      // itself via a local scroll_buttons_init.scss / title_bar override).
+      // itself via local stylesheet overrides).
       position: static;
       // Shrink to the action-items height (some apps/base leave it ~50px, taller
       // than the 37px bar, so centering pushed it over the top edge).
