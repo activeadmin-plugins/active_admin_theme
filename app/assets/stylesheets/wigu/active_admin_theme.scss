@@ -765,6 +765,18 @@ body.active_admin {
       }
       div.dropdown_menu {
         div.dropdown_menu_list_wrapper {
+          // Always right-align title-bar dropdowns, overriding AA's inline
+          // positioning. AA 3.x's _position() sets inline `left` OR `right`
+          // per open depending on a window-geometry branch and never clears
+          // the other, and the wrapper persists across opens — after a resize
+          // between opens both offsets accumulate and the width:auto wrapper
+          // stretches from the stale left coordinate to the right edge.
+          // Title-bar action items sit at the bar's right edge, so pinning
+          // right is also simply the correct alignment. Consumer apps used to
+          // carry exactly this pair as a local hotfix; the theme owns the bar
+          // now, so it owns the guard.
+          left: auto !important;
+          right: 0 !important;
           background-color: var(--aa-elevated);
           border: 1px solid var(--aa-border);
           background-image: none;
