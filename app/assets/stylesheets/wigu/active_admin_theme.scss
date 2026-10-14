@@ -1397,6 +1397,15 @@ table.with-sticky-headers thead tr th {
   top: -1px;
   z-index: 98;
 }
+// Square the corner cells of sticky theads: their inner-radius top corners are
+// transparent, so once the header detaches from the table's rounded border the
+// rows scrolling beneath flicker through the ~3px notches. At rest the square
+// background overpaints the border's rounding by the same ~3px — the lesser,
+// static artifact (CSS cannot tell "stuck" from "at rest").
+.paginated_collection table.index_table:not(.skip-sticky-headers) thead tr th:first-child,
+table.with-sticky-headers thead tr th:first-child { border-top-left-radius: 0; }
+.paginated_collection table.index_table:not(.skip-sticky-headers) thead tr th:last-child,
+table.with-sticky-headers thead tr th:last-child { border-top-right-radius: 0; }
 
 // Form section header: a <legend> interrupts the fieldset's top border, so the
 // header bar has no border around it (unlike a panel header). Float the legend
