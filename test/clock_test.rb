@@ -50,4 +50,17 @@ class ClockTest < Minitest::Test
     assert_equal Time.zone.tzinfo.identifier, data["data-servertime-zone"]
     assert_in_delta Time.now.to_i, data["data-servertime-epoch"].to_i, 60
   end
+
+  def test_sticky_headers_apply_to_the_demo_table
+    visit "/admin/wide_table"
+    assert_selector ".wide-demo thead th", minimum: 12
+    # Computed style, not class presence: a selector typo or an AA DOM rename
+    # would otherwise pass every suite silently — before this test the sticky
+    # rules matched nothing in the repo's own test surface.
+    position = page.evaluate_script(
+      "getComputedStyle(document.querySelector('.wide-demo thead th')).position"
+    )
+    assert_equal "sticky", position,
+                 "the demo table opts in via .with-sticky-headers; its thead should be sticky"
+  end
 end
