@@ -697,7 +697,6 @@ body.active_admin {
       span.breadcrumb {
         font-size: 12px;
         text-shadow: none;
-        float: none;
         margin-bottom: 0;
         a, span {
           color: lighten( $skinMainFirstColor, 30% )!important;
@@ -725,8 +724,6 @@ body.active_admin {
       // consumer `position: absolute/sticky` (each app used to pin the buttons
       // itself via a local scroll_buttons_init.scss / title_bar override).
       position: static;
-      right: auto;
-      top: auto;
       // Shrink to the action-items height (some apps/base leave it ~50px, taller
       // than the 37px bar, so centering pushed it over the top edge).
       height: auto;
