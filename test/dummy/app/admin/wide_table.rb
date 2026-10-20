@@ -4,7 +4,28 @@
 ActiveAdmin.register_page "Wide table" do
   menu priority: 4
 
+  # A bar with several action items, including a dropdown that is NOT the last
+  # one: its panel has to open under its own button. While .dropdown_menu was
+  # unpositioned the panel resolved against #title_bar (sticky) instead and
+  # every menu parked at the bar's right edge, under the wrong button.
+  action_item(:edit_record) { link_to "Edit record", "#" }
+
+  action_item(:actions_menu) do
+    dropdown_menu "Actions" do
+      item "First action", "#"
+      item "Second action", "#"
+      item "Third action", "#"
+    end
+  end
+
   action_item(:new_record) { link_to "New record", "#" }
+
+  action_item(:more_menu) do
+    dropdown_menu "More" do
+      item "Export CSV", "#"
+      item "Export XML", "#"
+    end
+  end
 
   content do
     # Locals, not constants: assignment inside this block is lexically
