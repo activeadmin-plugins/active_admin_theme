@@ -768,17 +768,26 @@ body.active_admin {
         }
       }
       div.dropdown_menu {
+        // Containing block for the panel below, so `right: 0` means "the
+        // trigger's right edge". AA leaves this element unpositioned, which
+        // makes the panel resolve against #title_bar (sticky) and park at the
+        // bar's far right no matter which action item was clicked. inline-block
+        // over AA's `display: inline`: an inline box's containing block spans
+        // its text fragments, so the markup's whitespace around the button
+        // pushed the panel a few px past the button's edge.
+        position: relative;
+        display: inline-block;
         div.dropdown_menu_list_wrapper {
-          // Always right-align title-bar dropdowns, overriding AA's inline
-          // positioning. AA 3.x's _position() sets inline `left` OR `right`
-          // per open depending on a window-geometry branch and never clears
-          // the other, and the wrapper persists across opens — after a resize
-          // between opens both offsets accumulate and the width:auto wrapper
-          // stretches from the stale left coordinate to the right edge.
-          // Title-bar action items sit at the bar's right edge, so pinning
-          // right is also simply the correct alignment. Consumer apps used to
-          // carry exactly this pair as a local hotfix; the theme owns the bar
-          // now, so it owns the guard.
+          // Always right-align title-bar dropdowns under their own button,
+          // overriding AA's inline positioning. AA 3.x's _position() sets
+          // inline `left` OR `right` per open depending on a window-geometry
+          // branch and never clears the other, and the wrapper persists across
+          // opens — after a resize between opens both offsets accumulate and
+          // the width:auto wrapper stretches from the stale left coordinate to
+          // the right edge. Its `right` branch is wrong here anyway: it offsets
+          // from the window, not from the bar. Consumer apps used to carry
+          // exactly this pair as a local hotfix; the theme owns the bar now, so
+          // it owns the guard.
           left: auto !important;
           right: 0 !important;
           background-color: var(--aa-elevated);
@@ -791,6 +800,12 @@ body.active_admin {
           // that is invisible whenever the panel fill is close to the page —
           // which is exactly what a light surface is. Outline it like the panel.
           div.dropdown_menu_nipple {
+            // The panel is pinned right (above) while AA still offsets the
+            // arrow from the panel's LEFT edge by the button's centre, which
+            // lands it on empty bar. Pin it right too, centred on the button's
+            // own caret (AA draws that 6px wide at right: 12px).
+            left: auto !important;
+            right: 9px !important;
             border-color: var(--aa-border) transparent;
             &:before, &:after { border-color: var(--aa-elevated) transparent; }
           }
