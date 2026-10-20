@@ -294,6 +294,38 @@ editor is on the page.
 
 ### Upgrading
 
+#### 3.2.0
+
+The variable contract only grows — `$skinTitleBarHeight` joins it and nothing
+that worked against 3.1.1 stops working — but several defaults now look
+different, and two of them take layout away from the host app:
+
+* `#header`, `#title_bar` and the flash bar are pinned to the visible viewport,
+  so they stay put while a table wider than the window scrolls the page
+  sideways. Apps that pinned those bars with their own stylesheet should drop
+  those rules: the theme lays the title bar out with flexbox and resets
+  `#titlebar_right` to `position: static`, and a leftover `position:
+  absolute/sticky` fights it. Load `wigu/scrollbar_width` to subtract the
+  scrollbar gutter — see *Pinned bars and sticky table headers*.
+* Index-table column headers stick to the viewport top on every ActiveAdmin
+  index table. One line in your stylesheet opts out app-wide:
+  `.paginated_collection table.index_table thead tr th { position: static; }`.
+* The title bar owns its own metrics now: the record title is 16px, on one line
+  with an ellipsis, instead of ActiveAdmin's large wrapping heading; action
+  items are spaced; the band is `$skinTitleBarHeight` (37px) tall, with
+  `$skinTitleBarButtonPaddingY` / `$skinTitleBarButtonPaddingX` on the buttons.
+  Title-bar dropdown panels right-align under their own button.
+* The utility nav carries the server clock, the theme switch and a logout drawn
+  as a sign-out glyph rather than the word *Logout*. `ActiveAdminTheme
+  .add_current_user = false` drops the added current-user item, and
+  ActiveAdmin's own `config.logout_link_path = nil` drops the logout one.
+
+New and opt-in, nothing to change on upgrade: the Trix / ActionText editor is
+themed in both modes, crisscross cell highlighting (`wigu/table_crisscross`),
+`--aa-datetimepicker-*` bridge variables for the companion datetimepicker, dark
+styling for select2 and tom-select, and `//= require wigu/all` to pull every
+shipped script at once.
+
 #### 3.1.0
 
 * Status tag fills are darker, so the label can be white and still clear 4.5:1 —
