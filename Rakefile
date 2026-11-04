@@ -1,21 +1,23 @@
 require "bundler/gem_tasks"
 
-desc "Compile the theme against ActiveAdmin and check the result"
-task :css do
-  ruby "test/css_check.rb"
+desc "Build the dummy app's Tailwind CSS (npm CLI)"
+task :assets do
+  Dir.chdir("test/dummy") do
+    unless Dir.exist?("node_modules")
+      sh "npm #{ENV['CI'] ? 'ci' : 'install'} --no-audit --no-fund"
+    end
+    sh "npm run build"
+  end
 end
 
-desc "Capybara integration test: the server clock renders + ticks (needs Chrome)"
-task :test do
-  ruby "test/clock_test.rb"
+desc "Smoke test: every demo page renders with the theme (builds CSS first)"
+task test: :assets do
+  Dir["test/*_test.rb"].sort.each { |file| ruby file }
 end
 
-desc "Regenerate the neutral README screenshot img/clock.png (needs Chrome)"
+desc "Regenerate the README screenshot img/clock.png (needs Chrome)"
 task :screenshot do
   ruby "test/screenshot.rb"
 end
 
-# css only: :test needs the Rails/Capybara stack the Gemfile excludes on
-# Ruby 3.1 (the gem's own minimum) plus a local Chrome. Run `rake test`
-# explicitly where both are available; CI names its tasks per job anyway.
-task default: :css
+task default: :test

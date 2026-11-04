@@ -1,0 +1,14 @@
+{
+  "name": "active_admin_theme_dummy",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@activeadmin/activeadmin": "4.0.0-beta23",
+    "@tailwindcss/cli": "^4.1.0",
+    "tailwindcss": "^4.1.0"
+  },
+  "scripts": {
+    "build": "tailwindcss -i ./app/tailwind/active_admin.css -o ./app/assets/builds/active_admin.css",
+    "watch": "tailwindcss -i ./app/tailwind/active_admin.css -o ./app/assets/builds/active_admin.css --watch"
+  }
+}

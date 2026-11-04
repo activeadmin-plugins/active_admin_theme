@@ -2,7 +2,7 @@
 # table_crisscross.js) can be exercised and screenshotted: clicking a cell marks
 # its whole row and column with .selected, which the theme paints.
 ActiveAdmin.register_page "Table" do
-  menu priority: 3
+  menu parent: "Demo pages", priority: 3
 
   ROWS = [
     %w[101 Ada\ Lovelace ada@example.com UK Active],

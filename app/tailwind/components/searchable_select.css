@@ -1,0 +1,266 @@
+/*
+ * searchable_select: Tom Select (vendor/javascript/tom-select.js) themed with
+ * the --aat-* tokens. Loaded only by hosts that add the JS module; the rules
+ * match nothing otherwise.
+ */
+.ts-wrapper {
+  position: relative;
+  width: 100%;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  color: var(--aat-text);
+}
+
+.ts-hidden-accessible {
+  position: absolute !important;
+  width: 1px !important;
+  overflow: hidden !important;
+  padding: 0 !important;
+  border: 0 !important;
+  white-space: nowrap !important;
+  clip: rect(0 0 0 0) !important;
+  clip-path: inset(50%) !important;
+}
+
+.ts-control {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.25rem;
+  width: 100%;
+  min-height: 2.25rem;
+  padding: 0.25rem 2rem 0.25rem 0.75rem;
+  overflow: hidden;
+  border: 1px solid var(--aat-input-border);
+  border-radius: 0.25rem;
+  background-color: var(--aat-input-bg);
+  color: var(--aat-text);
+  cursor: text;
+}
+.ts-wrapper.single .ts-control {
+  cursor: pointer;
+}
+.ts-wrapper.focus .ts-control,
+.ts-wrapper.dropdown-active .ts-control {
+  border-color: var(--aat-accent);
+  box-shadow: 0 0 0 1px var(--aat-accent);
+}
+.ts-wrapper.disabled .ts-control {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+.ts-wrapper.disabled .ts-control * {
+  cursor: not-allowed !important;
+}
+
+/* Caret. */
+.ts-wrapper.single .ts-control::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: 0.75rem;
+  width: 0.5rem;
+  height: 0.5rem;
+  margin-top: -0.35rem;
+  border-right: 2px solid var(--aat-text-muted);
+  border-bottom: 2px solid var(--aat-text-muted);
+  transform: rotate(45deg);
+  pointer-events: none;
+}
+
+/* The inputs inside the control: the form rules for `input` must not box them. */
+.ts-control > input,
+.ts-dropdown .dropdown-input,
+.ts-control .items-placeholder {
+  flex: 1 1 auto;
+  min-width: 4ch;
+  max-width: 100%;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  background: none !important;
+  box-shadow: none !important;
+  outline: none !important;
+  color: inherit;
+  font: inherit;
+}
+.ts-control > input::placeholder,
+.ts-control .items-placeholder::placeholder {
+  color: var(--aat-text-muted);
+  opacity: 1;
+}
+.ts-wrapper.has-items .ts-control > input::placeholder {
+  color: transparent;
+}
+.ts-wrapper.plugin-dropdown_input.has-items .items-placeholder,
+.ts-wrapper.plugin-dropdown_input.dropdown-active .items-placeholder {
+  display: none !important;
+}
+.ts-wrapper.input-hidden .ts-control > input {
+  position: absolute;
+  left: -10000px;
+  opacity: 0;
+}
+
+/* Selected values. */
+.ts-wrapper.single .ts-control > .item {
+  flex: 0 1 auto;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.ts-wrapper.multi .ts-control > .item {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.0625rem 0.25rem 0.0625rem 0.5rem;
+  border-radius: 0.25rem;
+  background-color: var(--aat-selected-row);
+  color: var(--aat-text);
+  font-size: 0.8125rem;
+  cursor: pointer;
+}
+.ts-wrapper.multi .ts-control > .item.active {
+  outline: 1px solid var(--aat-accent);
+}
+.ts-wrapper .item .remove {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 0.25rem;
+  padding: 0 0.25rem;
+  border-radius: 0.25rem;
+  color: var(--aat-text-muted);
+  text-decoration: none;
+}
+.ts-wrapper .item .remove:hover {
+  color: var(--aat-text);
+  background-color: var(--aat-surface-hover);
+}
+.ts-wrapper.disabled .item .remove {
+  pointer-events: none;
+}
+
+.ts-wrapper .clear-button {
+  position: absolute;
+  top: 50%;
+  right: 1.75rem;
+  z-index: 2;
+  padding: 0 0.25rem;
+  transform: translateY(-50%);
+  color: var(--aat-text-muted);
+  font-size: 1.125rem;
+  line-height: 1;
+  opacity: 0;
+  cursor: pointer;
+}
+.ts-wrapper.has-items:hover .clear-button,
+.ts-wrapper.has-items.focus .clear-button {
+  opacity: 1;
+}
+.ts-wrapper .clear-button:hover {
+  color: var(--aat-text);
+}
+.ts-wrapper.disabled .clear-button {
+  display: none;
+}
+@media (hover: none) {
+  .ts-wrapper.has-items .clear-button {
+    opacity: 1;
+  }
+}
+
+/* Dropdown. */
+.ts-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 50;
+  width: 100%;
+  margin-top: 0.125rem;
+  overflow: hidden;
+  border: 1px solid var(--aat-input-border);
+  border-radius: 0.25rem;
+  background-color: var(--aat-surface);
+  color: var(--aat-text);
+  box-shadow: 0 4px 12px rgb(0 0 0 / 0.15);
+}
+.ts-dropdown-content {
+  max-height: 16rem;
+  overflow: hidden auto;
+  overscroll-behavior: contain;
+}
+.ts-dropdown .dropdown-input-wrap {
+  padding: 0.375rem;
+  border-bottom: 1px solid var(--aat-border);
+}
+.ts-dropdown .dropdown-input {
+  display: block;
+  width: 100%;
+  padding: 0.25rem 0.5rem !important;
+  border: 1px solid var(--aat-input-border) !important;
+  border-radius: 0.25rem;
+  background-color: var(--aat-input-bg) !important;
+}
+.ts-dropdown .dropdown-input:focus {
+  border-color: var(--aat-accent) !important;
+}
+.ts-dropdown .option,
+.ts-dropdown .no-results,
+.ts-dropdown .loading-more-results,
+.ts-dropdown .no-more-results {
+  padding: 0.375rem 0.75rem;
+}
+.ts-dropdown .option {
+  cursor: pointer;
+  overflow-wrap: anywhere;
+}
+.ts-dropdown .option.active {
+  background-color: var(--aat-surface-hover);
+}
+.ts-dropdown .option.selected {
+  background-color: var(--aat-selected-row);
+}
+.ts-dropdown .no-results,
+.ts-dropdown .loading-more-results,
+.ts-dropdown .no-more-results {
+  color: var(--aat-text-muted);
+}
+.ts-dropdown .spinner {
+  display: block;
+  width: 1.25rem;
+  height: 1.25rem;
+  margin: 0.5rem auto;
+}
+.ts-dropdown .spinner::after {
+  content: "";
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 2px solid var(--aat-input-border);
+  border-top-color: var(--aat-accent);
+  border-radius: 50%;
+  animation: aat-searchable-select-spin 0.8s linear infinite;
+}
+@keyframes aat-searchable-select-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Touch screens: larger targets, and 16px text so iOS does not zoom on focus. */
+@media (max-width: 767px) {
+  .ts-control {
+    min-height: 2.5rem;
+  }
+  .ts-control > input,
+  .ts-dropdown .dropdown-input,
+  .ts-control .items-placeholder {
+    font-size: 1rem;
+  }
+  .ts-dropdown .option {
+    padding: 0.5rem 0.75rem;
+  }
+}

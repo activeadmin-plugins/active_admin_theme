@@ -1,0 +1,9 @@
+/* truncate_text: one line, cut with an ellipsis at --aat-truncate-width. */
+.aat-truncate {
+  display: inline-block;
+  max-width: var(--aat-truncate-width, 20rem);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  vertical-align: bottom;
+}

@@ -1,0 +1,5 @@
+@import "tailwindcss";
+
+@config "../../tailwind-active_admin.config.js";
+
+@import "../../../../app/tailwind/active_admin_theme.css";

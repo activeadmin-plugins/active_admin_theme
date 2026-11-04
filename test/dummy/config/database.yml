@@ -1,7 +1,8 @@
-# In-memory SQLite for every env — there is no schema to persist.
+# A file, rebuilt at every boot by config/environment.rb. Not ":memory:":
+# each Puma thread would get its own empty in-memory database.
 default: &default
   adapter: sqlite3
-  database: ":memory:"
+  database: tmp/dummy.sqlite3
 
 development:
   <<: *default

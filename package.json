@@ -1,8 +1,12 @@
 {
   "name": "@activeadmin-plugins/active_admin_theme",
-  "version": "3.2.1",
-  "description": "Flat design for ActiveAdmin",
-  "main": "src/active_admin_theme.scss",
+  "version": "4.0.0-pre",
+  "description": "Dense desktop theme and shared components for ActiveAdmin 4",
+  "type": "module",
+  "exports": {
+    "./css": "./app/tailwind/active_admin_theme.css",
+    "./*": "./app/javascript/active_admin_theme/*.js"
+  },
   "author": "Igor Fedoronchuk <igor.f@didww.com>",
   "license": "MIT",
   "private": false,
@@ -20,9 +24,10 @@
     "theme"
   ],
   "files": [
-    "src/**/*"
+    "app/tailwind",
+    "app/javascript"
   ],
-  "scripts": {
-    "prepare": "node -e \"const fs=require('fs');fs.rmSync('src',{recursive:true,force:true});fs.cpSync('app/assets/stylesheets/wigu','src',{recursive:true});for(const f of fs.readdirSync('app/assets/javascripts/wigu'))fs.copyFileSync('app/assets/javascripts/wigu/'+f,'src/'+f)\""
+  "peerDependencies": {
+    "@activeadmin/activeadmin": ">=4.0.0-beta23"
   }
 }

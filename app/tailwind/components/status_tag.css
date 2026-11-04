@@ -1,0 +1,48 @@
+/*
+ * status_tag colors. Each tag takes `--aat-status-color` and tints its
+ * background and text from it. ok, warning, error, info and empty are defined
+ * here on :root; the theme also reads `--aat-status-<value>` for any other value
+ * (see lib/active_admin_theme/views/status_tag.rb). A host overrides any of
+ * them in its own CSS.
+ */
+:root {
+  --aat-status-ok: #2563eb;
+  --aat-status-warning: #ea580c;
+  --aat-status-error: #dc2626;
+  --aat-status-info: #0891b2;
+  --aat-status-empty: #6b7280;
+}
+
+.status-tag[data-status="ok"] {
+  --aat-status-color: var(--aat-status-ok);
+}
+.status-tag[data-status="warning"] {
+  --aat-status-color: var(--aat-status-warning);
+}
+.status-tag[data-status="error"] {
+  --aat-status-color: var(--aat-status-error);
+}
+.status-tag[data-status="info"] {
+  --aat-status-color: var(--aat-status-info);
+}
+.status-tag[data-status="empty"] {
+  --aat-status-color: var(--aat-status-empty);
+}
+
+/*
+ * A tag whose color is undefined (a custom status the host did not style)
+ * falls back to ActiveAdmin's default gray: the var() chain is invalid, so
+ * the outer fallback applies.
+ */
+.status-tag:is([data-status="ok"], [data-status="warning"], [data-status="error"], [data-status="info"], [data-status="empty"], .aat-status) {
+  --aat-status-bg: color-mix(in srgb, var(--aat-status-color) 18%, transparent);
+  --aat-status-fg: color-mix(in srgb, var(--aat-status-color) 70%, black);
+  background-color: var(--aat-status-bg, var(--color-gray-200));
+  color: var(--aat-status-fg, var(--color-gray-600));
+}
+.dark .status-tag:is([data-status="ok"], [data-status="warning"], [data-status="error"], [data-status="info"], [data-status="empty"], .aat-status) {
+  --aat-status-bg: color-mix(in srgb, var(--aat-status-color) 25%, transparent);
+  --aat-status-fg: color-mix(in srgb, var(--aat-status-color) 60%, white);
+  background-color: var(--aat-status-bg, color-mix(in oklab, var(--color-gray-400) 20%, transparent));
+  color: var(--aat-status-fg, var(--color-gray-400));
+}

@@ -1,0 +1,9 @@
+/* pre_wrap: keeps line breaks, wraps lines that do not fit. */
+.aat-pre-wrap {
+  max-width: 100%;
+  margin: 0;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.8125rem;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
