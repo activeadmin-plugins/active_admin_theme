@@ -1,0 +1,13 @@
+<% breadcrumb_links = build_breadcrumb_links(request.path, class: "no-underline text-(--aat-text-muted) hover:text-(--aat-text)") %>
+<% if breadcrumb_links.present? %>
+  <nav aria-label="breadcrumb">
+    <ol class="flex flex-wrap items-center gap-x-1 text-xs text-(--aat-text-muted)">
+      <% breadcrumb_links.each_with_index do |link, index| %>
+        <li class="inline-flex items-center gap-1">
+          <% if index > 0 %><span aria-hidden="true">/</span><% end %>
+          <%= link %>
+        </li>
+      <% end %>
+    </ol>
+  </nav>
+<% end %>

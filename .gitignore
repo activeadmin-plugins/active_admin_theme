@@ -3,3 +3,7 @@
 /src/
 /test/dummy/tmp/
 /test/dummy/log/
+/test/dummy/node_modules/
+/test/dummy/app/assets/builds/*
+!/test/dummy/app/assets/builds/.keep
+/tmp/

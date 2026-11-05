@@ -1,0 +1,28 @@
+<div class="grow md:hidden"></div>
+
+  <div class="flex items-center gap-2 text-sm">
+    <% if current_active_admin_user? %>
+      <% now = Time.current %>
+      <% zone = Time.zone %>
+      <div id="server-clock" data-server-clock class="hidden sm:flex flex-col items-end leading-none text-[11px] tabular-nums">
+        <span data-servertime data-servertime-epoch="<%= now.to_i %>" <%= %(data-servertime-zone="#{zone.tzinfo.identifier}").html_safe if zone %>>
+          <span class="clock-time block font-medium"><%= now.strftime("%H:%M:%S %Z") %></span>
+          <span class="clock-date block opacity-70"><%= now.strftime("%Y %b %d") %></span>
+        </span>
+      </div>
+    <% end %>
+
+    <button type="button" class="dark-mode-toggle inline-flex items-center justify-center w-8 h-8 opacity-80 hover:opacity-100" aria-label="<%= t('active_admin.toggle_dark_mode') %>">
+      <svg class="hidden dark:block w-4 h-4 rtl:-scale-x-100" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 20"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.509 5.75c0-1.493.394-2.96 1.144-4.25h-.081a8.5 8.5 0 1 0 7.356 12.746A8.5 8.5 0 0 1 8.509 5.75Z"/></svg>
+      <svg class="dark:hidden w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 3V1m0 18v-2M5.05 5.05 3.636 3.636m12.728 12.728L14.95 14.95M3 10H1m18 0h-2M5.05 14.95l-1.414 1.414M16.364 3.636 14.95 5.05M14 10a4 4 0 1 1-8 0 4 4 0 0 1 8 0Z"/></svg>
+    </button>
+
+    <% if current_active_admin_user? %>
+      <span data-test-current-user class="hidden sm:inline whitespace-nowrap"><%= auto_link current_active_admin_user, class: "no-underline text-inherit hover:underline" %></span>
+      <% if (logout_path = auto_logout_link_path) %>
+        <%= link_to logout_path, class: "aat-logout inline-flex items-center justify-center w-8 h-8 opacity-80 hover:opacity-100", title: I18n.t("active_admin.logout"), "aria-label": I18n.t("active_admin.logout"), data: { method: :delete } do %>
+          <svg class="w-4 h-4 rtl:-scale-x-100" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg>
+        <% end %>
+      <% end %>
+    <% end %>
+  </div>

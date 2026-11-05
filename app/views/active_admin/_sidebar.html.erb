@@ -1,0 +1,5 @@
+<% unless skip_sidebar? || sidebar_sections_for_action.blank? %>
+  <aside data-aat-sidebar class="min-w-0 space-y-4 md:in-data-aat-sidebar-collapsed:hidden">
+    <%= render "active_admin/shared/sidebar_sections" %>
+  </aside>
+<% end %>

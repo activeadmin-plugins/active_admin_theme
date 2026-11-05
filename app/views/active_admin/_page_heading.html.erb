@@ -1,0 +1,12 @@
+<% has_sidebar = !(skip_sidebar? || sidebar_sections_for_action.blank?) %>
+<div class="min-w-0 flex items-center gap-2">
+  <% if has_sidebar %>
+    <button type="button" data-aat-sidebar-toggle class="hidden md:inline-flex items-center justify-center w-7 h-7 rounded text-(--aat-text-muted) hover:bg-(--aat-surface-2)" aria-label="<%= t('active_admin.sidebars.filters', default: 'Filters') %>" aria-expanded="true">
+      <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4h18l-7 8.5V20l-4-2v-5.5z"/></svg>
+    </button>
+  <% end %>
+  <div class="min-w-0 leading-tight">
+    <%= render "active_admin/breadcrumbs" %>
+    <%= render "active_admin/page_title", title: title %>
+  </div>
+</div>

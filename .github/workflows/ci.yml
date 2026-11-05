@@ -6,28 +6,21 @@ on:
   pull_request:
 
 jobs:
-  css:
+  test:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
-        ruby: ['3.1', '3.4']
+        ruby: ['3.3', '3.4']
     steps:
       - uses: actions/checkout@v4
       - uses: ruby/setup-ruby@v1
         with:
           ruby-version: ${{ matrix.ruby }}
           bundler-cache: true
-      - run: bundle exec rake css
-
-  # Capybara integration test for the utility-nav server clock. Needs headless
-  # Chrome (preinstalled on ubuntu-latest) and Rails 8 (Ruby >= 3.2).
-  test:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: ruby/setup-ruby@v1
+      - uses: actions/setup-node@v4
         with:
-          ruby-version: '3.4'
-          bundler-cache: true
+          node-version: 22
+          cache: npm
+          cache-dependency-path: test/dummy/package-lock.json
       - run: bundle exec rake test

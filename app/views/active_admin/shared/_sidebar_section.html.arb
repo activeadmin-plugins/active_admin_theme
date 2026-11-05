@@ -1,0 +1,10 @@
+# Sidebar content sits in a panel with the section's title, as in ActiveAdmin 3.
+title = I18n.t("active_admin.sidebars.#{section.name.to_s.parameterize(separator: '_')}", default: section.name.to_s.titlecase)
+panel(title) do
+  if section.block
+    result = instance_exec(&section.block)
+    text_node result unless result.is_a?(Arbre::Element)
+  else
+    render(section.partial_name)
+  end
+end

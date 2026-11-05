@@ -1,0 +1,143 @@
+/* confirm_dialog (Flowbite modal; Flowbite toggles the .flex class and aria-hidden) */
+.aat-confirm {
+  display: contents;
+}
+.aat-confirm-modal {
+  --aat-confirm-danger: #c0392b;
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  padding: 0.75rem;
+  overflow-y: auto;
+}
+.dark .aat-confirm-modal {
+  --aat-confirm-danger: #f0867d;
+}
+.aat-confirm-modal.flex {
+  display: flex;
+}
+.aat-confirm-modal:focus {
+  outline: none;
+}
+
+/* The backdrop is built by Flowbite with utility classes the host's Tailwind build may not emit. */
+body:has(.aat-confirm-modal.flex) > div[class*="bg-gray-900/50"] {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  background-color: rgb(0 0 0 / 0.5);
+}
+.dark body:has(.aat-confirm-modal.flex) > div[class*="bg-gray-900/50"],
+body.dark:has(.aat-confirm-modal.flex) > div[class*="bg-gray-900/50"] {
+  background-color: rgb(0 0 0 / 0.7);
+}
+
+.aat-confirm-panel {
+  margin: auto;
+  width: 100%;
+  max-width: 28rem;
+  padding: 1rem;
+  color: var(--aat-text);
+  background-color: var(--aat-surface);
+  border: 1px solid var(--aat-border);
+  border-radius: 0.375rem;
+  box-shadow: 0 10px 30px rgb(0 0 0 / 0.25);
+}
+.aat-confirm-title {
+  margin: 0 0 0.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+}
+.aat-confirm-message {
+  margin: 0 0 0.75rem;
+  font-size: 0.875rem;
+  color: var(--aat-text-muted);
+  overflow-wrap: anywhere;
+}
+.aat-confirm-field {
+  margin-bottom: 0.625rem;
+}
+.aat-confirm-label {
+  display: block;
+  margin-bottom: 0.125rem;
+  font-size: 0.75rem;
+  color: var(--aat-text-muted);
+}
+.aat-confirm-check {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+}
+.aat-confirm-field[data-required] > .aat-confirm-label::after,
+.aat-confirm-field[data-required] > .aat-confirm-check > span::after {
+  content: " *";
+  color: var(--aat-confirm-danger);
+}
+.aat-confirm-input {
+  display: block;
+  width: 100%;
+  padding: 0.375rem 0.5rem;
+  font-size: 1rem;
+  color: var(--aat-text);
+  background-color: var(--aat-input-bg);
+  border: 1px solid var(--aat-input-border);
+  border-radius: 0.25rem;
+}
+.aat-confirm-input[aria-invalid="true"] {
+  border-color: var(--aat-confirm-danger);
+}
+.aat-confirm-trigger:focus-visible,
+.aat-confirm-input:focus-visible,
+.aat-confirm-check input:focus-visible,
+.aat-confirm-cancel:focus-visible,
+.aat-confirm-submit:focus-visible {
+  outline: 2px solid var(--aat-accent);
+  outline-offset: 2px;
+}
+
+.aat-confirm-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+.aat-confirm-trigger,
+.aat-confirm-cancel,
+.aat-confirm-submit {
+  padding: 0.375rem 0.75rem;
+  font-size: 0.8125rem;
+  line-height: 1.25rem;
+  border-radius: 0.25rem;
+  cursor: pointer;
+}
+.aat-confirm-trigger,
+.aat-confirm-submit {
+  color: var(--aat-button-text);
+  background-color: var(--aat-button);
+  border: 1px solid transparent;
+}
+.aat-confirm-trigger:hover,
+.aat-confirm-submit:hover {
+  filter: brightness(1.12);
+}
+.aat-confirm-cancel {
+  color: var(--aat-text);
+  background-color: var(--aat-surface-2);
+  border: 1px solid var(--aat-border);
+}
+.aat-confirm-cancel:hover {
+  background-color: var(--aat-surface-hover);
+}
+
+@media (width < 30rem) {
+  .aat-confirm-actions {
+    flex-direction: column-reverse;
+  }
+  .aat-confirm-cancel,
+  .aat-confirm-submit {
+    width: 100%;
+    min-height: 2.5rem;
+  }
+}

@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="<%= I18n.locale %>">
+<head>
+  <title><%= html_head_site_title %></title>
+  <%= render "active_admin/html_head" %>
+</head>
+<body class="bg-(--aat-page-bg) text-(--aat-text) antialiased">
+  <%= render "active_admin/site_header", title: site_title %>
+  <%= render "active_admin/main_navigation" %>
+  <div class="pt-10">
+    <%= render "active_admin/page_header", title: @page_title || page_title %>
+    <%= render "active_admin/flash_messages" %>
+    <%= render "active_admin/page_content" %>
+    <%= render "active_admin/site_footer" %>
+  </div>
+</body>
+</html>

@@ -1,0 +1,299 @@
+/*
+ * Theme CSS, imported by the host's Tailwind entry file after
+ * `@import "tailwindcss"`. Colors are custom properties (`--aat-*`) with a
+ * light value on :root and a dark value under .dark (ActiveAdmin's dark mode).
+ * A host overrides any of them in its own CSS.
+ */
+
+@import "./components/confirm_dialog.css";
+@import "./components/status_tag.css";
+@import "./components/truncate_text.css";
+@import "./components/secret_reveal.css";
+@import "./components/pre_wrap.css";
+@import "./components/searchable_select.css";
+
+/*
+ * ActiveAdmin releases with the layout hooks (activeadmin/activeadmin#9149 to
+ * #9152) render their own site header, page header and drawer menu. These rules
+ * give those the theme's look; the theme's compat copies for older releases
+ * already carry it.
+ */
+@custom-variant aa-menu (@media not all);
+
+:root {
+  --aa-header-height: 2.5rem;
+  --active-admin-theme: 4;
+  --aat-page-bg: #f7f9fb;
+  --aat-surface: #ffffff;
+  --aat-surface-2: #f0f2f5;
+  --aat-surface-hover: #f5f7fa;
+  --aat-selected-row: #d9e4ec;
+  --aat-text: #323537;
+  --aat-text-muted: #6b7177;
+  --aat-border: #e0e4e9;
+  --aat-input-bg: #ffffff;
+  --aat-input-border: #c9ced4;
+  --aat-accent: #5ea3d3;
+  --aat-link: #38678b;
+  --aat-button: #25607f;
+  --aat-button-text: #ffffff;
+  --aat-header-bg: #23282f;
+  --aat-header-text: #dfe2e6;
+  --aat-menu-pill: #2e3236;
+  --aat-menu-panel: #2e3236;
+  --aat-menu-text: #dfe2e6;
+  --aat-menu-item-hover: #3f454c;
+  --aat-menu-hover-text: #6cb0de;
+}
+
+.dark {
+  --aat-page-bg: #161a1e;
+  --aat-surface: #25292f;
+  --aat-surface-2: #2c3137;
+  --aat-surface-hover: #3f454d;
+  --aat-selected-row: #304457;
+  --aat-text: #dde2e8;
+  --aat-text-muted: #b0b8c2;
+  --aat-border: #404750;
+  --aat-input-bg: #1e2227;
+  --aat-input-border: #4d555f;
+  --aat-link: #7cc0ec;
+}
+
+#site-header a {
+  color: inherit;
+}
+
+/* Dense index tables: one line per row, tight cell padding. */
+.data-table :where(td) {
+  @apply px-2.5 py-1.5 whitespace-nowrap;
+}
+.data-table :where(thead > tr > th) {
+  @apply px-2.5 py-2 whitespace-nowrap;
+}
+.data-table :where(tbody > tr):hover > td {
+  background-color: var(--aat-surface-hover);
+}
+.data-table :where(tbody > tr.selected) > td {
+  background-color: var(--aat-selected-row);
+}
+
+/* Panels, sidebar sections, and attributes tables: tighter chrome. */
+.panel,
+.attributes-table {
+  @apply mb-3;
+}
+.panel-title {
+  @apply px-2.5 py-1.5 text-sm;
+}
+.panel-body {
+  @apply px-2.5 py-2;
+}
+.attributes-table :where(tbody > tr > th, tbody > tr > td) {
+  @apply px-2.5 py-1.5;
+}
+/* A value that does not fit scrolls sideways instead of being clipped. */
+.attributes-table :where(tbody > tr > td) {
+  max-width: 0;
+  width: 100%;
+  overflow-x: auto;
+}
+
+/* Filters. */
+.filters-form {
+  @apply mb-3;
+}
+.filters-form-title {
+  @apply text-sm mb-2;
+}
+.filters-form-field {
+  @apply mb-2;
+}
+.filters-form :where(.label) {
+  @apply mb-0.5 text-xs;
+}
+
+/* Action items are always buttons. */
+#action-items > a,
+#action-items > button,
+#action-items > input[type="submit"] {
+  @apply inline-flex items-center rounded px-2.5 py-1 text-[13px] leading-5 no-underline cursor-pointer;
+  background-color: var(--aat-button);
+  color: var(--aat-button-text);
+}
+#action-items > a:hover,
+#action-items > button:hover {
+  filter: brightness(1.12);
+}
+
+/* Crisscross highlighting (table_crisscross.js). */
+table.data-table td[data-selected] {
+  background-color: var(--aat-selected-row);
+}
+table.data-table td[data-selected-cell] {
+  outline: 1px solid var(--aat-accent);
+  outline-offset: -1px;
+}
+
+/*
+ * columns / column. Weights come from the --aat-w and --aat-t custom
+ * properties set on each column. A column is never narrower than
+ * --aat-col-min; a row without room for it wraps to the next line.
+ */
+.aat-columns {
+  --aat-gap: 0.75rem;
+  --aat-col-min: 14rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--aat-gap);
+  margin-bottom: 0.75rem;
+}
+.aat-column {
+  min-width: 0;
+  flex: 1 1 100%;
+}
+.aat-columns:has(> .aat-column) > .aat-column > :last-child {
+  margin-bottom: 0;
+}
+@media (width >= 48rem) {
+  .aat-column {
+    flex: var(--aat-w) 1 calc((100% - (var(--aat-t) - 1) * var(--aat-gap)) * var(--aat-w) / var(--aat-t));
+    min-width: min(100%, var(--aat-col-min));
+  }
+}
+@media (width < 48rem) {
+  .aat-columns[data-mobile] > .aat-column {
+    flex: var(--aat-mw) 1 calc((100% - (var(--aat-mt) - 1) * var(--aat-gap)) * var(--aat-mw) / var(--aat-mt));
+    min-width: 0;
+  }
+}
+
+/* tabs / tab (Flowbite tabs). */
+.aat-tabs {
+  margin-bottom: 0.75rem;
+}
+.aat-tabs-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.125rem;
+  border-bottom: 1px solid var(--aat-border);
+}
+.aat-tab {
+  padding: 0.375rem 0.875rem;
+  font-size: 0.8125rem;
+  color: var(--aat-text-muted);
+  border: 1px solid transparent;
+  border-bottom: 0;
+  border-radius: 0.25rem 0.25rem 0 0;
+  background: transparent;
+  cursor: pointer;
+}
+.aat-tab:hover {
+  color: var(--aat-text);
+}
+.aat-tab[aria-selected="true"] {
+  color: var(--aat-link);
+  background: var(--aat-surface);
+  border-color: var(--aat-border);
+  margin-bottom: -1px;
+  padding-bottom: calc(0.375rem + 1px);
+}
+.aat-tab-panel {
+  padding-top: 0.75rem;
+}
+
+/* Sidebar sections are panels; the filters form brings its own title. */
+.panel .filters-form-title {
+  display: none;
+}
+
+/* Long preformatted text scrolls inside its box instead of widening the page. */
+[data-aat-page] pre {
+  overflow-x: auto;
+}
+
+/* Login pages: the Devise card follows the theme surface and border. */
+[data-aat-login] > div:not(:has(> div)) {
+  background-color: var(--aat-surface);
+  border: 1px solid var(--aat-border);
+  border-radius: 0.25rem;
+}
+[data-aat-login] h2 {
+  font-size: 1.125rem;
+}
+
+/* Forms: tighter rows, theme buttons. */
+.formtastic :where(.input) {
+  @apply py-1.5;
+}
+.formtastic :where(.label) {
+  @apply mb-0.5 text-xs;
+  color: var(--aat-text-muted);
+}
+.formtastic :where(.inputs, .has-many-fields) {
+  @apply mb-3;
+}
+.formtastic :where(.fieldset-title, .has-many-fields-title) {
+  @apply text-sm mb-2;
+}
+.formtastic :where(input:not([type="checkbox"], [type="radio"], [type="submit"], [type="button"]), select, textarea) {
+  @apply py-1.5;
+  background-color: var(--aat-input-bg);
+  border-color: var(--aat-input-border);
+}
+.formtastic :where([type="submit"], [type="button"], button) {
+  @apply rounded px-3 py-1.5 font-medium;
+  background-color: var(--aat-button);
+  color: var(--aat-button-text);
+}
+.formtastic :where([type="submit"], [type="button"], button):hover {
+  filter: brightness(1.12);
+}
+.filters-form-submit {
+  @apply rounded px-3 py-1.5 font-medium;
+  background-color: var(--aat-button);
+  color: var(--aat-button-text);
+}
+
+body {
+  background-color: var(--aat-page-bg);
+  color: var(--aat-text);
+}
+
+#site-header {
+  z-index: 30;
+  gap: 0.75rem;
+  padding: 0 0.625rem;
+  border: 0;
+  backdrop-filter: none;
+  background-color: var(--aat-header-bg);
+  color: var(--aat-header-text);
+}
+
+#page-header {
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin: 0;
+  padding: 0.5rem 0.625rem;
+  border: 0;
+  background: transparent;
+}
+
+#action-items {
+  gap: 0.375rem;
+  justify-content: flex-end;
+}
+
+@media (width >= 48rem) {
+  #site-header,
+  #page-header {
+    padding-inline: 1rem;
+  }
+
+  /* The top menu replaces the drawer. */
+  #main-menu {
+    display: none;
+  }
+}
