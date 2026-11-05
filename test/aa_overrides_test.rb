@@ -3,9 +3,9 @@
 # a digest of each original as it was when the theme's copy was last reviewed,
 # and fails when the installed ActiveAdmin's original differs.
 #
-# The record holds the originals of both modes: app/views_compat is in use only
-# with an ActiveAdmin that lacks the layout hooks, and the hook partials exist
-# only in one that has them. Run the test once per mode.
+# The record keeps one section per mode: app/views_compat is in use only with
+# an ActiveAdmin that lacks the layout hooks, and the hook partials exist only
+# in one that has them. Run the test once per mode.
 #
 # After raising the ActiveAdmin floor, diff each reported file against the
 # theme's copy, port what applies, then refresh the record:
@@ -24,9 +24,12 @@ class AaOverridesTest < Minitest::Test
   end
 
   # Mirrors ActiveAdminTheme.layout_hooks?, which needs the full gem loaded.
+  def mode
+    File.file?(File.join(aa_views, "active_admin/_page_heading.html.erb")) ? "hooks" : "compat"
+  end
+
   def theme_view_dirs
-    hooks = File.file?(File.join(aa_views, "active_admin/_page_heading.html.erb"))
-    hooks ? ["app/views"] : ["app/views", "app/views_compat"]
+    mode == "hooks" ? ["app/views"] : ["app/views", "app/views_compat"]
   end
 
   def overridden
@@ -41,13 +44,13 @@ class AaOverridesTest < Minitest::Test
 
   def test_activeadmin_originals_match_the_reviewed_versions
     if ENV["UPDATE_AA_DIGESTS"]
-      record = File.exist?(RECORD) ? YAML.load_file(RECORD) : {"files" => {}}
-      File.write(RECORD, {"files" => record["files"].merge(digests).sort.to_h}.to_yaml)
+      record = File.exist?(RECORD) ? YAML.load_file(RECORD) : {}
+      File.write(RECORD, record.merge(mode => digests).sort.to_h.to_yaml)
     end
 
-    recorded = YAML.load_file(RECORD)
-    changed = digests.reject { |path, digest| recorded["files"][path] == digest }.keys
-    new_overrides = overridden - recorded["files"].keys
+    recorded = YAML.load_file(RECORD).fetch(mode, {})
+    changed = digests.reject { |path, digest| recorded[path] == digest }.keys
+    new_overrides = overridden - recorded.keys
 
     assert_empty changed, "ActiveAdmin changed files the theme replaces: #{changed.join(', ')}. Diff them against the theme's copies, port what applies, then run with UPDATE_AA_DIGESTS=1."
     assert_empty new_overrides, "New theme views replace ActiveAdmin files: #{new_overrides.join(', ')}. Record them with UPDATE_AA_DIGESTS=1."

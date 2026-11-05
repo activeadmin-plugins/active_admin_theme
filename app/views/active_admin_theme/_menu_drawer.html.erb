@@ -1,0 +1,26 @@
+<%# ActiveAdmin's main_menu.js toggles data-open on the item when a [data-menu-button] is clicked. %>
+<ul role="list" class="<%= nested ? "aat-drawer-list mt-1 space-y-1 ms-1 ps-2 border-s-2 border-gray-100 dark:border-white/5" : "flex flex-1 flex-col space-y-1.5" %>">
+  <% items.each do |item| %>
+    <% children = item.items(self).presence %>
+    <% url = item.url(self) %>
+    <% link_classes = "text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white rounded-md text-sm no-underline #{nested ? 'block py-1.5 px-2' : 'flex items-center w-full p-2 gap-x-2'}" %>
+    <% selected = "bg-gray-100 dark:bg-white/5 text-gray-900 dark:text-white selected" %>
+    <li data-item-id="<%= item.id %>" <%= "data-aat-drawer-node" if children %> <%= "data-open" if children && current_menu_item?(item) %>>
+      <% if children %>
+        <div data-parent-id="<%= item.id %>" data-menu-button class="flex items-center">
+          <% if url.present? && url != "#" %>
+            <%= link_to item.label(self), url, item.html_options.merge(class: "grow #{link_classes} #{selected if current_menu_item?(item, children: false)}") %>
+          <% else %>
+            <span class="grow cursor-pointer <%= link_classes %>"><%= item.label(self) %></span>
+          <% end %>
+          <button type="button" class="text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white p-2" aria-label="<%= t('active_admin.toggle_section') %>">
+            <svg class="aat-chevron h-5 w-5 shrink-0 rtl:-scale-x-100" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clip-rule="evenodd" /></svg>
+          </button>
+        </div>
+        <%= render "active_admin_theme/menu_drawer", items: children, nested: true %>
+      <% else %>
+        <%= link_to item.label(self), url, item.html_options.merge(class: "#{link_classes} #{selected if current_menu_item?(item)}") %>
+      <% end %>
+    </li>
+  <% end %>
+</ul>

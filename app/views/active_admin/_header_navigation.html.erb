@@ -10,13 +10,7 @@
           <% menu_id = "top-menu-#{item.id}" %>
           <%= link_to item.label(self), url.presence || "#", item.html_options.merge(class: classes, data: { dropdown_toggle: menu_id, dropdown_trigger: "hover", dropdown_placement: "bottom-start", dropdown_offset_distance: 0, dropdown_delay: 100 }) %>
           <div id="<%= menu_id %>" class="hidden z-40 min-w-40 max-w-65 py-1 text-[13px] bg-(--aat-menu-panel) text-(--aat-menu-text) shadow-lg">
-            <ul role="list">
-              <% children.each do |child| %>
-                <li data-item-id="<%= child.id %>">
-                  <%= link_to child.label(self), child.url(self), child.html_options.merge(class: "block px-3 py-1.5 leading-snug no-underline text-(--aat-menu-text) hover:bg-(--aat-menu-item-hover) hover:text-(--aat-menu-hover-text) #{'bg-(--aat-menu-item-hover) text-(--aat-menu-hover-text) selected' if current_menu_item?(child)}") %>
-                </li>
-              <% end %>
-            </ul>
+            <%= render "active_admin_theme/menu_flyout", items: children %>
           </div>
         <% elsif url.present? %>
           <%= link_to item.label(self), url, item.html_options.merge(class: classes) %>

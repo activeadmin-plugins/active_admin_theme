@@ -1,5 +1,6 @@
-// Layout behavior: collapsible filters sidebar (desktop). The state persists in
-// localStorage; without it the sidebar starts open.
+// Layout behavior: the collapsible filters sidebar (desktop) and top-menu
+// flyout placement. The sidebar state persists in localStorage; without it
+// the sidebar starts open.
 const KEY = "aat-sidebar-collapsed"
 
 const read = () => {
@@ -31,3 +32,18 @@ document.addEventListener("click", (event) => {
 const init = () => apply(read())
 if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init)
 else init()
+
+// A top-menu flyout that would run past the viewport edge opens on the other
+// side of its item instead.
+const placeFlyout = (event) => {
+  const item = event.target.closest("[data-aat-submenu]")
+  if (!item || item.contains(event.relatedTarget)) return
+  const flyout = item.querySelector(":scope > .aat-flyout")
+  if (!flyout) return
+  item.removeAttribute("data-aat-flip")
+  const rect = flyout.getBoundingClientRect()
+  const rtl = getComputedStyle(item).direction === "rtl"
+  item.toggleAttribute("data-aat-flip", rtl ? rect.left < 0 : rect.right > document.documentElement.clientWidth)
+}
+document.addEventListener("mouseover", placeFlyout)
+document.addEventListener("focusin", placeFlyout)

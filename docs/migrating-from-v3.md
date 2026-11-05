@@ -46,6 +46,10 @@ ActiveAdmin 4 removed `build_menu :utility_navigation` and `add_logout_button_to
 - Delete any items you added to the `:utility_navigation` menu. Put the content in `_header_actions.html.erb` instead.
 - Logout still follows `config.logout_link_path`; set it to `nil` to remove the icon.
 
+## Nested menus
+
+ActiveAdmin 4 dropped menus deeper than one submenu level, but the theme keeps them. `menu parent: ["Customer", "Settings"]` works as it did with ActiveAdmin 3.
+
 ## JavaScript
 
 - The theme loads as ES modules through `ActiveAdmin.importmap`, not through Sprockets. A pin in your own `config/importmap.rb` does not load on ActiveAdmin pages; pin your scripts into `ActiveAdmin.importmap` (README, "JavaScript").

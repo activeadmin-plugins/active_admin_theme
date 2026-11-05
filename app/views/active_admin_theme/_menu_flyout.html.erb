@@ -1,0 +1,20 @@
+<ul role="list">
+  <% items.each do |item| %>
+    <% children = item.items(self).presence %>
+    <% url = item.url(self) %>
+    <% classes = "px-3 py-1.5 leading-snug no-underline text-(--aat-menu-text) hover:bg-(--aat-menu-item-hover) hover:text-(--aat-menu-hover-text) #{'bg-(--aat-menu-item-hover) text-(--aat-menu-hover-text) selected' if current_menu_item?(item)}" %>
+    <li data-item-id="<%= item.id %>" <%= "data-aat-submenu" if children %>>
+      <% if children %>
+        <%= link_to url.presence || "#", item.html_options.merge(class: "flex items-center gap-2 #{classes}", aria: { haspopup: "true" }) do %>
+          <span class="grow"><%= item.label(self) %></span>
+          <svg class="size-3.5 shrink-0 rtl:-scale-x-100" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clip-rule="evenodd" /></svg>
+        <% end %>
+        <div class="aat-flyout py-1 bg-(--aat-menu-panel) text-(--aat-menu-text) shadow-lg">
+          <%= render "active_admin_theme/menu_flyout", items: children %>
+        </div>
+      <% else %>
+        <%= link_to item.label(self), url, item.html_options.merge(class: "block #{classes}") %>
+      <% end %>
+    </li>
+  <% end %>
+</ul>

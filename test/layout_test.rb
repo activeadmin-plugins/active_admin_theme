@@ -34,6 +34,25 @@ class LayoutTest < Minitest::Test
     assert_selector "#top-menu-demo_pages a", text: "Wide table", visible: :visible
   end
 
+  def test_nested_submenus_fly_out_on_hover
+    visit "/admin/customers"
+    find("#site-header nav a", text: "Demo pages").hover
+    find("#top-menu-demo_pages a", text: "More demos").hover
+    find("#top-menu-demo_pages a", text: "Even more").hover
+    find("#top-menu-demo_pages a", text: "Deeper page").click
+    assert_text "Fourth menu level."
+    assert_selector "#site-header nav > ul > li > a.selected", text: "Demo pages"
+  end
+
+  def test_drawer_opens_the_branch_of_the_current_page
+    page.current_window.resize_to(390, 800)
+    visit "/admin/deeper_page"
+    find("#site-header button[data-drawer-show='main-menu']").click
+    assert_selector "#main-menu a", text: "Deeper page", visible: :visible
+    find("#main-menu [data-item-id='even_more'] > [data-menu-button] button").click
+    assert_no_selector "#main-menu a", text: "Deeper page", visible: :visible
+  end
+
   def test_mobile_menu_opens_in_a_drawer
     page.current_window.resize_to(390, 800)
     visit "/admin/customers"

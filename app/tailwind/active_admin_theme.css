@@ -286,6 +286,45 @@ body {
   justify-content: flex-end;
 }
 
+/* Menus of any depth. In the top menu each submenu flies out beside its
+   item; in the drawer each one expands below its item. */
+[data-aat-submenu] {
+  position: relative;
+}
+
+.aat-flyout {
+  display: none;
+  position: absolute;
+  top: -0.25rem;
+  inset-inline-start: 100%;
+  z-index: 40;
+  width: max-content;
+  min-width: 10rem;
+  max-width: 16.25rem;
+}
+
+[data-aat-submenu]:hover > .aat-flyout,
+[data-aat-submenu]:focus-within > .aat-flyout {
+  display: block;
+}
+
+[data-aat-submenu][data-aat-flip] > .aat-flyout {
+  inset-inline-start: auto;
+  inset-inline-end: 100%;
+}
+
+[data-aat-drawer-node]:not([data-open]) > .aat-drawer-list {
+  display: none;
+}
+
+[data-aat-drawer-node][data-open] > [data-menu-button] .aat-chevron {
+  rotate: 90deg;
+}
+
+[data-aat-drawer-node][data-open] > [data-menu-button] .aat-chevron:dir(rtl) {
+  rotate: -90deg;
+}
+
 @media (width >= 48rem) {
   #site-header,
   #page-header {

@@ -121,12 +121,13 @@ A host partial with the same path overrides the theme's. Copy the partial from t
 
 - `_header_leading`: the menu button and the site title.
 - `_header_navigation`: the top menu.
+- `_main_navigation`: the mobile drawer menu.
 - `_header_actions`: the server clock, the dark mode switch, the current user, and the logout icon.
 - `_page_heading`, `_breadcrumbs`, `_page_title`: the sidebar toggle, the breadcrumbs, and the page title.
 - `_page_content`: the grid that holds the sidebar and the page.
 - `_sidebar`.
 
-ActiveAdmin renders these partials from its own layout once it has the layout hooks ([activeadmin/activeadmin#9149](https://github.com/activeadmin/activeadmin/pull/9149) to [#9152](https://github.com/activeadmin/activeadmin/pull/9152)). Until then, the theme also ships copies of the layout, `_site_header`, `_main_navigation`, `_page_header`, and `_html_head` in `app/views_compat` that render the same partials. The engine adds that directory to the view paths only when the installed ActiveAdmin lacks the hooks, so override the small partials above rather than those copies.
+ActiveAdmin renders these partials from its own layout once it has the layout hooks ([activeadmin/activeadmin#9149](https://github.com/activeadmin/activeadmin/pull/9149) to [#9152](https://github.com/activeadmin/activeadmin/pull/9152)). Until then, the theme also ships copies of the layout, `_site_header`, `_page_header`, and `_html_head` in `app/views_compat` that render the same partials. The engine adds that directory to the view paths only when the installed ActiveAdmin lacks the hooks, so override the small partials above rather than those copies.
 
 A host Arbre component with the same builder method name replaces the theme's, as long as it loads after the theme's. Components in `app/admin_components` (or any file loaded in a `to_prepare` block) do.
 
@@ -294,6 +295,16 @@ A dependent select stays disabled until its parent has a value, and reloads when
 | `active_admin_theme/confirm_dialog` | off | Focus and validation for `confirm_dialog` |
 | `active_admin_theme/secret_reveal` | off | `secret_reveal` |
 | `active_admin_theme/searchable_select` | off | Searchable select |
+
+## Nested menus
+
+ActiveAdmin 4 supports one submenu level and raises `TypeError` for a parent chain. The theme brings back the chain from ActiveAdmin 3, so menus can be as deep as you need:
+
+```ruby
+menu parent: ["Customer", "Referral Program"], priority: 30
+```
+
+In the top menu each deeper level flies out beside its item, and in the drawer it expands below its item. A top item is marked current when the page is anywhere below it.
 
 ## Header
 
