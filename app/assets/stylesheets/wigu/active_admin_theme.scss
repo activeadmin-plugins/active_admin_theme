@@ -715,7 +715,7 @@ body.active_admin {
         text-shadow: none;
         margin-bottom: 0;
         a, span {
-          color: mix(#ffffff, $skinTitleBarColor, 60%)!important;
+          color: lighten( $skinMainFirstColor, 30% )!important;
         }
       }
       // Own a sensible title size so consumer apps don't each shrink AA's large

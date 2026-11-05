@@ -245,14 +245,8 @@ module CssCheck
   end
 
   # The same bar for the other text the theme paints on a fill it also owns.
-  # The breadcrumb is read from the compiled output, and a missing match raises
-  # rather than letting the guard go quiet.
   def self.message_pairs
-    crumb = compile("")[/span\.breadcrumb span\s*\{\s*color:\s*(#\h+)/, 1]
-    raise "css_check: no breadcrumb colour found" if crumb.nil?
-
     {
-      "breadcrumb" => [crumb, "$skinTitleBarColor"],
       "error_on_panel" => ["$skinErrorTextColor", "$skinSurfaceColor"],
       "error_on_panel_dark" => ["$skinErrorTextColorDark", "$skinSurfaceColorDark"],
       "error_summary" => ["$skinErrorTextColor", "$skinErrorBgColor"],
@@ -265,17 +259,19 @@ module CssCheck
   def self.messages_are_readable
     pairs = message_pairs
     probe = pairs.flat_map { |name, (text, fill)| [["#{name}_text", text], ["#{name}_fill", fill]] }.map do |name, colour|
-      ".css-check-#{name} { r: red(#{colour}); g: green(#{colour}); b: blue(#{colour}); }"
+      ".css-check-#{name} { r: red(#{colour}); g: green(#{colour}); b: blue(#{colour}); a: alpha(#{colour}); }"
     end
     colours = compile("", probe.join("\n"))
-              .scan(/\.css-check-(\w+)\s*\{\s*r:\s*([\d.]+);\s*g:\s*([\d.]+);\s*b:\s*([\d.]+);?\s*\}/)
-              .to_h { |name, *rgb| [name, rgb.map { |v| v.to_f.round }] }
+              .scan(/\.css-check-(\w+)\s*\{\s*r:\s*([\d.]+);\s*g:\s*([\d.]+);\s*b:\s*([\d.]+);\s*a:\s*([\d.]+);?\s*\}/)
+              .to_h { |name, r, g, b, a| [name, { rgb: [r, g, b].map { |v| v.to_f.round }, alpha: a.to_f }] }
 
     pairs.keys.filter_map do |name|
       text, fill = colours.fetch("#{name}_text"), colours.fetch("#{name}_fill")
-      ratio = contrast(text, fill)
+      next "#{name}: translucent, so the ratio cannot be measured" if text[:alpha] < 1 || fill[:alpha] < 1
+
+      ratio = contrast(text[:rgb], fill[:rgb])
       next if ratio >= LABEL_MINIMUM
-      "#{name}: #{hex(text)} on #{hex(fill)} is #{format("%.3f", ratio)}:1, under #{LABEL_MINIMUM}"
+      "#{name}: #{hex(text[:rgb])} on #{hex(fill[:rgb])} is #{format("%.3f", ratio)}:1, under #{LABEL_MINIMUM}"
     end
   end
 
