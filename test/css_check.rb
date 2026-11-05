@@ -61,6 +61,8 @@ module CssCheck
     "$skinStatusTagWarnColor: none"       => '$skinStatusTagWarnColor: none;',
     "$skinStatusTagErrorColor: none"      => '$skinStatusTagErrorColor: none;',
     "$skinStatusTagTextColor as a length" => '$skinStatusTagTextColor: 10px;',
+    "$skinErrorTextColor: none"           => '$skinErrorTextColor: none;',
+    "$skinErrorBgColorDark: none"         => '$skinErrorBgColorDark: none;',
   }.freeze
 
   # The variables table in the README is the public contract people configure
@@ -242,6 +244,37 @@ module CssCheck
     problems
   end
 
+  # The same bar for the other text the theme paints on a fill it also owns.
+  def self.message_pairs
+    {
+      "error_on_panel" => ["$skinErrorTextColor", "$skinSurfaceColor"],
+      "error_on_panel_dark" => ["$skinErrorTextColorDark", "$skinSurfaceColorDark"],
+      "error_summary" => ["$skinErrorTextColor", "$skinErrorBgColor"],
+      "error_summary_dark" => ["$skinErrorTextColorDark", "$skinErrorBgColorDark"],
+      "has_many_heading" => ["$skinTextMutedColor", "$skinPageBgColor"],
+      "has_many_heading_dark" => ["$skinTextMutedColorDark", "$skinPageBgColorDark"]
+    }
+  end
+
+  def self.messages_are_readable
+    pairs = message_pairs
+    probe = pairs.flat_map { |name, (text, fill)| [["#{name}_text", text], ["#{name}_fill", fill]] }.map do |name, colour|
+      ".css-check-#{name} { r: red(#{colour}); g: green(#{colour}); b: blue(#{colour}); a: alpha(#{colour}); }"
+    end
+    colours = compile("", probe.join("\n"))
+              .scan(/\.css-check-(\w+)\s*\{\s*r:\s*([\d.]+);\s*g:\s*([\d.]+);\s*b:\s*([\d.]+);\s*a:\s*([\d.]+);?\s*\}/)
+              .to_h { |name, r, g, b, a| [name, { rgb: [r, g, b].map { |v| v.to_f.round }, alpha: a.to_f }] }
+
+    pairs.keys.filter_map do |name|
+      text, fill = colours.fetch("#{name}_text"), colours.fetch("#{name}_fill")
+      next "#{name}: translucent, so the ratio cannot be measured" if text[:alpha] < 1 || fill[:alpha] < 1
+
+      ratio = contrast(text[:rgb], fill[:rgb])
+      next if ratio >= LABEL_MINIMUM
+      "#{name}: #{hex(text[:rgb])} on #{hex(fill[:rgb])} is #{format("%.3f", ratio)}:1, under #{LABEL_MINIMUM}"
+    end
+  end
+
   def self.hex(rgb)
     format("#%02x%02x%02x", *rgb)
   end
@@ -317,6 +350,7 @@ module CssCheck
     # before the second ran — so a run could report one problem while holding
     # three, and each fix revealed the next.
     failures.concat(status_tag_labels_are_readable)
+    failures.concat(messages_are_readable)
     failures.concat(readme_table_matches_declarations)
 
     unless failures.empty?

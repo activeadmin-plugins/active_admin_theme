@@ -382,6 +382,8 @@ Three things changed shape and are worth knowing if you already set variables:
 | `$skinBorderColor` / `$skinBorderColorDark` | ![#e0e4e9](docs/swatches/e0e4e9.svg) `#e0e4e9` / ![#404750](docs/swatches/404750.svg) `#404750` | borders / grid lines |
 | `$skinInputBgColor` / `$skinInputBgColorDark` | ![#ffffff](docs/swatches/ffffff.svg) `#ffffff` / ![#1e2227](docs/swatches/1e2227.svg) `#1e2227` | form control background |
 | `$skinInputBorderColor` / `$skinInputBorderColorDark` | ![#c9ced4](docs/swatches/c9ced4.svg) `#c9ced4` / ![#4d555f](docs/swatches/4d555f.svg) `#4d555f` | form control border |
+| `$skinErrorTextColor` / `$skinErrorTextColorDark` | ![#932419](docs/swatches/932419.svg) `#932419` / ![#f49b9b](docs/swatches/f49b9b.svg) `#f49b9b` | validation messages |
+| `$skinErrorBgColor` / `$skinErrorBgColorDark` | ![#fae6e4](docs/swatches/fae6e4.svg) `#fae6e4` / ![#3a2224](docs/swatches/3a2224.svg) `#3a2224` | error summary above a form |
 
 #### Header menu
 

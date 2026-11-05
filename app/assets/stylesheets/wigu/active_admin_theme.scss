@@ -123,6 +123,11 @@ $skinLinkColorDark: #7cc0ec!default;
 // match); dark uses a lightened red, since the default red is too dark there.
 $skinDeleteLinkColor: $skinLinkColor!default;
 $skinDeleteLinkColorDark: #f49b9b!default;
+// Validation errors: message text and summary block fill.
+$skinErrorTextColor: #932419!default;
+$skinErrorTextColorDark: #f49b9b!default;
+$skinErrorBgColor: #fae6e4!default;
+$skinErrorBgColorDark: #3a2224!default;
 // Tabs: fill and label colours per mode. yeti-web sets all four to make the
 // inactive tabs recede to the page background and the active one read as raised.
 $skinTabInactiveColor: #f7f9fb!default;
@@ -186,6 +191,8 @@ $skinStatusTagErrorColor: #ce483b!default;    // error / errored / red
   --aa-active-tab-text:   #{$skinActiveTabTextColorDark};
   --aa-inactive-tab-text: #{$skinInactiveTabTextColorDark};
   --aa-delete-link:   #{$skinDeleteLinkColorDark};
+  --aa-error:         #{$skinErrorTextColorDark};
+  --aa-error-bg:      #{$skinErrorBgColorDark};
 }
 :root {
   color-scheme: light;
@@ -217,6 +224,8 @@ $skinStatusTagErrorColor: #ce483b!default;    // error / errored / red
   --aa-active-tab-text:   #{$skinActiveTabTextColor};
   --aa-inactive-tab-text: #{$skinInactiveTabTextColor};
   --aa-delete-link:   #{$skinDeleteLinkColor};
+  --aa-error:         #{$skinErrorTextColor};
+  --aa-error-bg:      #{$skinErrorBgColor};
 
   // Bridge for the companion active_admin_datetimepicker plugin: feed its
   // --aa-datetimepicker-* inputs from this theme's palette, so the xdsoft picker
@@ -337,6 +346,10 @@ $logout-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' 
   skinLinkColorDark: $skinLinkColorDark,
   skinDeleteLinkColor: $skinDeleteLinkColor,
   skinDeleteLinkColorDark: $skinDeleteLinkColorDark,
+  skinErrorTextColor: $skinErrorTextColor,
+  skinErrorTextColorDark: $skinErrorTextColorDark,
+  skinErrorBgColor: $skinErrorBgColor,
+  skinErrorBgColorDark: $skinErrorBgColorDark,
   skinTabInactiveColor: $skinTabInactiveColor,
   skinTabInactiveColorDark: $skinTabInactiveColorDark,
   skinActiveTabTextColor: $skinActiveTabTextColor,
@@ -1242,8 +1255,16 @@ body.active_admin {
 form fieldset > ol > li fieldset.fragments ol {
   margin-left: 20%;
 }
-form fieldset ol > li.has_many_container h3 {
-  color: #8494a8;
+form .has_many_container h3 {
+  color: var(--aa-text-muted);
+}
+form fieldset > ol > li p.inline-errors,
+form fieldset > ol > li ul.errors,
+form ul.errors {
+  color: var(--aa-error);
+}
+form ul.errors {
+  background: var(--aa-error-bg);
 }
 form input[type=submit], form input[type=button], form button, a.button, a:link.button, a:visited.button {
   background-image: none;
