@@ -3,3 +3,5 @@
 /src/
 /test/dummy/tmp/
 /test/dummy/log/
+/test/dummy/app/assets/builds/
+/test/dummy/node_modules/
