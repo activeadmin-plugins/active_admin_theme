@@ -96,7 +96,7 @@ The theme's engine pins its modules into `ActiveAdmin.importmap`, so importmap h
 ActiveAdmin.importmap.pin "my_admin_script", to: "my_admin_script.js"
 ```
 
-The theme's layout imports the modules listed in `ActiveAdminTheme.javascripts`. The default list is:
+ActiveAdmin pages import the modules listed in `ActiveAdminTheme.javascripts`. With an ActiveAdmin that has the `javascript_modules` setting ([activeadmin/activeadmin#9148](https://github.com/activeadmin/activeadmin/pull/9148)), the theme adds them to that setting after your initializers run. With an older ActiveAdmin, the theme's own `_html_head` imports them. The default list is:
 
 ```ruby
 %w[
@@ -117,7 +117,16 @@ ActiveAdminTheme.javascripts += %w[active_admin_theme/secret_reveal]
 
 ## Overriding
 
-A host partial with the same path overrides the theme's. Copy the partial from the gem into your app's `app/views/active_admin/` and edit it. The partials are `_site_header`, `_top_navigation`, `_main_navigation` (the mobile drawer), `_page_header`, `_sidebar`, `_html_head`, and `layouts/active_admin.html.erb`.
+A host partial with the same path overrides the theme's. Copy the partial from the gem into your app's `app/views/active_admin/` and edit it. The theme's partials are:
+
+- `_header_leading`: the menu button and the site title.
+- `_header_navigation`: the top menu.
+- `_header_actions`: the server clock, the dark mode switch, the current user, and the logout icon.
+- `_page_heading`, `_breadcrumbs`, `_page_title`: the sidebar toggle, the breadcrumbs, and the page title.
+- `_page_content`: the grid that holds the sidebar and the page.
+- `_sidebar`.
+
+ActiveAdmin renders these partials from its own layout once it has the layout hooks ([activeadmin/activeadmin#9149](https://github.com/activeadmin/activeadmin/pull/9149) to [#9152](https://github.com/activeadmin/activeadmin/pull/9152)). Until then, the theme also ships copies of the layout, `_site_header`, `_main_navigation`, `_page_header`, and `_html_head` in `app/views_compat` that render the same partials. The engine adds that directory to the view paths only when the installed ActiveAdmin lacks the hooks, so override the small partials above rather than those copies.
 
 A host Arbre component with the same builder method name replaces the theme's, as long as it loads after the theme's. Components in `app/admin_components` (or any file loaded in a `to_prepare` block) do.
 
@@ -255,6 +264,8 @@ A select built on [tom-select](https://tom-select.js.org) that searches over AJA
 ActiveAdminTheme.javascripts += %w[active_admin_theme/searchable_select]
 ```
 
+If your app already defines its own `searchable_select_options` in an initializer, yours wins: the theme includes its version earlier.
+
 Serve the options from the resource that holds them:
 
 ```ruby
@@ -286,7 +297,7 @@ A dependent select stays disabled until its parent has a value, and reloads when
 
 ## Header
 
-The header shows the site title, the top menu, a server clock, the dark mode switch, the current user, and a logout icon. They come from the signed-in user (`current_active_admin_user?`) and `config.logout_link_path`. Without a current user the header shows only the title, the menu, and the dark mode switch. To change the header, override `_site_header.html.erb`.
+The header shows the site title, the top menu, a server clock, the dark mode switch, the current user, and a logout icon. They come from the signed-in user (`current_active_admin_user?`) and `config.logout_link_path`. Without a current user the header shows only the title, the menu, and the dark mode switch. To change the header, override `_header_actions.html.erb`, `_header_leading.html.erb`, or `_header_navigation.html.erb`.
 
 ## Development
 
@@ -298,7 +309,14 @@ bundle exec ruby test/screenshot.rb   # PAGES, WIDTHS, MODES, OUT environment va
 
 `test/dummy` is an ActiveAdmin 4 app (importmap, propshaft, Tailwind through the npm CLI). Run `npm run build` in `test/dummy` to rebuild its CSS.
 
-The theme replaces some of ActiveAdmin's own view files with its copies. `test/aa_overrides_test.rb` fails when the installed ActiveAdmin changes one of them. After you raise the ActiveAdmin version, diff each reported file against the theme's copy in `app/views`, port what applies, then refresh the record:
+To run the tests against an unreleased ActiveAdmin, such as a branch with the layout hooks, point Bundler at it:
+
+```sh
+ACTIVEADMIN_PATH=../activeadmin bundle exec rake test
+ACTIVEADMIN_BRANCH=extensible-layout bundle exec rake test   # from ACTIVEADMIN_REPO, default senid231/activeadmin
+```
+
+The theme replaces some of ActiveAdmin's own view files with its copies. `test/aa_overrides_test.rb` fails when the installed ActiveAdmin changes one of them. It records the originals for both modes, with and without the layout hooks, so run it against both. After you raise the ActiveAdmin version, diff each reported file against the theme's copy in `app/views` or `app/views_compat`, port what applies, then refresh the record:
 
 ```sh
 UPDATE_AA_DIGESTS=1 bundle exec ruby test/aa_overrides_test.rb

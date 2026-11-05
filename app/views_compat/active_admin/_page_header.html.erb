@@ -1,0 +1,8 @@
+<div id="page-header" data-test-page-header class="px-2.5 md:px-4 py-2 flex items-center justify-between gap-3">
+  <%= render "active_admin/page_heading", title: title %>
+  <% if action_items_for_action.present? %>
+    <div id="action-items" data-test-action-items class="flex gap-1.5 flex-wrap justify-end">
+      <%= render "active_admin/shared/action_items" %>
+    </div>
+  <% end %>
+</div>

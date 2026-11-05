@@ -12,7 +12,16 @@
 @import "./components/pre_wrap.css";
 @import "./components/searchable_select.css";
 
+/*
+ * ActiveAdmin releases with the layout hooks (activeadmin/activeadmin#9149 to
+ * #9152) render their own site header, page header and drawer menu. These rules
+ * give those the theme's look; the theme's compat copies for older releases
+ * already carry it.
+ */
+@custom-variant aa-menu (@media not all);
+
 :root {
+  --aa-header-height: 2.5rem;
   --active-admin-theme: 4;
   --aat-page-bg: #f7f9fb;
   --aat-surface: #ffffff;
@@ -51,7 +60,7 @@
   --aat-link: #7cc0ec;
 }
 
-header a {
+#site-header a {
   color: inherit;
 }
 
@@ -105,15 +114,15 @@ header a {
 }
 
 /* Action items are always buttons. */
-.aat-action-items > a,
-.aat-action-items > button,
-.aat-action-items > input[type="submit"] {
+#action-items > a,
+#action-items > button,
+#action-items > input[type="submit"] {
   @apply inline-flex items-center rounded px-2.5 py-1 text-[13px] leading-5 no-underline cursor-pointer;
   background-color: var(--aat-button);
   color: var(--aat-button-text);
 }
-.aat-action-items > a:hover,
-.aat-action-items > button:hover {
+#action-items > a:hover,
+#action-items > button:hover {
   filter: brightness(1.12);
 }
 
@@ -244,4 +253,47 @@ table.data-table td[data-selected-cell] {
   @apply rounded px-3 py-1.5 font-medium;
   background-color: var(--aat-button);
   color: var(--aat-button-text);
+}
+
+body {
+  background-color: var(--aat-page-bg);
+  color: var(--aat-text);
+}
+
+#site-header {
+  z-index: 30;
+  gap: 0.75rem;
+  padding: 0 0.625rem;
+  border: 0;
+  backdrop-filter: none;
+  background-color: var(--aat-header-bg);
+  color: var(--aat-header-text);
+}
+
+#page-header {
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin: 0;
+  padding: 0.5rem 0.625rem;
+  border: 0;
+  background: transparent;
+}
+
+#action-items {
+  gap: 0.375rem;
+  justify-content: flex-end;
+}
+
+@media (width >= 48rem) {
+  #site-header,
+  #page-header {
+    padding-inline: 1rem;
+  }
+
+  /* The top menu replaces the drawer. */
+  #main-menu {
+    display: none;
+  }
 }

@@ -3,6 +3,15 @@
 # only when ActiveAdmin::Engine is defined before ActiveAdminTheme::Engine.
 require "active_admin"
 require "active_admin_theme/version"
+
+module ActiveAdminTheme
+  # True when ActiveAdmin has the layout partials the theme overrides
+  # (activeadmin/activeadmin#9149 and #9150).
+  def self.layout_hooks?
+    ActiveAdmin::Engine.root.join("app/views/active_admin/_page_heading.html.erb").exist?
+  end
+end
+
 require "active_admin_theme/engine"
 
 module ActiveAdminTheme

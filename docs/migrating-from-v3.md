@@ -42,8 +42,8 @@ Sizing variables (header padding, title bar height, and so on) are not ported. O
 
 ActiveAdmin 4 removed `build_menu :utility_navigation` and `add_logout_button_to_menu`. The theme now renders the server clock, the current user, and the logout icon in its header partial, so you no longer add them:
 
-- Delete any `ActiveAdminTheme.add_current_user = false` line. To hide the user or the clock, override `app/views/active_admin/_site_header.html.erb`.
-- Delete any items you added to the `:utility_navigation` menu. Put the content in the header partial instead.
+- Delete any `ActiveAdminTheme.add_current_user = false` line. To hide the user or the clock, override `app/views/active_admin/_header_actions.html.erb`.
+- Delete any items you added to the `:utility_navigation` menu. Put the content in `_header_actions.html.erb` instead.
 - Logout still follows `config.logout_link_path`; set it to `nil` to remove the icon.
 
 ## JavaScript

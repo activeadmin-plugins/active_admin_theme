@@ -10,13 +10,7 @@
   <div class="pt-10">
     <%= render "active_admin/page_header", title: @page_title || page_title %>
     <%= render "active_admin/flash_messages" %>
-    <% has_sidebar = !(skip_sidebar? || sidebar_sections_for_action.blank?) %>
-    <div data-test-page-content data-aat-page <%= "data-aat-has-sidebar" if has_sidebar %> class="px-2.5 md:px-4 grid grid-cols-1 gap-3 md:gap-4 md:data-aat-has-sidebar:grid-cols-[250px_minmax(0,1fr)] md:data-aat-sidebar-collapsed:grid-cols-1">
-      <%= render "active_admin/sidebar" %>
-      <div class="min-w-0">
-        <%= yield %>
-      </div>
-    </div>
+    <%= render "active_admin/page_content" %>
     <%= render "active_admin/site_footer" %>
   </div>
 </body>

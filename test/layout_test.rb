@@ -17,28 +17,28 @@ class LayoutTest < Minitest::Test
 
   def test_desktop_has_top_menu_and_no_drawer
     visit "/admin/customers"
-    assert_selector "header nav a", text: "Customers"
+    assert_selector "#site-header nav a", text: "Customers"
     assert_no_selector "#main-menu", visible: :visible
   end
 
   def test_top_menu_breakpoint_is_768
     page.current_window.resize_to(768, 900)
     visit "/admin/customers"
-    assert_selector "header nav a", text: "Customers"
+    assert_selector "#site-header nav a", text: "Customers"
   end
 
   def test_menu_group_opens_on_hover
     visit "/admin/customers"
     assert_no_selector "#top-menu-demo_pages", visible: :visible
-    find("header nav a", text: "Demo pages").hover
+    find("#site-header nav a", text: "Demo pages").hover
     assert_selector "#top-menu-demo_pages a", text: "Wide table", visible: :visible
   end
 
   def test_mobile_menu_opens_in_a_drawer
     page.current_window.resize_to(390, 800)
     visit "/admin/customers"
-    assert_no_selector "header nav a", text: "Customers"
-    find("header button[data-drawer-show='main-menu']").click
+    assert_no_selector "#site-header nav a", text: "Customers"
+    find("#site-header button[data-drawer-show='main-menu']").click
     assert_selector "#main-menu a", text: "Customers", visible: :visible
   end
 
@@ -91,7 +91,7 @@ class LayoutTest < Minitest::Test
   def test_header_has_user_and_logout
     visit "/admin/customers"
     assert_selector "[data-test-current-user]", text: "Demo Admin"
-    assert_selector "header a.aat-logout"
+    assert_selector "#site-header a.aat-logout"
   end
 
   def test_action_items_are_buttons
